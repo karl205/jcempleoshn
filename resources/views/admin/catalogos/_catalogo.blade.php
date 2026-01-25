@@ -1,142 +1,148 @@
 <div class="card shadow-sm">
-    <div class="card-header bg-dark text-white">
-        {{ $titulo }}
-    </div>
     <div class="card-body">
-        @php
-    // Detecta si este bloque es para el catálogo "cargos"
-    $isCargos = isset($catalogo) ? $catalogo === 'cargos'
-                                 : (isset($titulo) && strtolower($titulo) === 'cargos');
-@endphp
 
-<form>
-    @if ($isCargos)
-        {{-- Vista especial para Cargos: categoría (vacía) y cargo (vacío y deshabilitado) --}}
-        <div class="row g-2 mb-3">
-            <div class="col-md-6">
-                <label class="form-label">Categoría laboral</label>
-                <select class="form-select" name="categoria" id="categoria">
-                    <option value="">Seleccione...</option>
-                    {{-- Por ahora sin opciones reales --}}
-                </select>
-            </div>
-            <div class="col-md-6">
-                <label class="form-label">Cargo</label>
-                <select class="form-select" name="cargo" id="cargo" disabled>
-                    <option value="">Seleccione una categoría primero</option>
-                    {{-- Por ahora vacío: se llenará cuando haya categoría --}}
-                </select>
-            </div>
+        <div class="table-responsive">
+            <table class="table table-bordered align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width:60px">#</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th style="width:120px">Estado</th>
+                        <th style="width:140px" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>Administración</td>
+                        <td>Gestión administrativa y operativa</td>
+                        <td>
+                            <span class="badge bg-success">Activo</span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarCategoria">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>2</td>
+                        <td>Tecnología</td>
+                        <td>Área de sistemas y desarrollo</td>
+                        <td>
+                            <span class="badge bg-secondary">Inactivo</span>
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-outline-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalEditarCategoria">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="text-end">
-            <button class="btn btn-success" type="submit">Agregar</button>
-        </div>
-    @else
-        {{-- Comportamiento general para los demás catálogos --}}
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="{{ $placeholder }}">
-            <button class="btn btn-success" type="submit">Agregar</button>
-        </div>
-    @endif
-</form>
 
-
-        @if (!empty($items))
-            <div style="{{ $scroll ?? false ? 'max-height: 250px; overflow-y: auto;' : '' }}">
-                <ul class="list-group">
-                    @foreach ($items as $item)
-@php
-  $itemId   = is_object($item) ? ($item->id ?? $loop->index) : (is_array($item) ? ($item['id'] ?? $loop->index) : $loop->index);
-  $itemName = is_object($item) ? ($item->nombre ?? (string)$item)
-            : (is_array($item) ? ($item['nombre'] ?? (string)$item) : (string)$item);
-
-  $deleteAction = \Illuminate\Support\Facades\Route::has('items.destroy') ? route('items.destroy', $itemId) : '#';
-  $updateAction = \Illuminate\Support\Facades\Route::has('items.update')  ? route('items.update',  $itemId) : '#';
-@endphp
-
-<li id="li-item-{{ $itemId }}" class="list-group-item d-flex justify-content-between align-items-center">
-  <span id="item-label-{{ $itemId }}">{{ $itemName }}</span>
-
-  <div class="btn-group">
-    <!-- EDITAR -->
-    <button type="button"
-            class="btn btn-sm btn-outline-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#editarItem-{{ $itemId }}"
-            title="Editar">
-      <i class="bi bi-pencil-square"></i>
-    </button>
-
-    <!-- ELIMINAR -->
-    <button type="button"
-            class="btn btn-sm btn-outline-danger btn-delete-item"
-            data-form="delete-item-{{ $itemId }}"
-            data-li="li-item-{{ $itemId }}"
-            data-nombre="{{ $itemName }}">
-      <i class="bi bi-trash"></i>
-    </button>
-  </div>
-
-  <!-- Form de borrado (demo usa '#') -->
-  <form id="delete-item-{{ $itemId }}" action="{{ $deleteAction }}" method="POST" class="d-none">
-    @csrf
-    @method('DELETE')
-  </form>
-</li>
-
-<!-- Modal EDITAR -->
-<div class="modal fade" id="editarItem-{{ $itemId }}" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <form id="form-edit-{{ $itemId }}" action="{{ $updateAction }}" method="POST" class="modal-content">
-      @csrf
-      @method('PUT')
-      <div class="modal-header bg-dark text-white">
-        <h5 class="modal-title">Editar ítem</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <input type="text" name="nombre" id="input-edit-{{ $itemId }}" class="form-control" value="{{ $itemName }}" placeholder="Nuevo valor">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Guardar</button>
-      </div>
-    </form>
-  </div>
-</div>
-@endforeach
-
-
-
-                </ul>
-            </div>
-        @endif
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-document.addEventListener('click', function (e) {
-  const btn = e.target.closest('.btn-delete-item');
-  if (!btn) return;
+<!-- MODAL CREAR -->
+<div class="modal fade" id="modalCrearCategoria" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-  const formId = btn.dataset.form;
-  const nombre = btn.dataset.nombre || 'este registro';
+            <div class="modal-header">
+                <h5 class="modal-title">Nueva Categoría Laboral</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
 
-  Swal.fire({
-    title: '¿Desea borrar?',
-    text: `Se eliminará "${nombre}". Esta acción no se puede deshacer.`,
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonText: 'Sí, borrar',
-    cancelButtonText: 'Cancelar',
-    reverseButtons: true
-  }).then((result) => {
-    if (result.isConfirmed) {
-      document.getElementById(formId)?.submit();
-    }
-  });
-});
-</script>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Ej: Recursos Humanos">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control"
+                              rows="3"
+                              placeholder="Descripción breve..."></textarea>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Activo</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary">
+                    Guardar
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div class="modal fade" id="modalEditarCategoria" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Categoría Laboral</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text"
+                           class="form-control"
+                           value="Administración">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-control"
+                              rows="3">Gestión administrativa y operativa</textarea>
+                </div>
+
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" checked>
+                    <label class="form-check-label">Activo</label>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button class="btn btn-primary">
+                    Guardar cambios
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
