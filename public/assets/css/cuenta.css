@@ -1,0 +1,21 @@
+.sidebar-cuenta {
+    background: #fff;
+    border-right: 1px solid #e5e7eb;
+    min-height: calc(100vh - 80px);
+}
+
+.sidebar-cuenta .nav-link {
+    color: #374151;
+    border-radius: .5rem;
+    padding: .6rem .75rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.sidebar-cuenta .nav-link.active,
+.sidebar-cuenta .nav-link:hover {
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 600;
+}

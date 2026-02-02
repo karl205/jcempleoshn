@@ -1,165 +1,125 @@
-@php
-    use Illuminate\Http\Request;
-@endphp
-
 @extends('layouts.app')
 
 @section('content')
-<style>
-    body {
-        background-image: url('{{ asset('assets/images/imagenInicioSesion.jpg') }}');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
-</style>
+    <div class="row w-100 justify-content-center">
 
-<!-- Logo en la parte inferior derecha -->
-<img src="{{ asset('assets/images/logoEmpresa.jpg') }}" alt="Logo Empresa" class="logo-empresa">
+        <div class="col-11 col-sm-8 col-md-6 col-lg-5">
 
-<!-- Estilos para el logo -->
-<style>
-    /* Logo en la parte inferior derecha */
-    .logo-empresa {
-        position: fixed;
-        bottom: 18px; /* Ajusta el margen inferior según necesites */
-        right: 18px; /* Ajusta el margen derecho según necesites */
-        width: 180px; /* Aumenta el tamaño del logo, ajustando el ancho */
-        height: auto; /* Mantiene la proporción de la imagen */
-        z-index: 1000; /* Asegura que el logo esté encima del contenido */
-    }
-</style>
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
 
+                    <!-- Logo -->
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('assets/images/logoEmpresa.jpg') }}" alt="JC Empleos"
+                            class="rounded-circle shadow-sm" style="width:90px; height:90px">
+                    </div>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow">
-                <div class="card-header bg-dark text-white text-center">
-                    <h4>Restablecer Contraseña</h4>
-                </div>
+                    <h4 class="text-center fw-bold mb-3">
+                        Restablecer contraseña
+                    </h4>
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+                    <p class="text-center text-muted small mb-4">
+                        Ingresa tu nueva contraseña para continuar.
+                    </p>
 
                     @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <div class="alert alert-danger small">
+                            Revisa los datos e inténtalo nuevamente.
                         </div>
                     @endif
 
-    <form method="POST" action="{{ route('password.update') }}">
-    @csrf
+                    <form method="POST" action="{{ route('password.update') }}">
+                        @csrf
 
-    <input type="hidden" name="token" value="{{ $token }}">
-    <input type="hidden" name="email" value="{{ old('email', request()->input('email')) }}">
+                        <input type="hidden" name="token" value="{{ $token }}">
+                        <input type="hidden" name="email" value="{{ old('email', request()->email) }}">
 
+                        <!-- Nueva contraseña -->
+                        <div class="mb-3">
+                            <label class="form-label">Nueva contraseña</label>
+                            <input id="password" type="password" name="password"
+                                class="form-control @error('password') is-invalid @enderror" required>
 
-    <div class="mb-3">
-        <label for="password" class="form-label">Nueva Contraseña</label>
-        <input id="password" type="password" class="form-control" name="password" required>
-    </div>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
 
-    <ul class="list-unstyled mb-3" id="password-requisitos">
-        <li id="mayuscula" class="text-danger">❌ Al menos una letra mayúscula</li>
-        <li id="numero" class="text-danger">❌ Al menos un número</li>
-        <li id="longitud" class="text-danger">❌ Más de 10 caracteres</li>
-    </ul>
+                        <!-- Requisitos -->
+                        <ul class="list-unstyled small mb-3" id="password-requisitos">
+                            <li id="mayuscula" class="text-danger">❌ Al menos una letra mayúscula</li>
+                            <li id="numero" class="text-danger">❌ Al menos un número</li>
+                            <li id="longitud" class="text-danger">❌ Más de 10 caracteres</li>
+                        </ul>
 
-    <div class="mb-3">
-        <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-        <input id="password_confirmation" type="password" class="form-control" name="password_confirmation" required>
-    </div>
+                        <!-- Confirmación -->
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar contraseña</label>
+                            <input id="password_confirmation" type="password" name="password_confirmation"
+                                class="form-control" required>
 
-    <div class="mb-3">
-        <span id="coincidencia" class="text-danger">❌ Las contraseñas no coinciden</span>
-    </div>
+                            <div id="coincidencia" class="small mt-1 d-none"></div>
+                        </div>
 
-    <div class="d-grid">
-        <button type="submit" class="btn btn-success">Guardar nueva contraseña</button>
-    </div>
-</form>
+                        <!-- Botón -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill">
+                                Guardar nueva contraseña
+                            </button>
+                        </div>
+
+                    </form>
 
                 </div>
             </div>
+
         </div>
     </div>
-</div>
 
+    {{-- Script validación contraseña (SIN CAMBIOS FUNCIONALES) --}}
+    <script>
+        const passwordInput = document.getElementById('password');
+        const confirmInput = document.getElementById('password_confirmation');
+        const mayuscula = document.getElementById('mayuscula');
+        const numero = document.getElementById('numero');
+        const longitud = document.getElementById('longitud');
+        const coincidencia = document.getElementById('coincidencia');
 
-<script>
-    const passwordInput = document.getElementById('password');
-    const confirmInput = document.getElementById('password_confirmation');
-    const mayuscula = document.getElementById('mayuscula');
-    const numero = document.getElementById('numero');
-    const longitud = document.getElementById('longitud');
-    const coincidencia = document.getElementById('coincidencia');
-
-    function validarPassword() {
-        const valor = passwordInput.value;
-
-        // Validar mayúscula
-        if (/[A-Z]/.test(valor)) {
-            mayuscula.classList.remove('text-danger');
-            mayuscula.classList.add('text-success');
-            mayuscula.textContent = '✅ Al menos una letra mayúscula';
-        } else {
-            mayuscula.classList.add('text-danger');
-            mayuscula.classList.remove('text-success');
-            mayuscula.textContent = '❌ Al menos una letra mayúscula';
+        function validarPassword() {
+            const v = passwordInput.value;
+            update(mayuscula, /[A-Z]/.test(v), 'Al menos una letra mayúscula');
+            update(numero, /\d/.test(v), 'Al menos un número');
+            update(longitud, v.length > 10, 'Más de 10 caracteres');
         }
 
-        // Validar número
-        if (/\d/.test(valor)) {
-            numero.classList.remove('text-danger');
-            numero.classList.add('text-success');
-            numero.textContent = '✅ Al menos un número';
-        } else {
-            numero.classList.add('text-danger');
-            numero.classList.remove('text-success');
-            numero.textContent = '❌ Al menos un número';
+        function update(el, ok, txt) {
+            el.className = ok ? 'text-success' : 'text-danger';
+            el.textContent = (ok ? '✅ ' : '❌ ') + txt;
         }
 
-        // Validar longitud
-        if (valor.length >= 10) {
-            longitud.classList.remove('text-danger');
-            longitud.classList.add('text-success');
-            longitud.textContent = '✅ Más de 10 caracteres';
-        } else {
-            longitud.classList.add('text-danger');
-            longitud.classList.remove('text-success');
-            longitud.textContent = '❌ Más de 10 caracteres';
+        function validarCoincidencia() {
+            if (passwordInput.value && confirmInput.value) {
+                const ok = passwordInput.value === confirmInput.value;
+                coincidencia.classList.remove('d-none');
+                coincidencia.className = ok ?
+                    'text-success small mt-1' :
+                    'text-danger small mt-1';
+
+                coincidencia.textContent = ok ?
+                    '✅ Las contraseñas coinciden' :
+                    '❌ Las contraseñas no coinciden';
+            } else {
+                coincidencia.classList.add('d-none');
+            }
         }
-    }
 
-    function validarCoincidencia() {
-        if (passwordInput.value === confirmInput.value && confirmInput.value !== '') {
-            coincidencia.classList.remove('text-danger');
-            coincidencia.classList.add('text-success');
-            coincidencia.textContent = '✅ Las contraseñas coinciden';
-        } else {
-            coincidencia.classList.add('text-danger');
-            coincidencia.classList.remove('text-success');
-            coincidencia.textContent = '❌ Las contraseñas no coinciden';
-        }
-    }
+        passwordInput.addEventListener('input', () => {
+            validarPassword();
+            validarCoincidencia();
+        });
 
-    passwordInput.addEventListener('input', () => {
-        validarPassword();
-        validarCoincidencia();
-    });
-
-    confirmInput.addEventListener('input', validarCoincidencia);
-</script>
-
+        confirmInput.addEventListener('input', validarCoincidencia);
+    </script>
 @endsection
-

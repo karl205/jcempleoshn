@@ -1,161 +1,139 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 9999">
-    <div id="toastPostulacion" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                ✅ ¡Postulación exitosa!
+    <!-- Toast -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 1055">
+        <div id="toastPostulacion" class="toast align-items-center text-white bg-success border-0 shadow" role="alert">
+            <div class="d-flex">
+                <div class="toast-body">
+                    🎉 ¡Postulación exitosa!
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
         </div>
     </div>
-</div>
 
-<div class="container py-4">
-    <h2 class="mb-3 text-dark">Detalles de la Plaza</h2>
+    <div class="container py-4">
 
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-dark text-white">
-            <h5 class="mb-0">
-                {{ $plaza->titulo ?? 'Programador Web' }}
-            </h5>
-        </div>
-        <div class="card-body">
-            <p><strong>Empresa:</strong> {{ $plaza->empresa->nombre ?? 'Confidencial' }}</p>
-            <p><strong>Área:</strong> {{ $plaza->categoriaLaboral->nombre ?? 'Informática' }}</p>
-            <p><strong>Ubicación:</strong>
-                {{ $plaza->ciudad->nombre ?? 'Tegucigalpa' }},
-                {{ $plaza->departamento->nombre ?? 'Francisco Morazán' }}
-            </p>
-            <p><strong>Salario estimado:</strong>
-                @if(isset($plaza) && ($plaza->salario_min || $plaza->salario_max))
-                    L {{ number_format($plaza->salario_min,0) }} - L {{ number_format($plaza->salario_max,0) }}
-                @else
-                    L 25,000 - L 30,000
-                @endif
-            </p>
-            <p><strong>Experiencia requerida en años:</strong> {{ $plaza->experiencia_anios ?? '2 años' }}</p>
-            <p><strong>Género preferido:</strong> {{ $plaza->genero_preferido ?? 'Indistinto' }}</p>
+        <!-- Header -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
 
-            
-                    <p><strong>Nivel de estudio:</strong> {{ $plaza?->nivelEstudio?->nombre ?? 'Ing. Sistemas, Lic.Informatica Administrativa, o carreras afines' }}</p>
-                    
-                
+                <h2 class="fw-bold mb-1">Programador Web</h2>
 
-                
-                    <p><strong>Tipo de contrato:</strong> {{ $plaza?->tipoContrato?->nombre ?? 'Tiempo completo' }}</p>
-                    
-                
+                <div class="text-muted mb-3">
+                    <i class="bi bi-building me-1"></i> Confidencial
+                    &nbsp;·&nbsp;
+                    <i class="bi bi-geo-alt me-1"></i> Tegucigalpa, Francisco Morazán
+                </div>
 
-                
-                    <p><strong>Rango de edad:</strong>@if(isset($plaza) && ($plaza->edad_min || $plaza->edad_max))
-                            {{ $plaza->edad_min ?? '—' }} – {{ $plaza->edad_max ?? '—' }} años
-                        @else
-                            20 – 35 años
-                        @endif</p>
-                    
-                
+                <span class="badge bg-primary me-2">Tiempo completo</span>
+                <span class="badge bg-secondary">Tecnología</span>
 
-                
-                    <p><strong>Actividad de trabajo:</strong>{{ $plaza?->actividadLaboral?->nombre ?? 'Desarrollo de software' }}</p>
-                    
-                
-
-                
-                    <p class="mb-1"><strong>Categoría laboral:</strong>{{ $plaza?->categoriaLaboral?->nombre ?? 'Tecnología' }}</p>
-                    
-                
             </div>
+        </div>
 
-            <hr class="my-3">
+        <!-- Información -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
 
-            <p class="mb-1"><strong>Beneficios:</strong></p>
-            <ul class="mb-3">
-                @if(isset($plaza) && $plaza->beneficios?->count())
-                    @foreach($plaza->beneficios as $b)
-                        <li>{{ $b->nombre }}</li>
-                    @endforeach
-                @else
+                <h5 class="fw-bold mb-3">Información del puesto</h5>
+
+                <div class="row g-3 small">
+
+                    <div class="col-md-6">
+                        <i class="bi bi-cash-coin text-primary me-2"></i>
+                        <strong>Salario:</strong> L 25,000 – L 30,000
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="bi bi-briefcase text-primary me-2"></i>
+                        <strong>Experiencia:</strong> 2 años
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="bi bi-mortarboard text-primary me-2"></i>
+                        <strong>Nivel de estudio:</strong>
+                        Ing. Sistemas o carrera afín
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="bi bi-person text-primary me-2"></i>
+                        <strong>Género:</strong> Indistinto
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="bi bi-people text-primary me-2"></i>
+                        <strong>Edad:</strong> 20 – 35 años
+                    </div>
+
+                    <div class="col-md-6">
+                        <i class="bi bi-diagram-3 text-primary me-2"></i>
+                        <strong>Actividad:</strong>
+                        Desarrollo de software
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Beneficios -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+
+                <h5 class="fw-bold mb-3">Beneficios</h5>
+
+                <ul class="mb-0">
                     <li>Seguro médico</li>
                     <li>Vacaciones pagadas</li>
                     <li>Bonificaciones por desempeño</li>
-                @endif
-            </ul>
+                </ul>
 
-            <p class="mb-1"><strong>Requisitos:</strong></p>
-            @if(isset($plaza) && !empty($plaza->detalle?->requisitos))
-                {!! nl2br(e($plaza->detalle->requisitos)) !!}
-            @else
+            </div>
+        </div>
+
+        <!-- Requisitos -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+            <div class="card-body p-4">
+
+                <h5 class="fw-bold mb-3">Requisitos</h5>
+
                 <ul>
-                    <li>Título universitario en Ingeniería en Sistemas, Informática o carrera afín</li>
-                    <li>Experiencia mínima de 1 a 2 años en desarrollo web</li>
-                    <li>Conocimiento en HTML, CSS, JavaScript y frameworks modernos (React, Vue, etc.)</li>
-                    <li>Manejo de bases de datos (MySQL, PostgreSQL, etc.)</li>
-                    <li>Dominio de al menos un lenguaje backend (PHP, Node.js, Python, etc.)</li>
-                    <li>Habilidad para trabajar en equipo y bajo presión</li>
-                    <li>Disponibilidad inmediata</li>
+                    <li>Título universitario en carrera afín</li>
+                    <li>Experiencia mínima de 1 a 2 años</li>
+                    <li>Conocimiento en frameworks modernos</li>
+                    <li>Manejo de bases de datos</li>
                 </ul>
-            @endif
 
-            <div class="text-center mt-5">
-    <a href="{{ route('user.plazas') }}" class="btn btn-secondary btn-sm me-2">
-        ← Volver a plazas
-    </a>
-    <a href="#" id="btnPostular" class="btn btn-primary btn-lg">
-        📩 Postularme
-    </a>
-</div>
+            </div>
+        </div>
+
+        <!-- Acciones -->
+        <div class="d-flex justify-content-between align-items-center mt-5 pt-3 border-top">
+
+            <a href="{{ route('user.plazas') }}" class="btn btn-light d-flex align-items-center gap-2">
+                <i class="bi bi-arrow-left"></i>
+                Volver
+            </a>
+
+            <a href="#" id="btnPostular"
+                class="btn btn-primary btn-lg rounded-pill d-flex align-items-center gap-2 px-4">
+                <i class="bi bi-envelope-fill"></i>
+                Postularme
+            </a>
 
         </div>
+
+
     </div>
-</div>
 
-<!-- Información de empresa -->
-<footer class="bg-dark text-white pt-5 pb-4 mt-5 shadow-sm">
-    <div class="container">
-        <div class="row">
-            <!-- Quiénes somos -->
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">JC Empleos</h5>
-                <p>Conectamos talento hondureño con oportunidades laborales reales. Plataforma confiable y eficaz para empresas y candidatos.</p>
-            </div>
-
-            <!-- Enlaces rápidos -->
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">Navegación</h5>
-                <ul class="list-unstyled">
-                    <li><a href="{{ url('/') }}" class="text-white text-decoration-none"><i class="bi bi-house-door-fill me-1"></i>Inicio</a></li>
-                    <li><a href="{{ route('user.plazas') }}" class="text-white text-decoration-none"><i class="bi bi-search me-1"></i>Buscar plazas</a></li>
-                </ul>
-            </div>
-
-            <!-- Redes sociales y contacto -->
-            <div class="col-md-4 mb-4">
-                <h5 class="fw-bold">Contáctanos</h5>
-                <p>Email: contacto@jcempleos.com</p>
-                <p>Tel: (504) 2222-3333</p>
-                <div>
-                    <a href="#" class="text-white me-3 fs-5"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white fs-5"><i class="bi bi-instagram"></i></a>
-                </div>
-            </div>
-        </div>
-
-        <hr class="border-light">
-        <div class="text-center small">
-            © {{ date('Y') }} JC Empleos. Todos los derechos reservados.
-        </div>
-    </div>
-</footer>
-
-<script>
-document.getElementById('btnPostular').addEventListener('click', function (e) {
-    e.preventDefault();
-    const toastElement = document.getElementById('toastPostulacion');
-    const toast = new bootstrap.Toast(toastElement);
-    toast.show();
-});
-</script>
+    <script>
+        document.getElementById('btnPostular').addEventListener('click', function(e) {
+            e.preventDefault();
+            new bootstrap.Toast(
+                document.getElementById('toastPostulacion')
+            ).show();
+        });
+    </script>
 @endsection
-

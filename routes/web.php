@@ -7,20 +7,94 @@ use App\Http\Controllers\AdminPostulacionesController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\AdminController;
 use App\Http\Middleware\Authenticate;
+use App\Http\Controllers\Auth\RegisterController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\LoginController;
 
 // Página de inicio pública (usuario invitado)
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
-// Auth visual
+//ROLES Y PERMISOS
+Route::get('/test-open', function () {
+    return 'RUTA ABIERTA OK';
+});
+
+Route::middleware(['auth', 'role:admin'])->get('/admin-test', function () {
+    return 'ADMIN OK';
+});
+
+Route::middleware(['auth', 'permission:postular_empleo'])->get('/postular-test', function () {
+    return 'POSTULAR OK';
+});
+
+//ROLES Y PERMISOS
+
+//INICIO DE SESION
+// Mostrar formulario de login
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login');
+})->middleware('guest')->name('login');
 
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
+// Procesar login
+Route::post('/login', [LoginController::class, 'authenticate'])
+    ->middleware('guest')
+    ->name('login.authenticate');
+
+    
+
+//INICIO DE SESION
+
+// Auth visual
+// Route::get('/login', function () {
+//     return view('auth.login');
+// })->name('login');
+
+// Registro
+Route::get('/register', [RegisterController::class, 'create'])
+    ->middleware('guest')
+    ->name('register');
+
+Route::post('/register', [RegisterController::class, 'store'])
+    ->middleware('guest')
+    ->name('register.store');
+
+// Route::get('/force-logout', function () {
+//     Auth::logout();
+//     request()->session()->invalidate();
+//     request()->session()->regenerateToken();
+//     return redirect('/login');
+// });
+
+// VERIFICACION DE CORREO
+// Aviso: revisa tu correo
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// Procesar verificación (cuando hacen clic en el correo)
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+    return redirect('/login')->with('verified', true);
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Reenviar correo
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Correo reenviado');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+// VERIFICACION DE CORREO
+
+
+// LOGIN CONTROLLER
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->middleware('auth')
+    ->name('logout');
+// LOGIN CONTROLLER
+
+
 
 // Usuario - vistas navegables
 Route::get('/plazas', function () {
@@ -149,5 +223,8 @@ Route::prefix('admin')->group(function () {
     // ... (usuarios, configuracion, bitacora, respaldo)
 });
 
-
-
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

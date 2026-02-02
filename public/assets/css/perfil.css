@@ -1,0 +1,338 @@
+/* ------------------------------
+   CONTENEDOR GENERAL
+--------------------------------*/
+.profile-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+    transition: box-shadow .2s ease;
+}
+
+.profile-card:hover {
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* ------------------------------
+   HEADER / TITULOS
+--------------------------------*/
+.profile-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+}
+
+.profile-card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.profile-card-subtitle {
+    font-size: .85rem;
+    color: #6b7280;
+}
+
+/* ------------------------------
+   FOTO DE PERFIL
+--------------------------------*/
+.profile-photo {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #e5e7eb;
+    background: #f9fafb;
+}
+
+/* ------------------------------
+   LABELS
+--------------------------------*/
+.profile-card label {
+    font-size: .85rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* ------------------------------
+   INPUTS / SELECTS / TEXTAREA
+--------------------------------*/
+.profile-card .form-control,
+.profile-card .form-select,
+.profile-card textarea {
+    border-radius: 10px;
+    border-color: #d1d5db;
+    font-size: .9rem;
+}
+
+.profile-card .form-control::placeholder,
+.profile-card textarea::placeholder {
+    color: #9ca3af;
+}
+
+.profile-card .form-control:focus,
+.profile-card .form-select:focus,
+.profile-card textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 .15rem rgba(37, 99, 235, 0.15);
+}
+
+/* ------------------------------
+   TEXTAREA
+--------------------------------*/
+.profile-card textarea {
+    resize: none;
+}
+
+/* ------------------------------
+   BOTONES
+--------------------------------*/
+.profile-card .btn {
+    font-size: .85rem;
+    border-radius: 999px;
+    padding: .45rem 1.1rem;
+}
+
+.profile-card .btn-outline-primary {
+    border-color: #2563eb;
+    color: #2563eb;
+}
+
+.profile-card .btn-outline-primary:hover {
+    background: #2563eb;
+    color: #ffffff;
+}
+
+/* BOTON PRINCIPAL GUARDAR */
+.btn-guardar-perfil {
+    border-radius: 999px;
+    padding: .55rem 1.5rem;
+    font-size: .9rem;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+/* ------------------------------
+   NAV TABS (PERFIL)
+--------------------------------*/
+.nav-tabs {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 10px 10px 0 0;
+    color: #374151;
+    font-size: .9rem;
+    padding: .6rem 1.1rem;
+    margin-right: .25rem;
+}
+
+.nav-tabs .nav-link:hover {
+    background: #f3f4f6;
+}
+
+.nav-tabs .nav-link.active {
+    background: #ffffff;
+    color: #111827;
+    font-weight: 600;
+    border-color: #e5e7eb #e5e7eb #ffffff;
+}
+
+/* ------------------------------
+   SECCIONES (FORMACIÓN, IDIOMAS, ETC.)
+--------------------------------*/
+.section-card {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.section-title {
+    display: inline-block;
+    padding: .35rem .85rem;
+    border-radius: 999px;
+    background: #111827;
+    color: #ffffff;
+    font-size: .8rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* ------------------------------
+   BADGES (ACTUALMENTE TRABAJO AQUÍ)
+--------------------------------*/
+.badge-actual {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    background: #16a34a;
+    color: #ffffff;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+
+/* ------------------------------
+   BOTONES AGREGAR (+)
+--------------------------------*/
+.btn-add-item {
+    font-size: .8rem;
+    border-radius: 999px;
+    padding: .35rem .9rem;
+}
+
+/* ------------------------------
+   RESPONSIVE
+--------------------------------*/
+@media (max-width: 768px) {
+    .profile-card {
+        padding: 1.25rem;
+    }
+
+    .profile-photo {
+        width: 100px;
+        height: 100px;
+    }
+
+    .nav-tabs .nav-link {
+        font-size: .85rem;
+        padding: .5rem .75rem;
+    }
+}
+
+/* BOTÓN GUARDAR PERFIL – MODERNO */
+.btn-guardar-modern {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: #ffffff;
+    border: none;
+    border-radius: 999px;
+    padding: .6rem 1.5rem;
+    font-size: .85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    box-shadow: 0 6px 16px rgba(34, 197, 94, 0.35);
+    transition: all .2s ease;
+}
+
+.btn-guardar-modern:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(34, 197, 94, 0.45);
+    background: linear-gradient(135deg, #15803d, #16a34a);
+    color: #ffffff;
+}
+
+.btn-guardar-modern:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-guardar-modern:focus {
+    outline: none;
+    box-shadow: 0 0 0 .2rem rgba(34, 197, 94, 0.25);
+}
+
+
+    .settings-card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 14px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+        transition: box-shadow .2s ease;
+    }
+
+    .settings-card:hover {
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+    }
+
+    .settings-title {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #111827;
+        margin-bottom: .25rem;
+    }
+
+    .settings-hint {
+        font-size: .9rem;
+        color: #6b7280;
+        margin-bottom: 1.5rem;
+    }
+
+    .settings-actions {
+        display: flex;
+        gap: .5rem;
+        margin-top: 1rem;
+    }
+
+    .btn-primary-soft {
+        background: linear-gradient(135deg, #111827, #1f2937);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: .55rem 1.4rem;
+        font-size: .85rem;
+        font-weight: 500;
+        transition: all .2s ease;
+    }
+
+    .btn-primary-soft:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(0,0,0,.25);
+    }
+
+    .btn-secondary-soft {
+        background: #f9fafb;
+        color: #111827;
+        border: 1px solid #d1d5db;
+        border-radius: 999px;
+        padding: .55rem 1.4rem;
+        font-size: .85rem;
+        font-weight: 500;
+        transition: all .15s ease;
+    }
+
+    .btn-secondary-soft:hover {
+        background: #f3f4f6;
+    }
+
+    /* Danger zone */
+    .danger-zone {
+        border: 1px solid #fecaca;
+        background: #fff5f5;
+    }
+
+    .danger-title {
+        color: #991b1b;
+        font-weight: 600;
+        margin-bottom: .25rem;
+    }
+
+    .danger-text {
+        color: #7f1d1d;
+        font-size: .9rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .btn-danger-soft {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: #ffffff;
+        border: none;
+        border-radius: 999px;
+        padding: .55rem 1.4rem;
+        font-size: .85rem;
+        font-weight: 500;
+        transition: all .2s ease;
+    }
+
+    .btn-danger-soft:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 20px rgba(220,38,38,.35);
+    }

@@ -1,54 +1,75 @@
-<x-guest-layout>
-    <!-- Logo arriba -->
-    <div class="mb-4 text-center">
-        <img src="{{ asset('assets/images/logoEmpresa.jpg') }}"
-             alt="Logo Empresa"
-             style="width:90px; height:90px"
-             class="mx-auto rounded-lg border-2 border-gray-300 shadow-md">
+@extends('layouts.app')
+
+@section('content')
+    <div class="row w-100 justify-content-center">
+
+        <div class="col-11 col-sm-8 col-md-5 col-lg-4">
+
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <!-- Logo -->
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('assets/images/logoEmpresa.jpg') }}" alt="JC Empleos"
+                            class="rounded-circle shadow-sm" style="width:90px; height:90px">
+                    </div>
+
+                    <!-- Título -->
+                    <h4 class="text-center fw-bold mb-3">
+                        Recuperar Contraseña
+                    </h4>
+
+                    <p class="text-center text-muted small mb-4">
+                        Ingresa tu correo electrónico y te enviaremos un enlace
+                        para restablecer tu contraseña.
+                    </p>
+
+                    <!-- Estado -->
+                    @if (session('status'))
+                        <div class="alert alert-success small text-center">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="alert alert-danger small">
+                            Revisa el correo ingresado e inténtalo nuevamente.
+                        </div>
+                    @endif
+
+                    <form method="POST" action="{{ route('password.email') }}">
+                        @csrf
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email" name="email" value="{{ old('email') }}"
+                                class="form-control @error('email') is-invalid @enderror" placeholder="Ingresa tu correo"
+                                required autofocus>
+
+                            @error('email')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <!-- Botón -->
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-success btn-lg rounded-pill">
+                                Enviar enlace de recuperación
+                            </button>
+                        </div>
+
+                        <!-- Volver -->
+                        <div class="text-center">
+                            <a href="{{ route('login') }}" class="small text-decoration-none">
+                                Volver al inicio de sesión
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <!-- Título -->
-    <h2 class="text-center text-2xl font-bold text-gray-700 mb-6">
-        Recuperar Contraseña
-    </h2>
-
-    <!-- Estado de sesión (Breeze) -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
-        @csrf
-
-        <!-- Correo -->
-        <div>
-            <x-input-label for="email" :value="__('Correo electrónico')" />
-            <x-text-input id="email"
-                          class="block mt-1 w-full"
-                          type="email"
-                          name="email"
-                          :value="old('email')"
-                          required
-                          autofocus
-                          placeholder="Ingresa tu correo para recibir el enlace" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Botón principal (verde, ancho completo) -->
-        <div class="mt-2">
-            <x-primary-button
-                class="w-full justify-center !bg-emerald-600 hover:!bg-emerald-700
-                       !text-white !font-semibold px-5 py-2 rounded-md
-                       focus:!ring-2 focus:!ring-emerald-500 focus:!ring-offset-2">
-                {{ __('Enviar enlace de recuperación') }}
-            </x-primary-button>
-        </div>
-
-        <div class="text-center mt-3">
-            <a href="{{ route('login') }}"
-               class="underline text-sm text-gray-600 hover:text-gray-900">
-                Volver al inicio de sesión
-            </a>
-        </div>
-    </form>
-</x-guest-layout>
-
-
+@endsection

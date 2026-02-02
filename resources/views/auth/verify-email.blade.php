@@ -1,31 +1,60 @@
-<x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-    </div>
+@extends('layouts.app')
 
-    @if (session('status') == 'verification-link-sent')
-        <div class="mb-4 font-medium text-sm text-green-600">
-            {{ __('A new verification link has been sent to the email address you provided during registration.') }}
-        </div>
-    @endif
+@section('content')
+    <div class="row w-100 justify-content-center">
 
-    <div class="mt-4 flex items-center justify-between">
-        <form method="POST" action="{{ route('verification.send') }}">
-            @csrf
+        <div class="col-11 col-sm-9 col-md-7 col-lg-6">
 
-            <div>
-                <x-primary-button>
-                    {{ __('Resend Verification Email') }}
-                </x-primary-button>
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4 p-md-5 text-center">
+
+                    <!-- Logo -->
+                    <div class="mb-4">
+                        <img src="{{ asset('assets/images/logoEmpresa.jpg') }}" alt="JC Empleos"
+                            class="rounded-circle shadow-sm" style="width:90px; height:90px">
+                    </div>
+
+                    <h4 class="fw-bold mb-3">
+                        Verifica tu correo electrónico
+                    </h4>
+
+                    <p class="text-muted mb-4">
+                        Gracias por registrarte. Antes de comenzar, necesitamos que verifiques
+                        tu dirección de correo electrónico haciendo clic en el enlace que te enviamos.
+                        <br><br>
+                        Si no recibiste el correo, puedes solicitar que te enviemos uno nuevo.
+                    </p>
+
+                    {{-- Mensaje cuando se reenvía el correo --}}
+                    @if (session('message'))
+                        <div class="alert alert-success small">
+                            {{ session('message') }}
+                        </div>
+                    @endif
+
+                    <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-4">
+
+                        <!-- Reenviar -->
+                        <form method="POST" action="{{ route('verification.send') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill px-4">
+                                Reenviar correo de verificación
+                            </button>
+                        </form>
+
+                        <!-- Logout -->
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-secondary btn-lg rounded-pill px-4">
+                                Cerrar sesión
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
             </div>
-        </form>
 
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-
-            <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                {{ __('Log Out') }}
-            </button>
-        </form>
+        </div>
     </div>
-</x-guest-layout>
+@endsection

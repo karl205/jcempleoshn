@@ -1,21 +1,31 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-public function showLoginForm()
+class LoginController extends Controller
 {
-    return view('auth.login');
-}
+    public function authenticate(LoginRequest $request)
+    {
+        $request->authenticate();
 
-public function login(Request $request)
-{
-    $credentials = $request->only('email', 'password');
+        $request->session()->regenerate();
 
-    if (Auth::attempt($credentials)) {
-        return redirect()->intended('/'); // redirige al dashboard
+        return redirect()->intended('/');
     }
 
-    return back()->withErrors([
-        'email' => 'Las credenciales no son válidas.',
-    ])->withInput();
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login')
+            ->with('success', 'Sesión cerrada correctamente.');
+    }
 }
-
-

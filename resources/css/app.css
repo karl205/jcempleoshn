@@ -1,11 +1,16 @@
-@import 'tailwindcss';
+/* 
+  CSS base del proyecto JC Empleos
+  Bootstrap se carga por CDN
+  Aquí solo va CSS personalizado
+*/
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+body {
+    background-color: #f8f9fa;
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Ejemplo: hover de tarjetas */
+.card-hover:hover {
+    background-color: #dee2e6;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    transform: translateY(-4px);
 }
