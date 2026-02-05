@@ -18,4 +18,14 @@ class PerfilIdioma extends Model
     {
         return $this->belongsTo(Perfil::class);
     }
+
+    public function idioma()
+    {
+        return $this->belongsTo(CatIdioma::class, 'idioma_id');
+    }
+
+    public function nivel()
+    {
+        return $this->belongsTo(CatNivelIdioma::class, 'nivel_id');
+    }
 }

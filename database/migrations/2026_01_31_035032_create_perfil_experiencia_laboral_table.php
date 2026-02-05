@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('empresa', 150);
 
             $table->foreignId('pais_id')
+                ->nullable()
                 ->constrained('cat_paises');
 
             $table->string('cargo', 150);

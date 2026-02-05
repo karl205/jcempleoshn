@@ -1,6 +1,11 @@
 @php
-    $experiences = old('experiences', $profile->experiences->toArray() ?? []);
+    $experiences = old('experiences');
+
+    if (!is_array($experiences)) {
+        $experiences = optional($perfil)->experiencias?->toArray() ?? [];
+    }
 @endphp
+
 
 @if (count($experiences) === 0)
     @php
@@ -9,6 +14,8 @@
                 'empresa' => '',
                 'pais_id' => '',
                 'cargo' => '',
+                'fecha_desde' => '',
+                'fecha_hasta' => '',
                 'descripcion' => '',
             ],
         ];
@@ -24,7 +31,8 @@
                 <strong>Experiencia {{ $i + 1 }}</strong>
 
                 @if ($i > 0)
-                    <button type="button" class="btn btn-outline-danger btn-sm remove-experience">
+                    <button type="button"
+                            class="btn btn-outline-danger btn-sm remove-experience">
                         Eliminar
                     </button>
                 @endif
@@ -32,17 +40,22 @@
 
             {{-- FILA 1 --}}
             <div class="mb-3">
-                <input type="text" name="experiences[{{ $i }}][empresa]" class="form-control"
-                    placeholder="Empresa" value="{{ $exp['empresa'] ?? '' }}">
+                <input type="text"
+                       name="experiences[{{ $i }}][empresa]"
+                       class="form-control"
+                       placeholder="Empresa"
+                       value="{{ $exp['empresa'] ?? '' }}">
             </div>
 
             {{-- FILA 2 --}}
             <div class="row g-3 mb-3">
                 <div class="col-md-6">
-                    <select name="experiences[{{ $i }}][pais_id]" class="form-select">
+                    <select name="experiences[{{ $i }}][pais_id]"
+                            class="form-select">
                         <option value="">País</option>
                         @foreach ($paises as $pais)
-                            <option value="{{ $pais->id }}" @selected(($exp['pais_id'] ?? '') == $pais->id)>
+                            <option value="{{ $pais->id }}"
+                                @selected(($exp['pais_id'] ?? '') == $pais->id)>
                                 {{ $pais->nombre }}
                             </option>
                         @endforeach
@@ -50,15 +63,37 @@
                 </div>
 
                 <div class="col-md-6">
-                    <input type="text" name="experiences[{{ $i }}][cargo]" class="form-control"
-                        placeholder="Cargo" value="{{ $exp['cargo'] ?? '' }}">
+                    <input type="text"
+                           name="experiences[{{ $i }}][cargo]"
+                           class="form-control"
+                           placeholder="Cargo"
+                           value="{{ $exp['cargo'] ?? '' }}">
                 </div>
             </div>
 
             {{-- FILA 3 --}}
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <input type="date"
+                           name="experiences[{{ $i }}][fecha_desde]"
+                           class="form-control"
+                           value="{{ $exp['fecha_desde'] ?? '' }}">
+                </div>
+
+                <div class="col-md-6">
+                    <input type="date"
+                           name="experiences[{{ $i }}][fecha_hasta]"
+                           class="form-control"
+                           value="{{ $exp['fecha_hasta'] ?? '' }}">
+                </div>
+            </div>
+
+            {{-- FILA 4 --}}
             <div>
-                <textarea name="experiences[{{ $i }}][descripcion]" class="form-control" rows="3"
-                    placeholder="Descripción de funciones">{{ $exp['descripcion'] ?? '' }}</textarea>
+                <textarea name="experiences[{{ $i }}][descripcion]"
+                          class="form-control"
+                          rows="3"
+                          placeholder="Descripción de funciones">{{ $exp['descripcion'] ?? '' }}</textarea>
             </div>
 
         </div>
@@ -67,7 +102,9 @@
 </div>
 
 <div class="text-end">
-    <button type="button" id="add-experience" class="btn btn-outline-primary btn-sm">
+    <button type="button"
+            id="add-experience"
+            class="btn btn-outline-primary btn-sm">
         ➕ Agregar experiencia
     </button>
 </div>

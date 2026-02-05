@@ -40,9 +40,8 @@ class ProfileController extends Controller
         $usuario = auth()->user();
 
         $validated = $request->validate([
-            // Perfil
-            'nombres' => 'required|string|max:100',
-            'apellidos' => 'required|string|max:100',
+            // PERFIL (tabla perfiles)
+            'pais_id' => 'nullable|exists:cat_paises,id',
             'fecha_nacimiento' => 'nullable|date',
             'telefono' => 'nullable|string|max:20',
             'sexo_id' => 'nullable|exists:cat_sexos,id',
@@ -50,27 +49,27 @@ class ProfileController extends Controller
             'disponibilidad_vehicular_id' => 'nullable|exists:cat_disponibilidad_vehicular,id',
             'acerca_de_mi' => 'nullable|string',
 
-            // Educaciones
-            'educaciones' => 'array',
-            'educaciones.*.institucion' => 'required|string|max:150',
-            'educaciones.*.nivel_educativo_id' => 'required|exists:cat_niveles_educativos,id',
-            'educaciones.*.area_estudio' => 'nullable|string|max:150',
-            'educaciones.*.fecha_desde' => 'nullable|date',
-            'educaciones.*.fecha_hasta' => 'nullable|date',
+            // EDUCACIÓN
+            'educations' => 'array',
+            'educations.*.institucion' => 'required|string|max:150',
+            'educations.*.nivel_educativo_id' => 'required|exists:cat_niveles_educativos,id',
+            'educations.*.area_estudio' => 'nullable|string|max:150',
+            'educations.*.fecha_desde' => 'nullable|date',
+            'educations.*.fecha_hasta' => 'nullable|date',
 
-            // Idiomas
-            'idiomas' => 'array',
-            'idiomas.*.idioma_id' => 'required|exists:cat_idiomas,id',
-            'idiomas.*.nivel_id' => 'required|exists:cat_niveles_idioma,id',
+            // IDIOMAS
+            'languages' => 'array',
+            'languages.*.idioma_id' => 'required|exists:cat_idiomas,id',
+            'languages.*.nivel_id' => 'required|exists:cat_niveles_idioma,id',
 
-            // Experiencias
-            'experiencias' => 'array',
-            'experiencias.*.empresa' => 'required|string|max:150',
-            'experiencias.*.pais_id' => 'required|exists:cat_paises,id',
-            'experiencias.*.cargo' => 'required|string|max:150',
-            'experiencias.*.fecha_desde' => 'nullable|date',
-            'experiencias.*.fecha_hasta' => 'nullable|date',
-            'experiencias.*.descripcion' => 'nullable|string',
+            // EXPERIENCIA
+            'experiences' => 'array',
+            'experiences.*.empresa' => 'required|string|max:150',
+            'experiences.*.pais_id' => 'nullable|exists:cat_paises,id',
+            'experiences.*.cargo' => 'required|string|max:150',
+            'experiences.*.fecha_desde' => 'nullable|date',
+            'experiences.*.fecha_hasta' => 'nullable|date',
+            'experiences.*.descripcion' => 'nullable|string',
         ]);
 
         DB::transaction(function () use ($validated, $usuario) {
@@ -78,8 +77,7 @@ class ProfileController extends Controller
             $perfil = $usuario->perfil()->updateOrCreate(
                 ['usuario_id' => $usuario->id],
                 collect($validated)->only([
-                    'nombres',
-                    'apellidos',
+                    'pais_id',
                     'fecha_nacimiento',
                     'telefono',
                     'sexo_id',
@@ -89,19 +87,23 @@ class ProfileController extends Controller
                 ])->toArray()
             );
 
+            // Limpiar hijos
             $perfil->educaciones()->delete();
             $perfil->idiomas()->delete();
             $perfil->experiencias()->delete();
 
-            foreach ($validated['educaciones'] ?? [] as $edu) {
+            // EDUCACIÓN
+            foreach (array_values($validated['educations'] ?? []) as $edu) {
                 $perfil->educaciones()->create($edu);
             }
 
-            foreach ($validated['idiomas'] ?? [] as $idioma) {
-                $perfil->idiomas()->create($idioma);
+            // IDIOMAS
+            foreach (array_values($validated['languages'] ?? []) as $lang) {
+                $perfil->idiomas()->create($lang);
             }
 
-            foreach ($validated['experiencias'] ?? [] as $exp) {
+            // EXPERIENCIA
+            foreach (array_values($validated['experiences'] ?? []) as $exp) {
                 $perfil->experiencias()->create($exp);
             }
         });

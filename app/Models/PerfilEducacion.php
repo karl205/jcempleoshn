@@ -21,4 +21,12 @@ class PerfilEducacion extends Model
     {
         return $this->belongsTo(Perfil::class);
     }
+
+    public function nivelEducativo()
+    {
+        return $this->belongsTo(
+            CatNivelEducativo::class,
+            'nivel_educativo_id'
+        );
+    }
 }

@@ -10,8 +10,7 @@ class Perfil extends Model
 
     protected $fillable = [
         'usuario_id',
-        'nombres',
-        'apellidos',
+        'pais_id',
         'fecha_nacimiento',
         'telefono',
         'sexo_id',
@@ -39,5 +38,28 @@ class Perfil extends Model
     public function experiencias()
     {
         return $this->hasMany(PerfilExperiencia::class);
+    }
+
+    public function pais()
+    {
+        return $this->belongsTo(CatPais::class, 'pais_id');
+    }
+
+    public function sexo()
+    {
+        return $this->belongsTo(CatSexo::class, 'sexo_id');
+    }
+
+    public function nacionalidad()
+    {
+        return $this->belongsTo(CatNacionalidad::class, 'nacionalidad_id');
+    }
+
+    public function disponibilidadVehicular()
+    {
+        return $this->belongsTo(
+            CatDisponibilidadVehicular::class,
+            'disponibilidad_vehicular_id'
+        );
     }
 }

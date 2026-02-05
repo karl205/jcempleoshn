@@ -22,4 +22,9 @@ class PerfilExperiencia extends Model
     {
         return $this->belongsTo(Perfil::class);
     }
+
+    public function pais()
+    {
+        return $this->belongsTo(CatPais::class, 'pais_id');
+    }
 }

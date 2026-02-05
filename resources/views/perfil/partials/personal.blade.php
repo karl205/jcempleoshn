@@ -2,8 +2,8 @@
 <div class="d-flex align-items-center gap-4 mb-4">
 
     <img
-        src="{{ $profile && $profile->foto
-                ? asset('storage/fotos_perfil/' . $profile->foto)
+        src="{{ $perfil && $perfil->foto
+                ? asset('storage/fotos_perfil/' . $perfil->foto)
                 : asset('assets/images/default-user.jpg') }}"
         class="rounded-circle"
         style="width:120px;height:120px;object-fit:cover;border:3px solid #e5e7eb"
@@ -25,20 +25,35 @@
 {{-- DATOS PERSONALES --}}
 <div class="row g-3">
 
+    {{-- NOMBRE (usuario) --}}
     <div class="col-md-6">
         <label>Nombres</label>
         <input type="text"
-               name="nombres"
                class="form-control"
-               value="{{ old('nombres', $profile->nombres ?? '') }}">
+               value="{{ old('nombre', auth()->user()->nombre) }}"
+               disabled>
     </div>
 
+    {{-- APELLIDO (usuario) --}}
     <div class="col-md-6">
         <label>Apellidos</label>
         <input type="text"
-               name="apellidos"
                class="form-control"
-               value="{{ old('apellidos', $profile->apellidos ?? '') }}">
+               value="{{ old('apellido', auth()->user()->apellido) }}"
+               disabled>
+    </div>
+
+    <div class="col-md-6">
+        <label>País de residencia</label>
+        <select name="pais_id" class="form-select">
+            <option value="">Selecciona</option>
+            @foreach ($paises as $pais)
+                <option value="{{ $pais->id }}"
+                    @selected(old('pais_id', $perfil->pais_id ?? '') == $pais->id)>
+                    {{ $pais->nombre }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
     <div class="col-md-6">
@@ -46,7 +61,7 @@
         <input type="date"
                name="fecha_nacimiento"
                class="form-control"
-               value="{{ old('fecha_nacimiento', $profile->fecha_nacimiento ?? '') }}">
+               value="{{ old('fecha_nacimiento', $perfil->fecha_nacimiento ?? '') }}">
     </div>
 
     <div class="col-md-6">
@@ -55,7 +70,7 @@
             <option value="">Selecciona</option>
             @foreach ($sexos as $sexo)
                 <option value="{{ $sexo->id }}"
-                    @selected(old('sexo_id', $profile->sexo_id ?? '') == $sexo->id)>
+                    @selected(old('sexo_id', $perfil->sexo_id ?? '') == $sexo->id)>
                     {{ $sexo->nombre }}
                 </option>
             @endforeach
@@ -67,7 +82,7 @@
         <input type="text"
                name="telefono"
                class="form-control"
-               value="{{ old('telefono', $profile->telefono ?? '') }}">
+               value="{{ old('telefono', $perfil->telefono ?? '') }}">
     </div>
 
     <div class="col-md-6">
@@ -76,7 +91,7 @@
             <option value="">Selecciona</option>
             @foreach ($nacionalidades as $n)
                 <option value="{{ $n->id }}"
-                    @selected(old('nacionalidad_id', $profile->nacionalidad_id ?? '') == $n->id)>
+                    @selected(old('nacionalidad_id', $perfil->nacionalidad_id ?? '') == $n->id)>
                     {{ $n->nombre }}
                 </option>
             @endforeach
@@ -89,7 +104,7 @@
             <option value="">Selecciona</option>
             @foreach ($vehiculos as $v)
                 <option value="{{ $v->id }}"
-                    @selected(old('disponibilidad_vehicular_id', $profile->disponibilidad_vehicular_id ?? '') == $v->id)>
+                    @selected(old('disponibilidad_vehicular_id', $perfil->disponibilidad_vehicular_id ?? '') == $v->id)>
                     {{ $v->nombre }}
                 </option>
             @endforeach
@@ -100,7 +115,7 @@
         <label>Acerca de mí</label>
         <textarea name="acerca_de_mi"
                   class="form-control"
-                  rows="4">{{ old('acerca_de_mi', $profile->acerca_de_mi ?? '') }}</textarea>
+                  rows="4">{{ old('acerca_de_mi', $perfil->acerca_de_mi ?? '') }}</textarea>
     </div>
 
 </div>

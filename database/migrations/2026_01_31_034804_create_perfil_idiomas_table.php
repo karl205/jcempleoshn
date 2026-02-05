@@ -19,10 +19,14 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('idioma_id')
+                ->nullable()
                 ->constrained('cat_idiomas');
 
             $table->foreignId('nivel_id')
+                ->nullable()
                 ->constrained('cat_niveles_idioma');
+
+            $table->unique(['perfil_id', 'idioma_id']);
 
             $table->timestamps();
         });

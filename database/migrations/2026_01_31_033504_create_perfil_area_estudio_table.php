@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('institucion', 150);
 
             $table->foreignId('nivel_educativo_id')
+                ->nullable()
                 ->constrained('cat_niveles_educativos');
 
             $table->string('area_estudio', 150)->nullable();

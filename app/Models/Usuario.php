@@ -23,9 +23,8 @@ class Usuario extends Authenticatable implements MustVerifyEmail
 
     protected $hidden = [
         'password',
-        'token_recordar',
+        'remember_token',
     ];
-
 
     //  Relaciones
 
@@ -41,7 +40,7 @@ class Usuario extends Authenticatable implements MustVerifyEmail
 
     public function perfil()
     {
-        return $this->hasOne(Perfil::class);
+        return $this->hasOne(Perfil::class, 'usuario_id');
     }
 
     // Helpers de Roles y Permisos

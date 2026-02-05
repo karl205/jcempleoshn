@@ -6,38 +6,41 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Ejecutar las migraciones.
-     */
     public function up(): void
     {
         Schema::create('perfiles', function (Blueprint $table) {
             $table->id();
 
+            // Relación 1 a 1 con usuarios
             $table->foreignId('usuario_id')
-                ->unique()
                 ->constrained('usuarios')
                 ->cascadeOnDelete();
 
-            $table->string('nombres', 100);
-            $table->string('apellidos', 100);
+            // Ubicación / residencia
+            $table->foreignId('pais_id')
+                ->nullable()
+                ->constrained('paises');
+
+            // Datos personales extendidos
             $table->date('fecha_nacimiento')->nullable();
             $table->string('telefono', 20)->nullable();
 
             $table->foreignId('sexo_id')
                 ->nullable()
-                ->constrained('cat_sexos');
+                ->constrained('sexos');
 
             $table->foreignId('nacionalidad_id')
                 ->nullable()
-                ->constrained('cat_nacionalidades');
+                ->constrained('nacionalidades');
 
+            // Información adicional
+            $table->string('foto')->nullable();
+            $table->text('acerca_de_mi')->nullable();
+
+            // Empleabilidad
             $table->foreignId('disponibilidad_vehicular_id')
                 ->nullable()
-                ->constrained('cat_disponibilidad_vehicular');
-
-            $table->text('acerca_de_mi')->nullable();
-            $table->string('foto')->nullable();
+                ->constrained('disponibilidades_vehiculares');
 
             $table->timestamps();
         });
