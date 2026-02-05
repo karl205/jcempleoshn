@@ -16,6 +16,13 @@ class DatabaseSeeder extends Seeder
             PermissionsSeeder::class,
             RolePermissionsSeeder::class,
             UserRolesSeeder::class,
+            CatDisponibilidadVehicularSeeder::class,
+            CatIdiomasSeeder::class,
+            CatNacionalidadesSeeder::class,
+            CatNivelesEducativosSeeder::class,
+            CatNivelesIdiomaSeeder::class,
+            CatPaisesSeeder::class,
+            CatSexosSeeder::class,
         ]);
     }
 }
