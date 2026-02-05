@@ -164,7 +164,7 @@
   $fechaNac        = data_get($candidato, 'fecha_nacimiento');
   $sexo            = data_get($candidato, 'sexo');
   $telefono        = data_get($candidato, 'telefono');
-  $correo          = data_get($candidato, 'correo');
+  $email          = data_get($candidato, 'email');
   $vehiculo        = data_get($candidato, 'vehiculo'); // 'ninguno', 'carro', 'moto'...
   $departamento    = data_get($candidato, 'departamento');
   $ciudad          = data_get($candidato, 'ciudad');
@@ -197,7 +197,7 @@
         <div class="col-md-6"><strong>Sexo:</strong> {{ $sexo ? ucfirst($sexo) : '—' }}</div>
         <div class="col-md-6"><strong>Teléfono:</strong> {{ $telefono ?? '—' }}</div>
 
-        <div class="col-md-6"><strong>Correo:</strong> {{ $correo ?? '—' }}</div>
+        <div class="col-md-6"><strong>Correo:</strong> {{ $email ?? '—' }}</div>
         <div class="col-md-6"><strong>Vehículo:</strong> {{ $vehiculo ? ucfirst($vehiculo) : '—' }}</div>
 
         <div class="col-md-6"><strong>Departamento:</strong> {{ $departamento ?? '—' }}</div>

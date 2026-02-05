@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProfileExperience extends Model
+class PerfilExperiencia extends Model
 {
-    protected $table = 'profile_experiences';
+    protected $table = 'perfiles_experiencias';
 
     protected $fillable = [
-        'profile_id',
+        'perfil_id',
         'empresa',
         'pais_id',
         'cargo',
@@ -18,8 +18,8 @@ class ProfileExperience extends Model
         'descripcion',
     ];
 
-    public function profile()
+    public function perfil()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Perfil::class);
     }
 }

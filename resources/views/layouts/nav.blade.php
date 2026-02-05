@@ -60,7 +60,7 @@
 
                         <ul class="dropdown-menu dropdown-menu-end shadow">
                             <li>
-                                <a class="dropdown-item" href="{{ route('cuenta.perfil') }}">
+                                <a class="dropdown-item" href="{{ route('perfil.index') }}">
                                     <i class="bi bi-person"></i> Mi perfil
                                 </a>
                             </li>

@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ProfileEducation extends Model
+class PerfilEducacion extends Model
 {
-    protected $table = 'profile_educations';
+    protected $table = 'perfiles_educacion';
 
     protected $fillable = [
-        'profile_id',
+        'perfil_id',
         'institucion',
         'nivel_educativo_id',
         'area_estudio',
@@ -17,8 +17,8 @@ class ProfileEducation extends Model
         'fecha_hasta',
     ];
 
-    public function profile()
+    public function perfil()
     {
-        return $this->belongsTo(Profile::class);
+        return $this->belongsTo(Perfil::class);
     }
 }

@@ -1,3 +1,5 @@
+<?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -7,10 +9,17 @@ class Postulacion extends Model
 {
     use HasFactory;
 
+    protected $table = 'postulaciones';
+
     protected $fillable = [
-        'user_id',
+        'usuario_id',
         'plaza_id',
     ];
+
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
 
     public function plaza()
     {

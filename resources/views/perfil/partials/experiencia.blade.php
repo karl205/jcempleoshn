@@ -1,49 +1,73 @@
-<p class="text-muted mb-3">
-    Describe tus últimos empleos.
-</p>
+@php
+    $experiences = old('experiences', $profile->experiences->toArray() ?? []);
+@endphp
 
-<div id="experiencias-wrapper">
+@if (count($experiences) === 0)
+    @php
+        $experiences = [
+            [
+                'empresa' => '',
+                'pais_id' => '',
+                'cargo' => '',
+                'descripcion' => '',
+            ],
+        ];
+    @endphp
+@endif
 
-    <div class="section-card p-4 mb-3 experiencia-item">
-        <span class="section-title">Experiencia 1</span>
+<div id="experiences-wrapper">
 
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label>Empresa</label>
-                <input type="text" name="experiencia[0][empresa]" class="form-control">
+    @foreach ($experiences as $i => $exp)
+        <div class="section-card p-4 mb-3 experience-item">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <strong>Experiencia {{ $i + 1 }}</strong>
+
+                @if ($i > 0)
+                    <button type="button" class="btn btn-outline-danger btn-sm remove-experience">
+                        Eliminar
+                    </button>
+                @endif
             </div>
 
-            <div class="col-md-6">
-                <label>País</label>
-                <input type="text" name="experiencia[0][pais]" class="form-control">
+            {{-- FILA 1 --}}
+            <div class="mb-3">
+                <input type="text" name="experiences[{{ $i }}][empresa]" class="form-control"
+                    placeholder="Empresa" value="{{ $exp['empresa'] ?? '' }}">
             </div>
 
-            <div class="col-md-6">
-                <label>Cargo</label>
-                <input type="text" name="experiencia[0][cargo]" class="form-control">
+            {{-- FILA 2 --}}
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <select name="experiences[{{ $i }}][pais_id]" class="form-select">
+                        <option value="">País</option>
+                        @foreach ($paises as $pais)
+                            <option value="{{ $pais->id }}" @selected(($exp['pais_id'] ?? '') == $pais->id)>
+                                {{ $pais->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" name="experiences[{{ $i }}][cargo]" class="form-control"
+                        placeholder="Cargo" value="{{ $exp['cargo'] ?? '' }}">
+                </div>
             </div>
 
-            <div class="col-md-3">
-                <label>Desde</label>
-                <input type="month" name="experiencia[0][desde]" class="form-control">
+            {{-- FILA 3 --}}
+            <div>
+                <textarea name="experiences[{{ $i }}][descripcion]" class="form-control" rows="3"
+                    placeholder="Descripción de funciones">{{ $exp['descripcion'] ?? '' }}</textarea>
             </div>
 
-            <div class="col-md-3">
-                <label>Hasta</label>
-                <input type="month" name="experiencia[0][hasta]" class="form-control">
-            </div>
-
-            <div class="col-12">
-                <label>Descripción</label>
-                <textarea name="experiencia[0][descripcion]" class="form-control" rows="3"></textarea>
-            </div>
         </div>
-    </div>
+    @endforeach
 
 </div>
 
 <div class="text-end">
-    <button type="button" id="add-experiencia" class="btn btn-outline-primary btn-sm">
-        <i class="bi bi-plus-circle"></i> Agregar experiencia
+    <button type="button" id="add-experience" class="btn btn-outline-primary btn-sm">
+        ➕ Agregar experiencia
     </button>
 </div>

@@ -1,10 +1,20 @@
+<?php
+
+namespace App\Http\Controllers;
+
 use App\Models\Postulacion;
+use Illuminate\Http\Request;
 
-public function index()
+class PostulacionController extends Controller
 {
-    $usuarioId = auth()->id();
-    $postulaciones = Postulacion::with('plaza')->where('user_id', $usuarioId)->get();
+    public function index()
+    {
+        $usuarioId = auth()->id();
 
-    return view('user.postulaciones', compact('postulaciones'));
+        $postulaciones = Postulacion::with('plaza')
+            ->where('usuario_id', $usuarioId)
+            ->get();
+
+        return view('user.postulaciones', compact('postulaciones'));
+    }
 }
-

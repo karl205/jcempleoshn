@@ -16,12 +16,12 @@
 
                     <!-- Título -->
                     <h4 class="text-center fw-bold mb-3">
-                        Recuperar Contraseña
+                        Recuperar contrasena
                     </h4>
 
                     <p class="text-center text-muted small mb-4">
-                        Ingresa tu correo electrónico y te enviaremos un enlace
-                        para restablecer tu contraseña.
+                        Ingresa tu correo electronico y te enviaremos un enlace
+                        para restablecer tu contrasena.
                     </p>
 
                     <!-- Estado -->
@@ -33,16 +33,16 @@
 
                     @if ($errors->any())
                         <div class="alert alert-danger small">
-                            Revisa el correo ingresado e inténtalo nuevamente.
+                            Revisa el correo ingresado e intentalo nuevamente.
                         </div>
                     @endif
 
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
 
-                        <!-- Email -->
+                        <!-- Correo -->
                         <div class="mb-3">
-                            <label class="form-label">Correo electrónico</label>
+                            <label class="form-label">Correo electronico</label>
                             <input type="email" name="email" value="{{ old('email') }}"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="Ingresa tu correo"
                                 required autofocus>
@@ -54,17 +54,17 @@
                             @enderror
                         </div>
 
-                        <!-- Botón -->
+                        <!-- Boton -->
                         <div class="d-grid mb-3">
                             <button type="submit" class="btn btn-success btn-lg rounded-pill">
-                                Enviar enlace de recuperación
+                                Enviar enlace de recuperacion
                             </button>
                         </div>
 
                         <!-- Volver -->
                         <div class="text-center">
                             <a href="{{ route('login') }}" class="small text-decoration-none">
-                                Volver al inicio de sesión
+                                Volver al inicio de sesion
                             </a>
                         </div>
                     </form>

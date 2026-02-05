@@ -10,17 +10,17 @@ class RolesSeeder extends Seeder
     public function run()
     {
         $roles = [
-            ['name' => 'admin', 'description' => 'Administrador del sistema'],
-            ['name' => 'postulante', 'description' => 'Usuario postulante a empleos'],
+            ['nombre' => 'admin',       'descripcion' => 'Administrador del sistema'],
+            ['nombre' => 'postulante',  'descripcion' => 'Usuario postulante a empleos'],
         ];
 
-        foreach ($roles as $role) {
+        foreach ($roles as $rol) {
             DB::table('roles')->updateOrInsert(
-                ['name' => $role['name']],
+                ['nombre' => $rol['nombre']],
                 [
-                    'description' => $role['description'],
-                    'updated_at' => now(),
-                    'created_at' => now()
+                    'descripcion' => $rol['descripcion'],
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
                 ]
             );
         }

@@ -15,21 +15,21 @@
                     </div>
 
                     <h4 class="text-center fw-bold mb-3">
-                        Confirmar contraseña
+                        Confirmar contrasena
                     </h4>
 
                     <p class="text-center small text-muted mb-4">
-                        Esta es un área segura de la aplicación.
-                        Por favor confirma tu contraseña para continuar.
+                        Esta es un area segura de la aplicacion.
+                        Por favor confirma tu contrasena para continuar.
                     </p>
 
                     <form method="POST" action="{{ route('password.confirm') }}">
                         @csrf
 
-                        <!-- Password -->
+                        <!-- Contrasena -->
                         <div class="mb-3">
                             <label for="password" class="form-label">
-                                Contraseña
+                                Contrasena
                             </label>
 
                             <input id="password" type="password" name="password"
@@ -43,7 +43,7 @@
                             @enderror
                         </div>
 
-                        <!-- Botón -->
+                        <!-- Boton -->
                         <div class="d-grid mt-4">
                             <button type="submit" class="btn btn-primary btn-lg rounded-pill">
                                 Confirmar

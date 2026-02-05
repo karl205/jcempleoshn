@@ -9,22 +9,22 @@ class PermissionsSeeder extends Seeder
 {
     public function run()
     {
-        $permissions = [
-            ['name' => 'ver_dashboard', 'description' => 'Ver dashboard'],
-            ['name' => 'editar_perfil', 'description' => 'Editar perfil propio'],
-            ['name' => 'postular_empleo', 'description' => 'Postular a ofertas'],
-            ['name' => 'administrar_usuarios', 'description' => 'Administrar usuarios'],
-            ['name' => 'ver_postulantes', 'description' => 'Ver perfiles de postulantes'],
-            ['name' => 'gestionar_ofertas', 'description' => 'Gestionar ofertas laborales'],
+        $permisos = [
+            ['nombre' => 'ver_dashboard',        'descripcion' => 'Ver dashboard'],
+            ['nombre' => 'editar_perfil',         'descripcion' => 'Editar perfil propio'],
+            ['nombre' => 'postular_empleo',       'descripcion' => 'Postular a ofertas'],
+            ['nombre' => 'administrar_usuarios',  'descripcion' => 'Administrar usuarios'],
+            ['nombre' => 'ver_postulantes',       'descripcion' => 'Ver perfiles de postulantes'],
+            ['nombre' => 'gestionar_ofertas',     'descripcion' => 'Gestionar ofertas laborales'],
         ];
 
-        foreach ($permissions as $perm) {
-            DB::table('permissions')->updateOrInsert(
-                ['name' => $perm['name']],
+        foreach ($permisos as $permiso) {
+            DB::table('permisos')->updateOrInsert(
+                ['nombre' => $permiso['nombre']],
                 [
-                    'description' => $perm['description'],
-                    'updated_at' => now(),
-                    'created_at' => now()
+                    'descripcion' => $permiso['descripcion'],
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
                 ]
             );
         }

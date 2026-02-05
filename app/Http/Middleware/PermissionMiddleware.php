@@ -8,13 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PermissionMiddleware
 {
-    public function handle(Request $request, Closure $next, string $permission)
+    public function handle(Request $request, Closure $next, string $permiso)
     {
-        if (!Auth::check() || !Auth::user()->hasPermission($permission)) {
+        if (!Auth::check() || !Auth::user()->tienePermiso($permiso)) {
             abort(403);
         }
 
         return $next($request);
     }
 }
-

@@ -9,17 +9,19 @@ class UserRolesSeeder extends Seeder
 {
     public function run()
     {
-        $postulanteRoleId = DB::table('roles')
-            ->where('name', 'postulante')
+        // Obtener ID del rol postulante
+        $rolPostulanteId = DB::table('roles')
+            ->where('nombre', 'postulante')
             ->value('id');
 
-        $users = DB::table('users')->pluck('id');
+        // Obtener todos los usuarios
+        $usuarios = DB::table('usuarios')->pluck('id');
 
-        foreach ($users as $userId) {
-            DB::table('user_roles')->updateOrInsert(
+        foreach ($usuarios as $usuarioId) {
+            DB::table('usuarios_roles')->updateOrInsert(
                 [
-                    'user_id' => $userId,
-                    'role_id' => $postulanteRoleId
+                    'usuario_id' => $usuarioId,
+                    'rol_id'    => $rolPostulanteId,
                 ],
                 []
             );

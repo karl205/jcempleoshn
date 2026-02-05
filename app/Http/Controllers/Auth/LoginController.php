@@ -11,7 +11,16 @@ class LoginController extends Controller
 {
     public function authenticate(LoginRequest $request)
     {
-        $request->authenticate();
+        $credenciales = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+
+        if (!Auth::attempt($credenciales, $request->boolean('remember'))) {
+            return back()->withErrors([
+                'email' => 'Estas credenciales no coinciden con nuestros registros.',
+            ]);
+        }
 
         $request->session()->regenerate();
 

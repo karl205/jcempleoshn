@@ -7,19 +7,19 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('cat_nivel_idioma', function (Blueprint $table) {
+        Schema::create('cat_niveles_idioma', function (Blueprint $table) {
             $table->id();
             $table->string('nombre', 50);
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('cat_nivel_idioma');
+        Schema::dropIfExists('cat_niveles_idioma');
     }
 };

@@ -6,37 +6,34 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class RegisterRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-public function authorize(): bool
-{
-    return true;
-}
+    public function authorize(): bool
+    {
+        return true;
+    }
 
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
-{
-    return [
-        'name' => 'required|string|max:100',
-        'email' => 'required|email|unique:users,email',
-        'password' => 'required|min:8|confirmed',
-    ];
-}
+    {
+        return [
+            'nombre' => 'required|string|max:100',
+            'apellido' => 'required|string|max:100',
+            'email' => 'required|email|unique:usuarios,email',
+            'password' => 'required|min:8|confirmed',
+        ];
+    }
 
-public function messages(): array
-{
-    return [
-        'email.unique' => 'Este correo ya está registrado. Intenta iniciar sesión o recuperar tu contraseña.',
-        'email.required' => 'El correo electrónico es obligatorio.',
-        'email.email' => 'Ingresa un correo electrónico válido.',
-        'password.required' => 'La contraseña es obligatoria.',
-        'password.confirmed' => 'Las contraseñas no coinciden.',
-    ];
-}
+    public function messages(): array
+    {
+        return [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'apellido.required' => 'El apellido es obligatorio.',
+
+            'email.required' => 'El correo electronico es obligatorio.',
+            'email.email' => 'Ingresa un correo electronico valido.',
+            'email.unique' => 'Este correo ya esta registrado. Intenta iniciar sesion o recuperar tu contrasena.',
+
+            'password.required' => 'La contrasena es obligatoria.',
+            'password.confirmed' => 'Las contrasenas no coinciden.',
+            'password.min' => 'La contrasena debe tener al menos 8 caracteres.',
+        ];
+    }
 }

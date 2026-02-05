@@ -15,16 +15,16 @@
                     </div>
 
                     <h4 class="text-center fw-bold mb-3">
-                        Restablecer contraseña
+                        Restablecer contrasena
                     </h4>
 
                     <p class="text-center text-muted small mb-4">
-                        Ingresa tu nueva contraseña para continuar.
+                        Ingresa tu nueva contrasena para continuar.
                     </p>
 
                     @if ($errors->any())
                         <div class="alert alert-danger small">
-                            Revisa los datos e inténtalo nuevamente.
+                            Revisa los datos e intentalo nuevamente.
                         </div>
                     @endif
 
@@ -34,9 +34,9 @@
                         <input type="hidden" name="token" value="{{ $token }}">
                         <input type="hidden" name="email" value="{{ old('email', request()->email) }}">
 
-                        <!-- Nueva contraseña -->
+                        <!-- Nueva contrasena -->
                         <div class="mb-3">
-                            <label class="form-label">Nueva contraseña</label>
+                            <label class="form-label">Nueva contrasena</label>
                             <input id="password" type="password" name="password"
                                 class="form-control @error('password') is-invalid @enderror" required>
 
@@ -49,24 +49,24 @@
 
                         <!-- Requisitos -->
                         <ul class="list-unstyled small mb-3" id="password-requisitos">
-                            <li id="mayuscula" class="text-danger">❌ Al menos una letra mayúscula</li>
-                            <li id="numero" class="text-danger">❌ Al menos un número</li>
-                            <li id="longitud" class="text-danger">❌ Más de 10 caracteres</li>
+                            <li id="mayuscula" class="text-danger">❌ Al menos una letra mayuscula</li>
+                            <li id="numero" class="text-danger">❌ Al menos un numero</li>
+                            <li id="longitud" class="text-danger">❌ Mas de 10 caracteres</li>
                         </ul>
 
-                        <!-- Confirmación -->
+                        <!-- Confirmacion -->
                         <div class="mb-3">
-                            <label class="form-label">Confirmar contraseña</label>
+                            <label class="form-label">Confirmar contrasena</label>
                             <input id="password_confirmation" type="password" name="password_confirmation"
                                 class="form-control" required>
 
                             <div id="coincidencia" class="small mt-1 d-none"></div>
                         </div>
 
-                        <!-- Botón -->
+                        <!-- Boton -->
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success btn-lg rounded-pill">
-                                Guardar nueva contraseña
+                                Guardar nueva contrasena
                             </button>
                         </div>
 
@@ -78,7 +78,7 @@
         </div>
     </div>
 
-    {{-- Script validación contraseña (SIN CAMBIOS FUNCIONALES) --}}
+    {{-- Script validacion contrasena (SIN cambios de logica) --}}
     <script>
         const passwordInput = document.getElementById('password');
         const confirmInput = document.getElementById('password_confirmation');
@@ -89,9 +89,9 @@
 
         function validarPassword() {
             const v = passwordInput.value;
-            update(mayuscula, /[A-Z]/.test(v), 'Al menos una letra mayúscula');
-            update(numero, /\d/.test(v), 'Al menos un número');
-            update(longitud, v.length > 10, 'Más de 10 caracteres');
+            update(mayuscula, /[A-Z]/.test(v), 'Al menos una letra mayuscula');
+            update(numero, /\d/.test(v), 'Al menos un numero');
+            update(longitud, v.length > 10, 'Mas de 10 caracteres');
         }
 
         function update(el, ok, txt) {
@@ -108,8 +108,8 @@
                     'text-danger small mt-1';
 
                 coincidencia.textContent = ok ?
-                    '✅ Las contraseñas coinciden' :
-                    '❌ Las contraseñas no coinciden';
+                    '✅ Las contrasenas coinciden' :
+                    '❌ Las contrasenas no coinciden';
             } else {
                 coincidencia.classList.add('d-none');
             }

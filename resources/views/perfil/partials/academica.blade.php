@@ -1,49 +1,67 @@
-<p class="text-muted mb-3">
-    Ingresa tu formación académica de más antigua a más reciente.
-</p>
+@php
+    $educations = old('educations', $profile->educations->toArray() ?? []);
+@endphp
 
-<div id="formaciones-wrapper">
+@if (count($educations) === 0)
+    @php
+        $educations = [
+            [
+                'institucion' => '',
+                'nivel_educativo_id' => '',
+                'area_estudio' => '',
+            ],
+        ];
+    @endphp
+@endif
 
-    <div class="section-card p-4 mb-3 formacion-item">
-        <span class="section-title">Formación 1</span>
+<div id="educations-wrapper">
 
-        <div class="row g-3">
-            <div class="col-md-6">
-                <label>Institución</label>
-                <input type="text" name="academica[0][institucion]" class="form-control">
+    @foreach ($educations as $i => $edu)
+        <div class="section-card p-4 mb-3 education-item">
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <strong>Formación {{ $i + 1 }}</strong>
+
+                @if ($i > 0)
+                    <button type="button" class="btn btn-outline-danger btn-sm remove-education">
+                        Eliminar
+                    </button>
+                @endif
             </div>
 
-            <div class="col-md-3">
-                <label>Desde</label>
-                <input type="month" name="academica[0][desde]" class="form-control">
+            {{-- FILA 1 --}}
+            <div class="mb-3">
+                <input type="text" name="educations[{{ $i }}][institucion]" class="form-control"
+                    placeholder="Institución" value="{{ $edu['institucion'] ?? '' }}">
             </div>
 
-            <div class="col-md-3">
-                <label>Hasta</label>
-                <input type="month" name="academica[0][hasta]" class="form-control">
+            {{-- FILA 2 --}}
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <select name="educations[{{ $i }}][nivel_educativo_id]" class="form-select">
+                        <option value="">Nivel educativo</option>
+                        @foreach ($niveles as $nivel)
+                            <option value="{{ $nivel->id }}" @selected(($edu['nivel_educativo_id'] ?? '') == $nivel->id)>
+                                {{ $nivel->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <input type="text" name="educations[{{ $i }}][area_estudio]" class="form-control"
+                        placeholder="Área de estudio" value="{{ $edu['area_estudio'] ?? '' }}">
+                </div>
             </div>
 
-            <div class="col-md-6">
-                <label>Nivel educativo</label>
-                <select name="academica[0][nivel]" class="form-select">
-                    <option>Bachillerato</option>
-                    <option>Técnico</option>
-                    <option>Universitario</option>
-                    <option>Maestría</option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-                <label>Área de estudio</label>
-                <input type="text" name="academica[0][area]" class="form-control">
-            </div>
         </div>
-    </div>
+    @endforeach
+
 
 </div>
 
 <div class="text-end">
-    <button type="button" id="add-formacion" class="btn btn-outline-primary btn-sm">
-        <i class="bi bi-plus-circle"></i> Agregar formación
+    <button type="button" id="add-education" class="btn btn-outline-primary btn-sm">
+        ➕ Agregar formación
     </button>
 </div>

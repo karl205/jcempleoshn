@@ -20,28 +20,38 @@
 
                     @if ($errors->any())
                         <div class="alert alert-danger small">
-                            Revisa los campos e inténtalo de nuevo.
+                            Revisa los campos e intentalo de nuevo.
                         </div>
                     @endif
 
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
-                        <!-- Nombre -->
-                        <div class="mb-3">
-                            <label class="form-label">Nombre completo</label>
-                            <input type="text" name="name" value="{{ old('name') }}"
-                                class="form-control @error('name') is-invalid @enderror" required autofocus>
-                            @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                        <!-- Nombre y Apellido -->
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Nombres</label>
+                                <input type="text" name="nombre" value="{{ old('nombre') }}"
+                                    class="form-control @error('nombre') is-invalid @enderror" required autofocus>
+                                @error('nombre')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Apellidos</label>
+                                <input type="text" name="apellido" value="{{ old('apellido') }}"
+                                    class="form-control @error('apellido') is-invalid @enderror" required>
+                                @error('apellido')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
                         </div>
 
-                        <!-- Email -->
+                        <!-- Correo -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Correo electrónico</label>
-
-                            <input type="email" id="email" name="email" value="{{ old('email') }}"
+                            <label class="form-label">Correo electronico</label>
+                            <input type="email" name="email" value="{{ old('email') }}"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="ejemplo@correo.com"
                                 required autocomplete="email">
 
@@ -52,10 +62,9 @@
                             @enderror
                         </div>
 
-
-                        <!-- Password -->
+                        <!-- Contrasena -->
                         <div class="mb-3 position-relative">
-                            <label class="form-label">Contraseña</label>
+                            <label class="form-label">Contrasena</label>
                             <input type="password" id="password" name="password"
                                 class="form-control @error('password') is-invalid @enderror" required>
 
@@ -63,9 +72,9 @@
                                 class="position-absolute bg-white border rounded shadow p-2 small mt-2 w-100 d-none"
                                 style="z-index:10;">
                                 <ul class="mb-0 ps-3">
-                                    <li id="mayuscula" class="text-danger">❌ Al menos una letra mayúscula</li>
-                                    <li id="numero" class="text-danger">❌ Al menos un número</li>
-                                    <li id="longitud" class="text-danger">❌ Más de 10 caracteres</li>
+                                    <li id="mayuscula" class="text-danger">❌ Al menos una letra mayuscula</li>
+                                    <li id="numero" class="text-danger">❌ Al menos un numero</li>
+                                    <li id="longitud" class="text-danger">❌ Mas de 10 caracteres</li>
                                 </ul>
                             </div>
 
@@ -76,13 +85,13 @@
 
                         <!-- Confirmar -->
                         <div class="mb-3">
-                            <label class="form-label">Confirmar contraseña</label>
+                            <label class="form-label">Confirmar contrasena</label>
                             <input type="password" id="password_confirmation" name="password_confirmation"
                                 class="form-control" required>
                             <div id="coincidencia" class="small mt-1 d-none"></div>
                         </div>
 
-                        <!-- Botón -->
+                        <!-- Boton -->
                         <div class="d-grid mb-3">
                             <button type="submit" class="btn btn-success btn-lg rounded-pill">
                                 Registrarse
@@ -92,7 +101,7 @@
                         <div class="text-center">
                             <span class="small">¿Ya tienes una cuenta?</span>
                             <a href="{{ route('login') }}" class="small fw-bold text-decoration-none">
-                                Inicia sesión
+                                Inicia sesion
                             </a>
                         </div>
 
@@ -104,7 +113,7 @@
         </div>
     </div>
 
-    {{-- Script validación contraseña (SIN CAMBIOS) --}}
+    {{-- Script validacion contrasena (SIN cambios funcionales) --}}
     <script>
         const p = document.getElementById('password');
         const c = document.getElementById('password_confirmation');
@@ -123,9 +132,9 @@
 
         p.addEventListener('input', () => {
             const v = p.value;
-            update(req.mayuscula, /[A-Z]/.test(v), 'Al menos una letra mayúscula');
-            update(req.numero, /[0-9]/.test(v), 'Al menos un número');
-            update(req.longitud, v.length > 10, 'Más de 10 caracteres');
+            update(req.mayuscula, /[A-Z]/.test(v), 'Al menos una letra mayuscula');
+            update(req.numero, /[0-9]/.test(v), 'Al menos un numero');
+            update(req.longitud, v.length > 10, 'Mas de 10 caracteres');
         });
 
         function update(el, ok, txt) {
@@ -139,8 +148,8 @@
                 coinc.classList.remove('d-none');
                 coinc.className = ok ? 'text-success small' : 'text-danger small';
                 coinc.textContent = ok ?
-                    '✅ Las contraseñas coinciden' :
-                    '❌ Las contraseñas no coinciden';
+                    '✅ Las contrasenas coinciden' :
+                    '❌ Las contrasenas no coinciden';
             } else {
                 coinc.classList.add('d-none');
             }

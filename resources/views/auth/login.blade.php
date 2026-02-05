@@ -32,23 +32,34 @@
                         </div>
                     @endif
 
-
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
+                        <!-- Correo -->
                         <div class="mb-3">
                             <label class="form-label">Correo electrónico</label>
-                            <input type="email" name="email" value="{{ old('email') }}"
-                                class="form-control @error('email') is-invalid @enderror" required autofocus>
+                            <input
+                                type="email"
+                                name="email"
+                                value="{{ old('email') }}"
+                                class="form-control @error('email') is-invalid @enderror"
+                                required
+                                autofocus
+                            >
                             @error('email')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
+                        <!-- Contrasena -->
                         <div class="mb-3">
                             <label class="form-label">Contraseña</label>
-                            <input type="password" name="password"
-                                class="form-control @error('password') is-invalid @enderror" required>
+                            <input
+                                type="password"
+                                name="password"
+                                class="form-control @error('password') is-invalid @enderror"
+                                required
+                            >
                             @error('password')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

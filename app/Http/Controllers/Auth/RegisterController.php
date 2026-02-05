@@ -4,32 +4,29 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
-use App\Models\User;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterController extends Controller
 {
-    // Mostrar formulario
     public function create()
     {
         return view('auth.register');
     }
 
-    // Procesar registro
     public function store(RegisterRequest $request)
-{
-    $user = User::create([
-        'name'     => $request->name,
-        'email'    => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+    {
+        $usuario = Usuario::create([
+            'nombre'    => $request->nombre,
+            'apellido'  => $request->apellido,
+            'email'     => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-    // Se envía el correo, pero NO se inicia sesión
-    $user->sendEmailVerificationNotification();
+        // Enviar correo de verificacion (NO iniciar sesion)
+        $usuario->sendEmailVerificationNotification();
 
-    return redirect()->route('login')
+        return redirect()->route('login')
         ->with('success', 'Cuenta creada. Revisa tu correo para verificarla antes de iniciar sesión.');
-}
-
+    }
 }

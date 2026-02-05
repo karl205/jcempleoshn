@@ -7,30 +7,29 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('profile_languages', function (Blueprint $table) {
+        Schema::create('perfiles_idiomas', function (Blueprint $table) {
             $table->id();
-    
-            $table->foreignId('profile_id')
-                ->constrained()
+
+            $table->foreignId('perfil_id')
+                ->constrained('perfiles')
                 ->cascadeOnDelete();
-    
+
             $table->foreignId('idioma_id')
                 ->constrained('cat_idiomas');
-    
+
             $table->foreignId('nivel_id')
-                ->constrained('cat_nivel_idioma');
-    
+                ->constrained('cat_niveles_idioma');
+
             $table->timestamps();
         });
     }
-    
-    public function down()
-    {
-        Schema::dropIfExists('profile_languages');
-    }
 
+    public function down(): void
+    {
+        Schema::dropIfExists('perfiles_idiomas');
+    }
 };

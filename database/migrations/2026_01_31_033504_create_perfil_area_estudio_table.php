@@ -7,32 +7,32 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('profile_educations', function (Blueprint $table) {
+        Schema::create('perfiles_educacion', function (Blueprint $table) {
             $table->id();
-    
-            $table->foreignId('profile_id')
-                ->constrained()
+
+            $table->foreignId('perfil_id')
+                ->constrained('perfiles')
                 ->cascadeOnDelete();
-    
+
             $table->string('institucion', 150);
+
             $table->foreignId('nivel_educativo_id')
                 ->constrained('cat_niveles_educativos');
-    
+
             $table->string('area_estudio', 150)->nullable();
             $table->date('fecha_desde')->nullable();
             $table->date('fecha_hasta')->nullable();
-    
+
             $table->timestamps();
         });
     }
-    
-    public function down()
-    {
-        Schema::dropIfExists('profile_educations');
-    }
 
+    public function down(): void
+    {
+        Schema::dropIfExists('perfiles_educacion');
+    }
 };

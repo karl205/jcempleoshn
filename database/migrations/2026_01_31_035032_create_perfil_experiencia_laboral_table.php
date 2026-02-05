@@ -7,33 +7,33 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Ejecutar las migraciones.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('profile_experiences', function (Blueprint $table) {
+        Schema::create('perfiles_experiencias', function (Blueprint $table) {
             $table->id();
-    
-            $table->foreignId('profile_id')
-                ->constrained()
+
+            $table->foreignId('perfil_id')
+                ->constrained('perfiles')
                 ->cascadeOnDelete();
-    
+
             $table->string('empresa', 150);
+
             $table->foreignId('pais_id')
                 ->constrained('cat_paises');
-    
+
             $table->string('cargo', 150);
             $table->date('fecha_desde')->nullable();
             $table->date('fecha_hasta')->nullable();
             $table->text('descripcion')->nullable();
-    
+
             $table->timestamps();
         });
     }
-    
-    public function down()
-    {
-        Schema::dropIfExists('profile_experiences');
-    }
 
+    public function down(): void
+    {
+        Schema::dropIfExists('perfiles_experiencias');
+    }
 };

@@ -26,11 +26,12 @@
                     </p>
 
                     {{-- Mensaje cuando se reenvía el correo --}}
-                    @if (session('message'))
+                    @if (session('status') === 'verification-link-sent')
                         <div class="alert alert-success small">
-                            {{ session('message') }}
+                            Se ha enviado un nuevo correo de verificacion.
                         </div>
                     @endif
+
 
                     <div class="d-flex flex-column flex-md-row justify-content-center gap-3 mt-4">
 
@@ -49,12 +50,9 @@
                                 Cerrar sesión
                             </button>
                         </form>
-
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 @endsection

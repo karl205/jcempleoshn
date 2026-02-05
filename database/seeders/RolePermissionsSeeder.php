@@ -9,37 +9,36 @@ class RolePermissionsSeeder extends Seeder
 {
     public function run()
     {
-        $roles = DB::table('roles')->pluck('id', 'name');
-        $permissions = DB::table('permissions')->pluck('id', 'name');
+        // Obtener roles y permisos usando columnas en español
+        $roles = DB::table('roles')->pluck('id', 'nombre');
+        $permisos = DB::table('permisos')->pluck('id', 'nombre');
 
-        // Admin → todos
-        foreach ($permissions as $permissionId) {
-            DB::table('role_permissions')->updateOrInsert(
+        // Admin → todos los permisos
+        foreach ($permisos as $permisoId) {
+            DB::table('roles_permisos')->updateOrInsert(
                 [
-                    'role_id' => $roles['admin'],
-                    'permission_id' => $permissionId
+                    'rol_id' => $roles['admin'],
+                    'permiso_id' => $permisoId,
                 ],
                 []
             );
         }
 
-        // Postulante → limitados
-        $postulantePerms = [
+        // Postulante → permisos limitados
+        $permisosPostulante = [
             'ver_dashboard',
             'editar_perfil',
-            'postular_empleo'
+            'postular_empleo',
         ];
 
-        foreach ($postulantePerms as $perm) {
-            DB::table('role_permissions')->updateOrInsert(
+        foreach ($permisosPostulante as $permiso) {
+            DB::table('roles_permisos')->updateOrInsert(
                 [
-                    'role_id' => $roles['postulante'],
-                    'permission_id' => $permissions[$perm]
+                    'rol_id' => $roles['postulante'],
+                    'permiso_id' => $permisos[$permiso],
                 ],
                 []
             );
         }
     }
 }
-
-
