@@ -13,6 +13,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Middleware\Authenticate;
+use App\Http\Controllers\AccountSettingsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -134,6 +136,23 @@ Route::post('/email/verification-notification', function (Request $request) {
 Route::middleware(['auth', 'permiso:editar_perfil'])->group(function () {
     Route::get('/perfil', [ProfileController::class, 'index'])->name('perfil.index');
     Route::post('/perfil', [ProfileController::class, 'store'])->name('perfil.store');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Usuario - Configuraciòn
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth'])->group(function () {
+    Route::put('/cuenta/configuracion/perfil', [AccountSettingsController::class, 'updateProfile'])
+        ->name('cuenta.configuracion.perfil');
+
+    Route::put('/cuenta/configuracion/password', [AccountSettingsController::class, 'updatePassword'])
+        ->name('cuenta.configuracion.password');
+
+    Route::delete('/cuenta/configuracion', [AccountSettingsController::class, 'destroy'])
+        ->name('cuenta.configuracion.destroy');
 });
 
 /*

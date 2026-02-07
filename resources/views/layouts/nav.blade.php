@@ -41,7 +41,7 @@
                 @endguest
 
                 @auth
-                    @if(auth()->user()->hasVerifiedEmail())
+                    @if (auth()->user()->hasVerifiedEmail())
                         <li class="nav-item">
                             <a class="nav-link d-flex align-items-center gap-1" href="{{ route('user.plazas') }}">
                                 <i class="bi bi-send"></i>
@@ -52,10 +52,10 @@
 
                     {{-- User dropdown --}}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1"
-                           href="#" role="button" data-bs-toggle="dropdown">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-1" href="#" role="button"
+                            data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle"></i>
-                            {{ auth()->user()->name }}
+                            {{ auth()->user()->nombre_completo }}
                         </a>
 
                         <ul class="dropdown-menu dropdown-menu-end shadow">
@@ -65,7 +65,9 @@
                                 </a>
                             </li>
 
-                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
 
                             <li>
                                 <form method="POST" action="{{ route('logout') }}">

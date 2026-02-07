@@ -85,4 +85,10 @@ class Usuario extends Authenticatable implements MustVerifyEmail
     {
         return $this->email;
     }
+
+    public function getNombreCompletoAttribute()
+    {
+        return trim($this->nombre . ' ' . $this->apellido);
+    }
+
 }

@@ -1,5 +1,4 @@
 @extends('layouts.cuenta')
-
 <script>
     //SCRIPT DE FORMACION ACADEMICA
     document.addEventListener('DOMContentLoaded', function() {
@@ -187,10 +186,20 @@
     <h2 class="mb-4 text-primary">Mi Perfil</h2>
 
     @if (session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="toast-container position-fixed bottom-0 end-0 p-3">
+            <div class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true"
+                data-bs-delay="3000">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        ✅ {{ session('success') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                </div>
+            </div>
+        </div>
     @endif
 
-    <form method="POST" action="{{ route('perfil.store') }}">
+    <form method="POST" action="{{ route('perfil.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="card shadow-sm">
@@ -253,4 +262,14 @@
             </div>
         </div>
     </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toastEl = document.querySelector('.toast');
+            if (toastEl) {
+                const toast = new bootstrap.Toast(toastEl);
+                toast.show();
+            }
+        });
+    </script>
 @endsection

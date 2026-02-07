@@ -11,36 +11,33 @@ return new class extends Migration
         Schema::create('perfiles', function (Blueprint $table) {
             $table->id();
 
-            // Relación 1 a 1 con usuarios
+            // Usuario
             $table->foreignId('usuario_id')
                 ->constrained('usuarios')
                 ->cascadeOnDelete();
 
-            // Ubicación / residencia
+            // Catálogos
             $table->foreignId('pais_id')
                 ->nullable()
-                ->constrained('paises');
-
-            // Datos personales extendidos
-            $table->date('fecha_nacimiento')->nullable();
-            $table->string('telefono', 20)->nullable();
+                ->constrained('cat_paises');
 
             $table->foreignId('sexo_id')
                 ->nullable()
-                ->constrained('sexos');
+                ->constrained('cat_sexos');
 
             $table->foreignId('nacionalidad_id')
                 ->nullable()
-                ->constrained('nacionalidades');
+                ->constrained('cat_nacionalidades');
 
-            // Información adicional
-            $table->string('foto')->nullable();
-            $table->text('acerca_de_mi')->nullable();
-
-            // Empleabilidad
             $table->foreignId('disponibilidad_vehicular_id')
                 ->nullable()
-                ->constrained('disponibilidades_vehiculares');
+                ->constrained('cat_disponibilidad_vehicular');
+
+            // Datos personales
+            $table->date('fecha_nacimiento')->nullable();
+            $table->string('telefono', 20)->nullable();
+            $table->string('foto')->nullable();
+            $table->text('acerca_de_mi')->nullable();
 
             $table->timestamps();
         });

@@ -9,9 +9,11 @@ use App\Models\CatNivelEducativo;
 use App\Models\CatNivelIdioma;
 use App\Models\CatPais;
 use App\Models\CatSexo;
-use App\Models\Perfil;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class ProfileController extends Controller
 {
@@ -39,8 +41,26 @@ class ProfileController extends Controller
     {
         $usuario = auth()->user();
 
+        // LIMPIAR ARRAYS DINÁMICOS
+        $request->merge([
+            'educations' => collect($request->educations ?? [])
+                ->filter(fn ($e) => collect($e)->filter()->isNotEmpty())
+                ->values()
+                ->toArray(),
+
+            'languages' => collect($request->languages ?? [])
+                ->filter(fn ($l) => collect($l)->filter()->isNotEmpty())
+                ->values()
+                ->toArray(),
+
+            'experiences' => collect($request->experiences ?? [])
+                ->filter(fn ($e) => collect($e)->filter()->isNotEmpty())
+                ->values()
+                ->toArray(),
+        ]);
+
+        // VALIDACIÓN
         $validated = $request->validate([
-            // PERFIL (tabla perfiles)
             'pais_id' => 'nullable|exists:cat_paises,id',
             'fecha_nacimiento' => 'nullable|date',
             'telefono' => 'nullable|string|max:20',
@@ -48,63 +68,82 @@ class ProfileController extends Controller
             'nacionalidad_id' => 'nullable|exists:cat_nacionalidades,id',
             'disponibilidad_vehicular_id' => 'nullable|exists:cat_disponibilidad_vehicular,id',
             'acerca_de_mi' => 'nullable|string',
+            'foto' => 'nullable|file|max:5120',
 
-            // EDUCACIÓN
-            'educations' => 'array',
+            'educations' => 'nullable|array',
             'educations.*.institucion' => 'required|string|max:150',
             'educations.*.nivel_educativo_id' => 'required|exists:cat_niveles_educativos,id',
-            'educations.*.area_estudio' => 'nullable|string|max:150',
-            'educations.*.fecha_desde' => 'nullable|date',
-            'educations.*.fecha_hasta' => 'nullable|date',
 
-            // IDIOMAS
-            'languages' => 'array',
+            'languages' => 'nullable|array',
             'languages.*.idioma_id' => 'required|exists:cat_idiomas,id',
             'languages.*.nivel_id' => 'required|exists:cat_niveles_idioma,id',
 
-            // EXPERIENCIA
-            'experiences' => 'array',
+            'experiences' => 'nullable|array',
             'experiences.*.empresa' => 'required|string|max:150',
-            'experiences.*.pais_id' => 'nullable|exists:cat_paises,id',
             'experiences.*.cargo' => 'required|string|max:150',
-            'experiences.*.fecha_desde' => 'nullable|date',
-            'experiences.*.fecha_hasta' => 'nullable|date',
-            'experiences.*.descripcion' => 'nullable|string',
         ]);
 
-        DB::transaction(function () use ($validated, $usuario) {
+        DB::transaction(function () use ($validated, $usuario, $request) {
 
-            $perfil = $usuario->perfil()->updateOrCreate(
-                ['usuario_id' => $usuario->id],
-                collect($validated)->only([
-                    'pais_id',
-                    'fecha_nacimiento',
-                    'telefono',
-                    'sexo_id',
-                    'nacionalidad_id',
-                    'disponibilidad_vehicular_id',
-                    'acerca_de_mi',
-                ])->toArray()
+            // 1️⃣ Asegurar que el perfil exista
+            $perfil = $usuario->perfil()->firstOrCreate(
+                ['usuario_id' => $usuario->id]
             );
 
-            // Limpiar hijos
-            $perfil->educaciones()->delete();
-            $perfil->idiomas()->delete();
-            $perfil->experiencias()->delete();
+            // 2️⃣ Datos del perfil
+            $dataPerfil = collect($validated)->only([
+                'pais_id',
+                'fecha_nacimiento',
+                'telefono',
+                'sexo_id',
+                'nacionalidad_id',
+                'disponibilidad_vehicular_id',
+                'acerca_de_mi',
+            ])->toArray();
 
-            // EDUCACIÓN
-            foreach (array_values($validated['educations'] ?? []) as $edu) {
-                $perfil->educaciones()->create($edu);
+            // 3️⃣ FOTO DE PERFIL
+            if ($request->hasFile('foto')) {
+
+                if ($perfil->foto &&
+                    Storage::disk('public')->exists('fotos_perfil/'.$perfil->foto)) {
+                    Storage::disk('public')->delete('fotos_perfil/'.$perfil->foto);
+                }
+
+                $extension = $request->file('foto')->guessExtension();
+                $nombreFoto = 'perfil_'.$usuario->id.'_'.time().'.'.$extension;
+
+                $ruta = storage_path('app/public/fotos_perfil/'.$nombreFoto);
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($request->file('foto'));
+                $image->cover(400, 400);       // 👈 cuadrado perfecto
+                $image->save($ruta, quality: 85);
+
+                $dataPerfil['foto'] = $nombreFoto;
             }
 
-            // IDIOMAS
-            foreach (array_values($validated['languages'] ?? []) as $lang) {
-                $perfil->idiomas()->create($lang);
+            // 🔥 4️⃣ AQUÍ estaba el error: guardar en BD
+            $perfil->update($dataPerfil);
+
+            // 5️⃣ RELACIONES
+            if (!empty($validated['educations'])) {
+                $perfil->educaciones()->delete();
+                foreach ($validated['educations'] as $edu) {
+                    $perfil->educaciones()->create($edu);
+                }
             }
 
-            // EXPERIENCIA
-            foreach (array_values($validated['experiences'] ?? []) as $exp) {
-                $perfil->experiencias()->create($exp);
+            if (!empty($validated['languages'])) {
+                $perfil->idiomas()->delete();
+                foreach ($validated['languages'] as $lang) {
+                    $perfil->idiomas()->create($lang);
+                }
+            }
+
+            if (!empty($validated['experiences'])) {
+                $perfil->experiencias()->delete();
+                foreach ($validated['experiences'] as $exp) {
+                    $perfil->experiencias()->create($exp);
+                }
             }
         });
 
