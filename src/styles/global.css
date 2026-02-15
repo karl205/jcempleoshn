@@ -1,0 +1,354 @@
+/* =====================================================
+   GLOBAL RESET & BASE
+===================================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: #f3f2ef;
+  font-family: 'Inter', sans-serif;
+  color: #1f1f1f;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+/* =====================================================
+   NAVBAR
+===================================================== */
+
+.navbar-modern {
+  background: #ffffff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.nav-link-custom {
+  color: #333;
+  font-weight: 500;
+  position: relative;
+  transition: 0.2s ease;
+}
+
+.nav-link-custom:hover {
+  color: #0d6efd;
+}
+
+.nav-link-custom::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: #0d6efd;
+  transition: 0.3s ease;
+}
+
+.nav-link-custom:hover::after {
+  width: 100%;
+}
+
+/* =====================================================
+   NAVBAR LOGO
+===================================================== */
+
+.navbar-logo {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+}
+
+.brand-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #111;
+}
+
+
+/* =====================================================
+   HERO SECTION
+===================================================== */
+
+.hero-wrapper {
+  height: 460px;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image {
+  height: 460px;
+  width: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(0,0,0,0.45),
+    rgba(0,0,0,0.25)
+  );
+}
+
+.hero-panel {
+  max-width: 780px;
+  background: rgba(255,255,255,0.70);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  backdrop-filter: blur(12px);
+}
+
+/* =====================================================
+   HERO LOGO
+===================================================== */
+
+/* .hero-logo {
+  height: 70px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
+} */
+
+.hero-logo {
+  height: 75px;
+  margin-bottom: 1.5rem;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.25));
+  transition: 0.3s ease;
+}
+
+.hero-logo:hover {
+  transform: scale(1.05);
+}
+
+
+
+
+/* =====================================================
+   LATEST JOBS
+===================================================== */
+
+.latest-section {
+  background: #ffffff;
+  padding: 80px 0;
+}
+
+.job-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  transition: 0.3s ease;
+  height: 100%;
+}
+
+.job-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.1);
+}
+
+.job-badge {
+  background: #e7f1ff;
+  color: #0d6efd;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.75rem;
+}
+
+.job-location {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.job-date {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+
+/* =====================================================
+   VISION / MISSION / OBJECTIVE
+===================================================== */
+
+.vm-section {
+  background: #f8f9fb;
+  padding: 80px 0;
+}
+
+.vm-card-modern {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.05);
+  transition: 0.3s ease;
+}
+
+.vm-card-modern:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 50px rgba(0,0,0,0.08);
+}
+
+.vm-icon-modern {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 1rem auto;
+  border-radius: 50%;
+  background: #e7f1ff;
+  color: #0d6efd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  transition: 0.3s ease;
+}
+
+.vm-card-modern:hover .vm-icon-modern {
+  background: #0d6efd;
+  color: #ffffff;
+}
+
+/* =====================================================
+   TESTIMONIALS SECTION
+===================================================== */
+
+.testimonials-section {
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f3f2ef 100%
+  );
+  padding: 50px 0 40px 0;
+}
+
+.comment-card {
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+/* =====================================================
+   COMMENT SECTION (WIDE VERSION)
+===================================================== */
+
+.comment-section-white {
+  background: #ffffff;
+  padding: 70px 0;
+}
+
+.comment-wide-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.comment-textarea-modern {
+  border-radius: 18px;
+  padding: 1.2rem;
+  border: 1px solid #e5e7eb;
+  resize: none;
+  transition: 0.25s ease;
+  background: #fafafa;
+}
+
+.comment-textarea-modern:focus {
+  border-color: #0d6efd;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(13,110,253,0.12);
+}
+
+.char-counter-modern {
+  position: absolute;
+  bottom: -22px;
+  right: 8px;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+.btn-comment-elegant {
+  padding: 0.75rem 2.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#0d6efd,#2563eb);
+  color: #ffffff;
+  font-weight: 600;
+  border: none;
+  transition: 0.3s ease;
+}
+
+.btn-comment-elegant:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(13,110,253,0.35);
+}
+
+.btn-comment-elegant:disabled {
+  background: #d6d6d6;
+  cursor: not-allowed;
+}
+
+
+
+/* =====================================================
+   FOOTER MODERN
+===================================================== */
+
+.footer-modern {
+  background: #111827;
+  padding: 70px 0 30px 0;
+}
+
+.footer-modern h5,
+.footer-modern h6 {
+  color: #ffffff;
+}
+
+.footer-modern p,
+.footer-modern li {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
+.footer-link {
+  color: #cbd5e1;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s ease;
+}
+
+.footer-link:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.footer-contact {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: 0.2s ease;
+}
+
+.footer-contact:hover {
+  color: #ffffff;
+}
+
+.footer-modern hr {
+  opacity: 0.1;
+}
+
+.footer-modern .text-secondary {
+  color: #94a3b8 !important;
+}
