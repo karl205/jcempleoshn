@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RoleMiddleware
+class RolMiddleware
 {
     public function handle(Request $request, Closure $next, string $role)
     {
