@@ -1,0 +1,944 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "JCEmpleos API",
+        "description": "Documentación oficial del API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Servidor Local"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Login de usuario",
+                "operationId": "44212a9096e4b09358281e9ec8a0701d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@correo.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Login exitoso"
+                    },
+                    "401": {
+                        "description": "Credenciales inválidas"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar sesión",
+                "operationId": "79854151e609bd20032aa5aa4d5a35c0",
+                "responses": {
+                    "200": {
+                        "description": "Logout exitoso"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Obtener usuario autenticado",
+                "operationId": "f606b7972b0f95109c9cd5b591061f41",
+                "responses": {
+                    "200": {
+                        "description": "Usuario autenticado"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/change-password": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cambiar contraseña",
+                "operationId": "22333fadd20145176e61fc379adc1d7a",
+                "responses": {
+                    "200": {
+                        "description": "Contraseña actualizada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Registro de usuario postulante",
+                "operationId": "a718f172ff3ac464d723835815f8fb57",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Password123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "Password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario creado correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación o correo duplicado"
+                    }
+                }
+            }
+        },
+        "/api/perfil": {
+            "get": {
+                "tags": [
+                    "Perfil"
+                ],
+                "summary": "Obtener perfil del usuario autenticado",
+                "operationId": "9125bb1088b7de877a3b12ebdfac0256",
+                "responses": {
+                    "200": {
+                        "description": "Perfil obtenido correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Perfil"
+                ],
+                "summary": "Actualizar perfil del usuario autenticado",
+                "operationId": "3f159971c66f848f2435b1ca72b0d993",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "pais_id": {
+                                        "type": "integer"
+                                    },
+                                    "departamento_id": {
+                                        "type": "integer"
+                                    },
+                                    "ciudad_id": {
+                                        "type": "integer"
+                                    },
+                                    "sexo_id": {
+                                        "type": "integer"
+                                    },
+                                    "nacionalidad_id": {
+                                        "type": "integer"
+                                    },
+                                    "disponibilidad_vehicular_id": {
+                                        "type": "integer"
+                                    },
+                                    "fecha_nacimiento": {
+                                        "type": "string",
+                                        "example": "1995-05-20"
+                                    },
+                                    "telefono": {
+                                        "type": "string"
+                                    },
+                                    "foto": {
+                                        "type": "string"
+                                    },
+                                    "acerca_de_mi": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil actualizado correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/cv": {
+            "get": {
+                "tags": [
+                    "Perfil - CV"
+                ],
+                "summary": "Obtener CV completo del usuario",
+                "operationId": "55fd95baaa4c18ce3c135c8c2814c8ed",
+                "responses": {
+                    "200": {
+                        "description": "CV obtenido correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/educacion": {
+            "get": {
+                "tags": [
+                    "Perfil - Educación"
+                ],
+                "summary": "Listar formación académica del usuario",
+                "operationId": "b2f82c9dc6b56e461191f582078555e6",
+                "responses": {
+                    "200": {
+                        "description": "Listado obtenido correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Perfil - Educación"
+                ],
+                "summary": "Agregar formación académica",
+                "operationId": "085a55a46201c2778eb2db529231ce04",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "institucion"
+                                ],
+                                "properties": {
+                                    "institucion": {
+                                        "type": "string",
+                                        "example": "Universidad Nacional"
+                                    },
+                                    "nivel_educativo_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "area_estudio_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "fecha_desde": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2015-01-01"
+                                    },
+                                    "fecha_hasta": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-12-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Educación agregada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al agregar educación"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/educacion/{id}": {
+            "put": {
+                "tags": [
+                    "Perfil - Educación"
+                ],
+                "summary": "Actualizar formación académica",
+                "operationId": "056a4dc9a786836413f484abdf025b2e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "institucion": {
+                                        "type": "string"
+                                    },
+                                    "nivel_educativo_id": {
+                                        "type": "integer"
+                                    },
+                                    "area_estudio_id": {
+                                        "type": "integer"
+                                    },
+                                    "fecha_desde": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "fecha_hasta": {
+                                        "type": "string",
+                                        "format": "date"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Educación actualizada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al actualizar educación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Perfil - Educación"
+                ],
+                "summary": "Eliminar formación académica",
+                "operationId": "318f0b10a4b96059420eeba2c1c5cea8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Educación eliminada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al eliminar educación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/experiencia": {
+            "get": {
+                "tags": [
+                    "Perfil - Experiencia"
+                ],
+                "summary": "Listar experiencias laborales del usuario",
+                "operationId": "72883b70f11ef346b2fe4707981053b5",
+                "responses": {
+                    "200": {
+                        "description": "Listado obtenido correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Perfil - Experiencia"
+                ],
+                "summary": "Agregar experiencia laboral",
+                "operationId": "104987c433a99c619f32827e80f99013",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "empresa",
+                                    "cargo"
+                                ],
+                                "properties": {
+                                    "empresa": {
+                                        "type": "string",
+                                        "example": "Empresa XYZ"
+                                    },
+                                    "pais_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "cargo": {
+                                        "type": "string",
+                                        "example": "Desarrollador Backend"
+                                    },
+                                    "fecha_desde": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2020-01-01"
+                                    },
+                                    "fecha_hasta": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2023-01-01"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Desarrollo de APIs en Laravel."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Experiencia agregada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al agregar experiencia"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/experiencia/{id}": {
+            "put": {
+                "tags": [
+                    "Perfil - Experiencia"
+                ],
+                "summary": "Actualizar experiencia laboral",
+                "operationId": "6a876e76b9a32ea8781fa70926a13858",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "empresa": {
+                                        "type": "string"
+                                    },
+                                    "pais_id": {
+                                        "type": "integer"
+                                    },
+                                    "cargo": {
+                                        "type": "string"
+                                    },
+                                    "fecha_desde": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "fecha_hasta": {
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "descripcion": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Experiencia actualizada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al actualizar experiencia"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Perfil - Experiencia"
+                ],
+                "summary": "Eliminar experiencia laboral",
+                "operationId": "8ce6d989c59126df92d04324d59027c2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Experiencia eliminada correctamente"
+                    },
+                    "422": {
+                        "description": "Error al eliminar experiencia"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/idioma": {
+            "get": {
+                "tags": [
+                    "Perfil - Idiomas"
+                ],
+                "summary": "Listar idiomas del usuario autenticado",
+                "operationId": "eb4d7b772ca140fde4d247fd34b8bec3",
+                "responses": {
+                    "200": {
+                        "description": "Idiomas obtenidos correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Perfil - Idiomas"
+                ],
+                "summary": "Agregar idioma al perfil",
+                "operationId": "1b908eeff8b7fb21c330348506bf0e38",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "idioma_id",
+                                    "nivel_id"
+                                ],
+                                "properties": {
+                                    "idioma_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "nivel_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Idioma agregado correctamente"
+                    },
+                    "422": {
+                        "description": "Error al agregar idioma"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/perfil/idioma/{id}": {
+            "put": {
+                "tags": [
+                    "Perfil - Idiomas"
+                ],
+                "summary": "Actualizar nivel de idioma",
+                "operationId": "c5ab8507e4fd61f17537d2c5b1541386",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nivel_id"
+                                ],
+                                "properties": {
+                                    "nivel_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Idioma actualizado correctamente"
+                    },
+                    "422": {
+                        "description": "Error al actualizar idioma"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Perfil - Idiomas"
+                ],
+                "summary": "Eliminar idioma del perfil",
+                "operationId": "2117440bb241983fb93c733e711fcc4f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Idioma eliminado correctamente"
+                    },
+                    "422": {
+                        "description": "Error al eliminar idioma"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuarios/{id}": {
+            "put": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Actualizar usuario",
+                "operationId": "00be41590d60944dab4a27f179022793",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "apellido",
+                                    "email",
+                                    "estado"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan"
+                                    },
+                                    "apellido": {
+                                        "type": "string",
+                                        "example": "Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan@email.com"
+                                    },
+                                    "estado": {
+                                        "type": "boolean",
+                                        "example": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado correctamente"
+                    },
+                    "422": {
+                        "description": "Error al actualizar usuario"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/usuarios/{id}/desactivar": {
+            "patch": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Desactivar usuario (soft delete)",
+                "operationId": "4c93eba72e388265ea49948913a2f82c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a desactivar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario desactivado correctamente"
+                    },
+                    "422": {
+                        "description": "Error al desactivar usuario"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticación",
+            "description": "Autenticación"
+        },
+        {
+            "name": "Perfil",
+            "description": "Perfil"
+        },
+        {
+            "name": "Perfil - CV",
+            "description": "Perfil - CV"
+        },
+        {
+            "name": "Perfil - Educación",
+            "description": "Perfil - Educación"
+        },
+        {
+            "name": "Perfil - Experiencia",
+            "description": "Perfil - Experiencia"
+        },
+        {
+            "name": "Perfil - Idiomas",
+            "description": "Perfil - Idiomas"
+        },
+        {
+            "name": "Usuarios",
+            "description": "Usuarios"
+        }
+    ]
+}

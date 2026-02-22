@@ -30,9 +30,17 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (\Throwable $e, $request) {
 
+            // 🔥 Excluir Swagger
+            if (
+                $request->is('api/documentation') ||
+                $request->is('docs') ||
+                $request->is('api-docs*')
+            ) {
+                return null; // deja que Laravel renderice normal
+            }
+
             if ($request->is('api/*')) {
 
-                // 🔐 No autenticado (401)
                 if ($e instanceof AuthenticationException) {
                     return response()->json([
                         'success' => false,
@@ -42,7 +50,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ], 401);
                 }
 
-                // 🔹 Error de validación
                 if ($e instanceof ValidationException) {
                     return response()->json([
                         'success' => false,
@@ -52,7 +59,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ], 422);
                 }
 
-                // 🔹 Error HTTP (404, 403, etc.)
                 if ($e instanceof HttpExceptionInterface) {
                     return response()->json([
                         'success' => false,
@@ -62,7 +68,6 @@ return Application::configure(basePath: dirname(__DIR__))
                     ], $e->getStatusCode());
                 }
 
-                // 🔥 Error no controlado
                 Log::error('Error no controlado API', [
                     'message' => $e->getMessage(),
                     'trace' => $e->getTraceAsString(),
@@ -81,7 +86,6 @@ return Application::configure(basePath: dirname(__DIR__))
 
             return null;
         });
-
     })
 
     ->create();
