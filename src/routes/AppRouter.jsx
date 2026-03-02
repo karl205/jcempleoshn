@@ -4,6 +4,8 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import VerifyCode from "../pages/auth/VerifyCode";
+import VerifyEmail from "../pages/auth/VerifyEmail";
+import ResetPassword from "../pages/auth/ResetPassword";
 
 
 export default function AppRouter() {
@@ -14,6 +16,8 @@ export default function AppRouter() {
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/verify-code" element={<VerifyCode />} />
+      <Route path="/verify-email" element={<VerifyEmail />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
     </Routes>
   );
 }

@@ -212,3 +212,48 @@
     grid-template-columns: 1fr;
   }
 }
+
+.verify-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.verify-icon {
+  font-size: 60px;
+  margin-bottom: 10px;
+  animation: scaleIn 0.3s ease-in-out;
+}
+
+.verify-icon.success {
+  color: #12b76a;
+}
+
+.verify-icon.error {
+  color: #f04438;
+}
+
+.verify-icon.pending {
+  color: #0a66c2;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.success {
+  background: #e7f6ec;
+  color: #0f5132;
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  text-align: center;
+}

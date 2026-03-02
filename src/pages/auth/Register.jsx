@@ -69,9 +69,20 @@ export default function Register() {
         setLoading(true);
 
         try {
-            await api.post("/register", form);
+            await api.post("/register", {
+                nombre: form.nombre,
+                apellido: form.apellido,
+                email: form.email,
+                password: form.password,
+                password_confirmation: form.confirmPassword
+            });
 
-            navigate("/login");
+            navigate("/verify-email", {
+                state: {
+                    email: form.email,
+                    justRegistered: true
+                }
+            });
 
         } catch (err) {
             setErrors({

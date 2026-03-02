@@ -88,6 +88,13 @@ export default function Login() {
             }
 
         } catch (err) {
+            if (err.response?.data?.code === "EMAIL_NOT_VERIFIED") {
+                navigate("/verify-email", {
+                    state: { email: form.email }
+                });
+                return;
+            }
+
             setErrors({
                 server: err.response?.data?.message || "Error al iniciar sesión",
             });
