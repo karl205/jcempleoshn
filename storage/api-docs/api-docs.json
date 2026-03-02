@@ -156,11 +156,11 @@
                                     },
                                     "password": {
                                         "type": "string",
-                                        "example": "Password123"
+                                        "example": "Password123!"
                                     },
                                     "password_confirmation": {
                                         "type": "string",
-                                        "example": "Password123"
+                                        "example": "Password123!"
                                     }
                                 },
                                 "type": "object"
@@ -170,10 +170,199 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Usuario creado correctamente"
+                        "description": "Usuario creado correctamente, correo de verificación enviado"
                     },
                     "422": {
                         "description": "Error de validación o correo duplicado"
+                    }
+                }
+            }
+        },
+        "/api/verify-email": {
+            "get": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Verifica el correo del usuario",
+                "operationId": "4acd2649f93e41b3563b5f467aaa29dd",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Correo verificado correctamente"
+                    },
+                    "400": {
+                        "description": "Token inválido o expirado"
+                    }
+                }
+            }
+        },
+        "/api/resend-verification": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Reenviar correo de verificación",
+                "operationId": "c76a6e4c7cdb5827c2b88e455a94f157",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Correo reenviado correctamente"
+                    },
+                    "400": {
+                        "description": "Correo ya verificado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/forgot-password": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Enviar código de recuperación de contraseña",
+                "operationId": "0d08416e4be00d9d79e28720a602d0c6",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@email.com"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Código enviado correctamente"
+                    },
+                    "404": {
+                        "description": "Correo no registrado"
+                    }
+                }
+            }
+        },
+        "/api/verify-code": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Verificar código de recuperación",
+                "operationId": "cd5374ec820913446236f69bce1d9b7e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "code"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@email.com"
+                                    },
+                                    "code": {
+                                        "type": "string",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Código verificado correctamente"
+                    },
+                    "422": {
+                        "description": "Código inválido"
+                    }
+                }
+            }
+        },
+        "/api/reset-password": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Restablecer contraseña",
+                "operationId": "c8051546add6ded950f79e0f2f64a021",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "usuario@email.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "Password123!"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "Password123!"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Contraseña actualizada correctamente"
+                    },
+                    "422": {
+                        "description": "Error de validación o fallo en actualización"
                     }
                 }
             }

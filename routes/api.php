@@ -12,7 +12,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
+// Route::post('/register', [AuthController::class, 'register']);
+
 Route::post('/register', [AuthController::class, 'register']);
+// Route::get('/verify-email', [AuthController::class, 'verifyEmail']);
+Route::post('/verify-email', [AuthController::class, 'verifyEmail']);
+Route::post('/resend-verification', [AuthController::class, 'resendVerification']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/verify-code', [AuthController::class, 'verifyCode']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('/ping', function () {
     return response()->json([
