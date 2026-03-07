@@ -36,7 +36,7 @@
                         <td align="center" style="padding:20px 40px;">
                             <p style="color:#555; font-size:15px; line-height:1.6; margin:0;">
                                 Gracias por registrarte en <strong>JC Empleos</strong>.<br>
-                                Para activar tu cuenta, haz clic en el botón siguiente.
+                                Para activar tu cuenta, haz clic en el siguiente botón:
                             </p>
                         </td>
                     </tr>

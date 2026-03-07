@@ -6,11 +6,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
-use Laravel\Sanctum\HasApiTokens; // 👈 AGREGAR ESTA LÍNEA
+use Laravel\Sanctum\HasApiTokens;
 
 class Usuario extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, Notifiable; // 👈 AGREGAR HasApiTokens AQUÍ
+    use HasApiTokens, Notifiable;
 
     protected $table = 'usuarios';
 
@@ -19,7 +19,6 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'apellido',
         'email',
         'password',
-        'rol',
     ];
 
     protected $hidden = [
@@ -27,7 +26,11 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         'remember_token',
     ];
 
-    //  Relaciones
+    /*
+    |--------------------------------------------------------------------------
+    | Relaciones
+    |--------------------------------------------------------------------------
+    */
 
     public function roles()
     {
@@ -44,7 +47,11 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Perfil::class, 'usuario_id');
     }
 
-    // Helpers de Roles y Permisos
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers de Roles
+    |--------------------------------------------------------------------------
+    */
 
     public function tieneRol(string $rol): bool
     {
@@ -53,38 +60,37 @@ class Usuario extends Authenticatable implements MustVerifyEmail
             ->exists();
     }
 
+    // Alias para middleware
+    public function hasRole(string $rol): bool
+    {
+        return $this->tieneRol($rol);
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers de Permisos
+    |--------------------------------------------------------------------------
+    */
+
     public function tienePermiso(string $permiso): bool
     {
-        return DB::table('permisos')
-            ->join('roles_permisos', 'permisos.id', '=', 'roles_permisos.permiso_id')
-            ->join('usuarios_roles', 'roles_permisos.rol_id', '=', 'usuarios_roles.rol_id')
-            ->where('usuarios_roles.usuario_id', $this->id)
-            ->where('permisos.nombre', $permiso)
+        return DB::table('usuarios_roles as ur')
+            ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
+            ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
+            ->where('ur.usuario_id', $this->id)
+            ->where('p.nombre', $permiso)
             ->exists();
     }
 
-    //  * Devuelve la contraseña para Auth (usa password)
-    public function getAuthPassword()
-    {
-        return $this->password;
-    }
+    /*
+    |--------------------------------------------------------------------------
+    | Helpers útiles
+    |--------------------------------------------------------------------------
+    */
 
-    //  * Campo usado para autenticación (email)
-    public function getAuthIdentifierName()
+    public function getRoles()
     {
-        return 'email';
-    }
-
-    //  * Para enviar correos
-    public function routeNotificationForMail()
-    {
-        return $this->email;
-    }
-
-    //  * Campo que se usa para reset de contraseña
-    public function getEmailForPasswordReset()
-    {
-        return $this->email;
+        return $this->roles()->pluck('nombre');
     }
 
     public function getNombreCompletoAttribute()
@@ -92,4 +98,29 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         return trim($this->nombre . ' ' . $this->apellido);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Auth Config
+    |--------------------------------------------------------------------------
+    */
+
+    public function getAuthPassword()
+    {
+        return $this->password;
+    }
+
+    public function getAuthIdentifierName()
+    {
+        return 'email';
+    }
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
 }

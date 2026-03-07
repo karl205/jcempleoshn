@@ -10,8 +10,10 @@ class RolMiddleware
 {
     public function handle(Request $request, Closure $next, string $role)
     {
-        if (!Auth::check() || !Auth::user()->hasRole($role)) {
-            abort(403);
+        $usuario = Auth::user();
+
+        if (!$usuario || !$usuario->hasRole($role)) {
+            abort(403, 'No tiene el rol requerido.');
         }
 
         return $next($request);

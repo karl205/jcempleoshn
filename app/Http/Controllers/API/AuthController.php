@@ -87,12 +87,13 @@ class AuthController extends Controller
         ]);
     
         return ApiResponse::success(
-            [
-                'user' => $user,
-                'token' => $token,
-            ],
-            'Inicio de sesión exitoso',
-            'AUTH_LOGIN_SUCCESS'
+        [
+            'user' => $user,
+            'roles' => $user->getRoles(),
+            'token' => $token,
+        ],
+        'Inicio de sesión exitoso',
+        'AUTH_LOGIN_SUCCESS'
         );
     }
 
@@ -161,8 +162,11 @@ class AuthController extends Controller
             );
         }
 
+        $data = json_decode($result[0]->data) ?? new \stdClass();
+        $data->roles = $user->getRoles();
+
         return ApiResponse::success(
-            json_decode($result[0]->data),
+            $data,
             'Usuario autenticado',
             'AUTH_ME_SUCCESS'
         );
