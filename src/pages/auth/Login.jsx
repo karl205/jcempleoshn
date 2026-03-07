@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Login() {
     const navigate = useNavigate();
-    const { setUser } = useAuth();
+    const { setUser, setRoles } = useAuth();
 
     const [form, setForm] = useState({
         email: "",
@@ -77,14 +77,22 @@ export default function Login() {
 
             if (response.success) {
                 const userData = response.data.user;
+                const roles = response.data.roles || [];
                 const token = response.data.token;
 
                 localStorage.setItem("token", token);
                 localStorage.setItem("user", JSON.stringify(userData));
+                localStorage.setItem("roles", JSON.stringify(roles));
 
-                setUser(userData); // 👈 SOLO EL USUARIO
+                setUser(userData);
+                setRoles(roles);
 
-                navigate("/");
+                // 🔹 redirección según rol
+                if (roles.includes("admin")) {
+                    navigate("/admin");
+                } else {
+                    navigate("/");
+                }
             }
 
         } catch (err) {
