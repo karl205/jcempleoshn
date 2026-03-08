@@ -9,6 +9,8 @@ import {
     desactivarUsuario
 } from "../../api/adminUsuariosService";
 
+import { getRoles } from "../../api/adminRolesService";
+
 import {
     FaPlus,
     FaEdit,
@@ -25,10 +27,23 @@ export default function AdminUsuarios() {
     const [showModal, setShowModal] = useState(false);
     const [usuarioEditar, setUsuarioEditar] = useState(null);
 
-    const roles = [
-        { nombre: "admin", descripcion: "Administrador del sistema" },
-        { nombre: "postulante", descripcion: "Usuario postulante a empleos" }
-    ];
+    const [roles, setRoles] = useState([]);
+
+    const cargarRoles = async () => {
+
+        try {
+
+            const response = await getRoles();
+
+            setRoles(response.data.data);
+
+        } catch (error) {
+
+            console.error("Error cargando roles", error);
+
+        }
+
+    };
 
     const cargarUsuarios = async () => {
 
@@ -55,6 +70,7 @@ export default function AdminUsuarios() {
     useEffect(() => {
 
         cargarUsuarios();
+        cargarRoles();
 
     }, []);
 
@@ -166,6 +182,7 @@ export default function AdminUsuarios() {
                                 <th>ID</th>
                                 <th>Nombre</th>
                                 <th>Email</th>
+                                <th>Rol</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -182,6 +199,12 @@ export default function AdminUsuarios() {
                                     <td>{u.nombre} {u.apellido}</td>
 
                                     <td>{u.email}</td>
+
+                                    <td>
+                                        <span className="badge bg-primary">
+                                            {u.rol}
+                                        </span>
+                                    </td>
 
                                     <td>
                                         {u.estado === 1

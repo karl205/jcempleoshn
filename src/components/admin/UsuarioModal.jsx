@@ -24,7 +24,7 @@ export default function UsuarioModal({
                 apellido: usuario.apellido || "",
                 email: usuario.email || "",
                 password: "",
-                rol: usuario.rol || "",
+                rol: usuario.rol_id || "",
                 estado: usuario.estado === 1
             });
         } else {
@@ -43,14 +43,22 @@ export default function UsuarioModal({
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
+        
         setForm({
             ...form,
-            [name]: type === "checkbox" ? checked : value
+            [name]: type === "checkbox"
+                ? checked
+                : name === "rol"
+                ? parseInt(value)
+                : value
         });
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        console.log("FORM ENVIADO:", form);
+        
         onSave(form);
     };
 
@@ -111,11 +119,15 @@ export default function UsuarioModal({
                                 required
                             >
                                 <option value="">Seleccione...</option>
+
                                 {roles.map(r => (
-                                    <option key={r.nombre} value={r.nombre}>
+
+                                    <option key={r.id} value={r.id}>
                                         {r.descripcion}
                                     </option>
+
                                 ))}
+
                             </select>
                         </div>
 
