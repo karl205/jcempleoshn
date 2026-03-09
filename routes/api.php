@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\API\Admin\AdminUsuarioController;
+use App\Http\Controllers\API\Admin\AdminMenuController;
 use App\Http\Controllers\API\Admin\AdminPermisoController;
 use App\Http\Controllers\API\Admin\AdminRolController;
+use App\Http\Controllers\API\Admin\AdminUsuarioController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\PerfilController;
 use App\Http\Controllers\API\PerfilCvController;
@@ -12,7 +13,6 @@ use App\Http\Controllers\API\PerfilIdiomaController;
 use App\Http\Controllers\API\PlazaController;
 use App\Http\Controllers\API\UsuarioController;
 use Illuminate\Support\Facades\Route;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -37,64 +37,91 @@ Route::get('ping', function () {
     ]);
 });
 
-
 /*
 |--------------------------------------------------------------------------
 | Rutas administrativas
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum', 'rol:admin'])
+Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
     ->prefix('admin')
     ->group(function () {
 
         /*
         |--------------------------------------------------------------------------
-        | Usuarios (Admin)
+        | Menú dinámico
         |--------------------------------------------------------------------------
         */
 
-        Route::get('usuarios', [AdminUsuarioController::class, 'index']);
-        Route::post('usuarios', [AdminUsuarioController::class, 'store']);
-        Route::put('usuarios/{id}', [AdminUsuarioController::class, 'update']);
-        Route::patch('usuarios/{id}/desactivar', [AdminUsuarioController::class, 'deactivate']);
+        Route::get('menu', [AdminMenuController::class, 'index']);
 
+        /*
+        |--------------------------------------------------------------------------
+        | Usuarios
+        |--------------------------------------------------------------------------
+        */
 
+        Route::get('usuarios', [AdminUsuarioController::class, 'index'])
+            ->middleware('permiso:usuarios.ver');
+
+        Route::post('usuarios', [AdminUsuarioController::class, 'store'])
+            ->middleware('permiso:usuarios.crear');
+
+        Route::put('usuarios/{id}', [AdminUsuarioController::class, 'update'])
+            ->middleware('permiso:usuarios.editar');
+
+        Route::patch('usuarios/{id}/desactivar', [AdminUsuarioController::class, 'deactivate'])
+            ->middleware('permiso:usuarios.eliminar');
+        
         /*
         |--------------------------------------------------------------------------
         | Roles
         |--------------------------------------------------------------------------
         */
 
-        Route::get('roles', [AdminRolController::class, 'index']);
-        Route::post('roles', [AdminRolController::class, 'store']);
-        Route::put('roles/{id}', [AdminRolController::class, 'update']);
-        Route::patch('roles/{id}/desactivar', [AdminRolController::class, 'deactivate']);
+        Route::get('roles', [AdminRolController::class, 'index'])
+            ->middleware('permiso:roles.ver');
 
+        Route::post('roles', [AdminRolController::class, 'store'])
+            ->middleware('permiso:roles.crear');
 
-        /*
-        |--------------------------------------------------------------------------
-        | Permisos (CRUD)
-        |--------------------------------------------------------------------------
-        */
+        Route::put('roles/{id}', [AdminRolController::class, 'update'])
+            ->middleware('permiso:roles.editar');
 
-        Route::get('permisos', [AdminPermisoController::class, 'index']);
-        Route::post('permisos', [AdminPermisoController::class, 'store']);
-        Route::put('permisos/{id}', [AdminPermisoController::class, 'update']);
-        Route::patch('permisos/{id}/desactivar', [AdminPermisoController::class, 'deactivate']);
-
+        Route::patch('roles/{id}/desactivar', [AdminRolController::class, 'deactivate'])
+            ->middleware('permiso:roles.eliminar');
 
         /*
         |--------------------------------------------------------------------------
-        | Permisos por Rol (Matriz de permisos)
+        | Permisos
         |--------------------------------------------------------------------------
         */
 
-        Route::get('permisos-roles', [AdminPermisoController::class, 'permisosRoles']);
-        Route::post('permisos-roles', [AdminPermisoController::class, 'guardarPermisoRol']);
+        Route::get('permisos', [AdminPermisoController::class, 'index'])
+            ->middleware('permiso:permisos.ver');
+
+        Route::post('permisos', [AdminPermisoController::class, 'store'])
+            ->middleware('permiso:permisos.crear');
+
+        Route::put('permisos/{id}', [AdminPermisoController::class, 'update'])
+            ->middleware('permiso:permisos.editar');
+
+        Route::patch('permisos/{id}/desactivar', [AdminPermisoController::class, 'deactivate'])
+            ->middleware('permiso:permisos.eliminar');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Matriz permisos
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('permisos-roles', [AdminPermisoController::class, 'permisosRoles'])
+            ->middleware('permiso:permisos.ver');
+
+        Route::post('permisos-roles', [AdminPermisoController::class, 'guardarPermisoRol'])
+            ->middleware('permiso:permisos.asignar');
 
     });
-
 
 /*
 |--------------------------------------------------------------------------
@@ -114,7 +141,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::post('change-password', [AuthController::class, 'changePassword']);
 
-
     /*
     |--------------------------------------------------------------------------
     | Usuario
@@ -122,7 +148,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     */
 
     Route::put('usuarios/{id}', [UsuarioController::class, 'update']);
-
 
     /*
     |--------------------------------------------------------------------------
@@ -135,7 +160,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('perfil/cv', [PerfilCvController::class, 'show']);
 
-
     /*
     |--------------------------------------------------------------------------
     | Educación
@@ -146,7 +170,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('perfil/educacion', [PerfilEducacionController::class, 'store']);
     Route::put('perfil/educacion/{id}', [PerfilEducacionController::class, 'update']);
     Route::delete('perfil/educacion/{id}', [PerfilEducacionController::class, 'destroy']);
-
 
     /*
     |--------------------------------------------------------------------------
@@ -159,7 +182,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('perfil/experiencia/{id}', [PerfilExperienciaController::class, 'update']);
     Route::delete('perfil/experiencia/{id}', [PerfilExperienciaController::class, 'destroy']);
 
-
     /*
     |--------------------------------------------------------------------------
     | Idiomas
@@ -170,7 +192,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('perfil/idioma', [PerfilIdiomaController::class, 'store']);
     Route::put('perfil/idioma/{id}', [PerfilIdiomaController::class, 'update']);
     Route::delete('perfil/idioma/{id}', [PerfilIdiomaController::class, 'destroy']);
-
 
     /*
     |--------------------------------------------------------------------------

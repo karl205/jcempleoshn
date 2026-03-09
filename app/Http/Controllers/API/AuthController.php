@@ -54,7 +54,7 @@ class AuthController extends Controller
     
         $userData = json_decode($result[0]->data);
     
-        // 🔐 Validar contraseña
+        // Validar contraseña
         if (!Hash::check($request->password, $userData->password)) {
     
             DB::select('CALL usp_autenticacion_intento_fallido(?)', [
@@ -68,7 +68,7 @@ class AuthController extends Controller
             );
         }
     
-        // 🚫 BLOQUEAR SI NO HA VERIFICADO EMAIL
+        // Verificar email
         if (is_null($userData->email_verified_at)) {
             return ApiResponse::error(
                 'Debes verificar tu correo antes de iniciar sesión.',
@@ -86,10 +86,19 @@ class AuthController extends Controller
             $user->id
         ]);
     
+        // 🔐 Obtener permisos del usuario
+        $permisos = DB::table('usuarios_roles as ur')
+            ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
+            ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
+            ->where('ur.usuario_id', $user->id)
+            ->pluck('p.nombre')
+            ->toArray();
+    
         return ApiResponse::success(
         [
             'user' => $user,
             'roles' => $user->getRoles(),
+            'permisos' => $permisos,
             'token' => $token,
         ],
         'Inicio de sesión exitoso',

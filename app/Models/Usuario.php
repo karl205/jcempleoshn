@@ -7,6 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Cache;
 
 class Usuario extends Authenticatable implements MustVerifyEmail
 {
@@ -74,12 +75,27 @@ class Usuario extends Authenticatable implements MustVerifyEmail
 
     public function tienePermiso(string $permiso): bool
     {
-        return DB::table('usuarios_roles as ur')
-            ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
-            ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
-            ->where('ur.usuario_id', $this->id)
-            ->where('p.nombre', $permiso)
-            ->exists();
+        $permisos = Cache::remember(
+            "user_permissions_{$this->id}",
+            now()->addMinutes(60),
+            function () {
+
+                return DB::table('usuarios_roles as ur')
+                    ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
+                    ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
+                    ->where('ur.usuario_id', $this->id)
+                    ->pluck('p.nombre')
+                    ->toArray();
+
+            }
+        );
+
+        return in_array($permiso, $permisos);
+    }
+
+    public function limpiarCachePermisos()
+    {
+        Cache::forget("user_permissions_{$this->id}");
     }
 
     /*
@@ -90,7 +106,11 @@ class Usuario extends Authenticatable implements MustVerifyEmail
 
     public function getRoles()
     {
-        return $this->roles()->pluck('nombre');
+        return Cache::remember(
+            "user_roles_{$this->id}",
+            now()->addMinutes(60),
+            fn () => $this->roles()->pluck('nombre')
+        );
     }
 
     public function getNombreCompletoAttribute()
