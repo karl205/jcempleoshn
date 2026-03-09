@@ -5,6 +5,7 @@ import PublicLayout from "../../layouts/PublicLayout";
 import "../../styles/login.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { useAuth } from "../../context/AuthContext";
+import { hasPermission } from "../../utils/permissions";
 
 export default function Login() {
     const navigate = useNavigate();
@@ -78,17 +79,19 @@ export default function Login() {
             if (response.success) {
                 const userData = response.data.user;
                 const roles = response.data.roles || [];
+                const permisos = response.data.permisos || [];
                 const token = response.data.token;
 
                 localStorage.setItem("token", token);
                 localStorage.setItem("user", JSON.stringify(userData));
                 localStorage.setItem("roles", JSON.stringify(roles));
+                localStorage.setItem("permisos", JSON.stringify(permisos));
 
                 setUser(userData);
                 setRoles(roles);
 
-                // 🔹 redirección según rol
-                if (roles.includes("admin")) {
+                // redirección según rol
+                if (permisos.includes("ver_dashboard")) {
                     navigate("/admin");
                 } else {
                     navigate("/");

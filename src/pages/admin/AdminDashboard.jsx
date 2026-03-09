@@ -1,17 +1,28 @@
 import AdminLayout from "../../layouts/AdminLayout";
+import { useAuth } from "../../context/AuthContext";
 
 export default function AdminDashboard() {
 
-return(
+    const { user, roles } = useAuth();
 
-<AdminLayout>
+    const rolPrincipal = roles?.length ? roles[0] : "usuario";
 
-<h1>Panel Administrativo</h1>
+    return (
 
-<p>Bienvenido administrador.</p>
+        <AdminLayout>
 
-</AdminLayout>
+            <h1>Panel Administrativo</h1>
 
-);
+            <p>
+                Bienvenido {user?.nombre}
+
+                <span className="badge bg-primary ms-2">
+                    {rolPrincipal}
+                </span>
+            </p>
+
+        </AdminLayout>
+
+    );
 
 }

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import UsuarioModal from "../../components/admin/UsuarioModal";
+import { can } from "../../utils/permissions";
 
 import {
     getUsuarios,
@@ -144,13 +145,17 @@ export default function AdminUsuarios() {
 
                 <h2>Administración de Usuarios</h2>
 
-                <button
-                    className="btn btn-primary rounded-pill"
-                    onClick={handleCrear}
-                >
-                    <FaPlus className="me-2" />
-                    Nuevo Usuario
-                </button>
+                {can("usuarios.crear") && (
+
+                    <button
+                        className="btn btn-primary rounded-pill"
+                        onClick={handleCrear}
+                    >
+                        <FaPlus className="me-2" />
+                        Nuevo Usuario
+                    </button>
+
+                )}
 
             </div>
 
@@ -214,19 +219,27 @@ export default function AdminUsuarios() {
 
                                     <td className="actions">
 
-                                        <button
-                                            className="btn-icon edit"
-                                            onClick={() => handleEditar(u)}
-                                        >
-                                            <FaEdit />
-                                        </button>
+                                        {can("usuarios.editar") && (
 
-                                        <button
-                                            className="btn-icon delete"
-                                            onClick={() => handleDesactivar(u.id)}
-                                        >
-                                            <FaUserSlash />
-                                        </button>
+                                            <button
+                                                className="btn-icon edit"
+                                                onClick={() => handleEditar(u)}
+                                            >
+                                                <FaEdit />
+                                            </button>
+
+                                        )}
+
+                                        {can("usuarios.eliminar") && (
+
+                                            <button
+                                                className="btn-icon delete"
+                                                onClick={() => handleDesactivar(u.id)}
+                                            >
+                                                <FaUserSlash />
+                                            </button>
+
+                                        )}
 
                                     </td>
 
