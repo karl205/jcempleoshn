@@ -5,6 +5,7 @@ use App\Http\Controllers\API\Admin\AdminPermisoController;
 use App\Http\Controllers\API\Admin\AdminRolController;
 use App\Http\Controllers\API\Admin\AdminUsuarioController;
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CatalogoController;
 use App\Http\Controllers\API\PerfilController;
 use App\Http\Controllers\API\PerfilCvController;
 use App\Http\Controllers\API\PerfilEducacionController;
@@ -30,12 +31,36 @@ Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
 Route::post('verify-code', [AuthController::class, 'verifyCode']);
 Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
-Route::get('ping', function () {
-    return response()->json([
-        'success' => true,
-        'message' => 'API conectada correctamente',
-    ]);
-});
+Route::get('plazas/ultimas', [PlazaController::class, 'ultimas']);
+// Route::get('ping', function () {
+//     return response()->json([
+//         'success' => true,
+//         'message' => 'API conectada correctamente',
+//     ]);
+// });
+
+/*
+|--------------------------------------------------------------------------
+| Catálogos públicos (NO requieren autenticación)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('catalogos/ciudades', [CatalogoController::class, 'ciudades']);
+Route::get('catalogos/cargos', [CatalogoController::class, 'cargos']);
+Route::get('catalogos/categorias', [CatalogoController::class, 'categorias']);
+Route::get('catalogos/actividades', [CatalogoController::class, 'actividades']);
+Route::get('catalogos/niveles-educativos', [CatalogoController::class, 'nivelesEducativos']);
+Route::get('catalogos/sexos', [CatalogoController::class, 'sexos']);
+Route::get('catalogos/departamentos', [CatalogoController::class, 'departamentos']);
+
+/*
+|--------------------------------------------------------------------------
+| Plazas públicas
+|--------------------------------------------------------------------------
+*/
+
+Route::get('plazas', [PlazaController::class, 'index']);
+Route::get('plazas/{id}', [PlazaController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
@@ -43,7 +68,7 @@ Route::get('ping', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
+Route::middleware(['auth:sanctum'])
     ->prefix('admin')
     ->group(function () {
 
@@ -53,7 +78,8 @@ Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
         |--------------------------------------------------------------------------
         */
 
-        Route::get('menu', [AdminMenuController::class, 'index']);
+        Route::get('menu', [AdminMenuController::class, 'index'])
+            ->middleware('permiso:ver_dashboard');
 
         /*
         |--------------------------------------------------------------------------
@@ -72,7 +98,7 @@ Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
 
         Route::patch('usuarios/{id}/desactivar', [AdminUsuarioController::class, 'deactivate'])
             ->middleware('permiso:usuarios.eliminar');
-        
+
         /*
         |--------------------------------------------------------------------------
         | Roles
@@ -111,7 +137,7 @@ Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
 
         /*
         |--------------------------------------------------------------------------
-        | Matriz permisos
+        | Matriz permisos por rol
         |--------------------------------------------------------------------------
         */
 
@@ -121,11 +147,31 @@ Route::middleware(['auth:sanctum', 'permiso:ver_dashboard'])
         Route::post('permisos-roles', [AdminPermisoController::class, 'guardarPermisoRol'])
             ->middleware('permiso:permisos.asignar');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Plazas (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+
+        Route::get('plazas', [PlazaController::class, 'index'])
+            ->middleware('permiso:plazas.ver');
+
+        Route::get('plazas/{id}', [PlazaController::class, 'show'])
+            ->middleware('permiso:plazas.ver');
+
+        Route::post('plazas', [PlazaController::class, 'store'])
+            ->middleware('permiso:plazas.crear');
+
+        Route::put('plazas/{id}', [PlazaController::class, 'update'])
+            ->middleware('permiso:plazas.editar');
+
+        Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
+            ->middleware('permiso:plazas.eliminar');
     });
 
 /*
 |--------------------------------------------------------------------------
-| Rutas autenticadas
+| Rutas autenticadas (usuario normal)
 |--------------------------------------------------------------------------
 */
 
@@ -192,17 +238,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('perfil/idioma', [PerfilIdiomaController::class, 'store']);
     Route::put('perfil/idioma/{id}', [PerfilIdiomaController::class, 'update']);
     Route::delete('perfil/idioma/{id}', [PerfilIdiomaController::class, 'destroy']);
-
-    /*
-    |--------------------------------------------------------------------------
-    | Plazas
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('plazas', [PlazaController::class, 'index']);
-    Route::get('plazas/{id}', [PlazaController::class, 'show']);
-
-    Route::post('plazas', [PlazaController::class, 'store'])
-        ->middleware('permiso:plazas.crear');
-
 });

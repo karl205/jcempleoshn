@@ -20,31 +20,42 @@ class AdminMenuController extends Controller
             ->pluck('p.nombre')
             ->toArray();
 
-        // Definición de módulos del menú (puede venir de BD si prefieres)
+        // Definición de módulos del menú
         $menu = [
+
             [
                 'label' => 'Dashboard',
                 'path' => '/admin',
                 'icon' => 'FaTachometerAlt',
                 'permiso' => 'ver_dashboard',
             ],
+
             [
                 'label' => 'Usuarios',
                 'path' => '/admin/usuarios',
                 'icon' => 'FaUsers',
                 'permiso' => 'usuarios.ver',
             ],
+
             [
                 'label' => 'Roles',
                 'path' => '/admin/roles',
                 'icon' => 'FaUserShield',
                 'permiso' => 'roles.ver',
             ],
+
             [
                 'label' => 'Permisos',
                 'path' => '/admin/permisos',
                 'icon' => 'FaKey',
                 'permiso' => 'permisos.ver',
+            ],
+
+            [
+                'label' => 'Plazas',
+                'path' => '/admin/plazas',
+                'icon' => 'FaBriefcase',
+                'permiso' => 'plazas.ver',
             ],
         ];
 
