@@ -15,6 +15,8 @@ import AdminDashboard from "../pages/admin/AdminDashboard";
 import AdminUsuarios from "../pages/admin/AdminUsuarios";
 import AdminRoles from "../pages/admin/AdminRoles";
 import AdminPermisos from "../pages/admin/AdminPermisos";
+import AdminPlazas from "../pages/admin/AdminPlazas";
+import Plazas from "../pages/public/Plazas";
 
 export default function AppRouter() {
   return (
@@ -27,17 +29,15 @@ export default function AppRouter() {
       <Route path="/verify-code" element={<VerifyCode />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      
+      <Route path="/plazas" element={<Plazas />} />
 
-      {/* Rutas de admin */}
-      {/* <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-      <Route path="/admin/usuarios" element={<AdminRoute><AdminUsuarios /></AdminRoute>} />
-      <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
-      <Route path="/admin/permisos" element={<AdminRoute><AdminPermisos /></AdminRoute>} />
-     */}
       <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       <Route path="/admin/usuarios" element={<AdminRoute><AdminUsuarios /></AdminRoute>} />
       <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
       <Route path="/admin/permisos" element={<AdminRoute><AdminPermisos /></AdminRoute>} />
+      <Route path="/admin/plazas" element={<AdminRoute><AdminPlazas /></AdminRoute>} />
+    
     </Routes>
   );
 }

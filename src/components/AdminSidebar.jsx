@@ -6,14 +6,16 @@ import {
     FaUsers,
     FaUserShield,
     FaKey,
-    FaTachometerAlt
+    FaTachometerAlt,
+    FaBriefcase
 } from "react-icons/fa";
 
 const icons = {
     FaUsers,
     FaUserShield,
     FaKey,
-    FaTachometerAlt
+    FaTachometerAlt,
+    FaBriefcase
 };
 
 export default function AdminSidebar() {
