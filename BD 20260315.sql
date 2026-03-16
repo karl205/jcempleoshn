@@ -71,7 +71,7 @@ CREATE TABLE `bitacora` (
   KEY `idx_modulo` (`modulo`),
   KEY `idx_fecha` (`created_at`),
   CONSTRAINT `fk_bitacora_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL
-) ENGINE=InnoDB AUTO_INCREMENT=197 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `bitacora` (
 
 LOCK TABLES `bitacora` WRITE;
 /*!40000 ALTER TABLE `bitacora` DISABLE KEYS */;
-INSERT INTO `bitacora` VALUES (1,1,'usuarios','crear','Se creó el usuario ID 2',NULL,NULL,'2026-02-21 08:29:54'),(2,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:42:40'),(3,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:43:27'),(4,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:47:27'),(11,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:58:02'),(12,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:59:25'),(13,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 09:05:54'),(14,1,'autenticacion','bloqueo','Usuario bloqueado por intentos fallidos',NULL,NULL,'2026-02-21 09:07:14'),(15,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 05:48:08'),(16,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 08:00:42'),(17,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 08:01:16'),(18,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 22:55:36'),(19,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 22:56:20'),(20,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:13:12'),(21,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:34:06'),(22,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:48:51'),(23,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:50:39'),(24,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:53:21'),(25,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:53:27'),(26,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:54:07'),(27,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:54:34'),(28,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:58:29'),(29,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:58:50'),(30,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:00:10'),(31,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:06:08'),(32,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:15:48'),(33,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:18:16'),(34,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:18:20'),(35,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:08'),(36,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:21'),(37,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:28'),(38,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:47'),(39,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:22:27'),(40,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:23:13'),(41,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:27:29'),(42,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-02-23 00:33:08'),(43,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:33:39'),(44,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-02-23 00:33:42'),(45,1,'usuarios','crear','Se creó usuario ID 3 y su perfil asociado',NULL,NULL,'2026-03-02 00:24:09'),(46,1,'usuarios','crear','Se creó usuario ID 4 y su perfil asociado',NULL,NULL,'2026-03-02 00:35:13'),(47,1,'usuarios','crear','Se creó usuario ID 5 y su perfil asociado',NULL,NULL,'2026-03-02 00:49:20'),(48,1,'usuarios','crear','Se creó usuario ID 6 y su perfil asociado',NULL,NULL,'2026-03-02 02:49:21'),(49,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 02:50:48'),(50,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 02:50:59'),(51,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 03:24:31'),(52,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 03:24:38'),(53,1,'usuarios','crear','Se creó usuario ID 7 y su perfil asociado',NULL,NULL,'2026-03-02 03:25:02'),(54,1,'usuarios','crear','Se creó usuario ID 8 y su perfil asociado',NULL,NULL,'2026-03-02 03:39:02'),(55,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 04:00:39'),(56,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 04:00:43'),(57,8,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 04:31:26'),(58,8,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 04:31:29'),(59,1,'usuarios','crear','Se creó usuario ID 9 y su perfil asociado',NULL,NULL,'2026-03-06 06:45:40'),(60,1,'usuarios','crear','Se creó usuario ID 10 y su perfil asociado',NULL,NULL,'2026-03-06 06:49:49'),(61,1,'usuarios','crear','Se creó usuario ID 11 y su perfil asociado',NULL,NULL,'2026-03-06 06:54:47'),(62,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 06:57:17'),(63,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 06:57:21'),(64,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 06:58:20'),(65,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 06:58:24'),(66,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 08:58:02'),(67,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 08:58:41'),(68,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:00:21'),(69,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:03:34'),(70,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:03:47'),(71,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:30:24'),(72,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:30:36'),(73,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:33:10'),(74,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:33:19'),(75,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:33:33'),(76,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:33:43'),(77,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:36:27'),(78,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:36:37'),(79,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 10:17:31'),(80,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-06 10:21:42'),(81,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-06 10:21:48'),(82,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 10:26:31'),(83,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 03:04:26'),(84,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:12:50'),(85,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:13:02'),(86,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:13:10'),(87,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:26:26'),(88,1,'usuarios','crear','Se creó usuario ID 12 y su perfil asociado',NULL,NULL,'2026-03-07 03:29:08'),(89,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 03:42:10'),(90,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:42:24'),(91,1,'usuarios','crear','Se creó usuario ID 13 y su perfil asociado',NULL,NULL,'2026-03-07 03:42:49'),(92,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:43:18'),(93,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:49:18'),(94,1,'usuarios','desactivar','Se desactivó el usuario ID 13',NULL,NULL,'2026-03-07 03:50:49'),(95,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 03:50:56'),(96,1,'usuarios','crear','Se creó usuario ID 14 y su perfil asociado',NULL,NULL,'2026-03-07 03:51:13'),(97,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 04:13:06'),(98,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:18'),(99,1,'usuarios','desactivar','Se desactivó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:28'),(100,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:35'),(101,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 04:45:05'),(102,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:14:46'),(103,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:14:55'),(104,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:16:36'),(105,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:19:20'),(106,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:19:28'),(107,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:23:23'),(108,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:27:40'),(109,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 06:07:45'),(110,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 06:44:39'),(111,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:26:05'),(112,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:46:54'),(113,1,'usuarios','crear','Se creó usuario ID 15 y su perfil asociado',NULL,NULL,'2026-03-07 07:47:25'),(114,15,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:48:34'),(115,15,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:48:45'),(116,15,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:49:39'),(117,15,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:49:48'),(118,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:50:06'),(119,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:50:18'),(120,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 21:11:59'),(121,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 21:50:26'),(122,1,'usuarios','actualizar','Se actualizó el usuario ID 6',NULL,NULL,'2026-03-08 22:04:01'),(123,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:09'),(124,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:17'),(125,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:34'),(126,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-08 22:05:02'),(127,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-08 22:05:07'),(128,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:05:15'),(129,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:05:20'),(130,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-08 22:05:39'),(131,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:12:02'),(132,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:12:34'),(133,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:13:01'),(134,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:19:42'),(135,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:20:02'),(136,1,'usuarios','actualizar','Se actualizó el usuario ID 5',NULL,NULL,'2026-03-08 22:20:11'),(137,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 22:49:30'),(138,1,'usuarios','actualizar','Se actualizó el usuario ID 6',NULL,NULL,'2026-03-08 22:49:42'),(139,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:50:10'),(140,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:55:23'),(141,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:55:43'),(142,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:57:31'),(143,1,'usuarios','actualizar','Se actualizó el usuario ID 5',NULL,NULL,'2026-03-08 22:57:55'),(144,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:58:04'),(145,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:00:17'),(146,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:01:55'),(147,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:04:03'),(148,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:05:25'),(149,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:09:43'),(150,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:19:06'),(151,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:19:20'),(152,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:19:26'),(153,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:20:02'),(154,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:26:09'),(155,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:26:21'),(156,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:27:33'),(157,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:28:44'),(158,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:29:07'),(159,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:29:59'),(160,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:31:04'),(161,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:31:13'),(162,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:32:10'),(163,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:32:19'),(164,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:33:00'),(165,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:33:09'),(166,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:33:17'),(167,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:33:26'),(168,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:59:37'),(169,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:59:51'),(170,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:00:03'),(171,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:00:19'),(172,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:00:53'),(173,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:01:05'),(174,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:01:32'),(175,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:01:58'),(176,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:05:34'),(177,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:05:56'),(178,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:06:49'),(179,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:07:01'),(180,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:15:13'),(181,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:15:25'),(182,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:16:17'),(183,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:16:35'),(184,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:19:39'),(185,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:19:52'),(186,1,'usuarios','desactivar','Se desactivó el usuario ID 2',NULL,NULL,'2026-03-09 01:22:00'),(187,1,'usuarios','desactivar','Se desactivó el usuario ID 5',NULL,NULL,'2026-03-09 01:23:30'),(188,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:30:01'),(189,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:30:13'),(190,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:32:09'),(191,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:32:20'),(192,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:32:27'),(193,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:33:20'),(194,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:33:26'),(195,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:33:36'),(196,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:33:42');
+INSERT INTO `bitacora` VALUES (1,1,'usuarios','crear','Se creó el usuario ID 2',NULL,NULL,'2026-02-21 08:29:54'),(2,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:42:40'),(3,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:43:27'),(4,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:47:27'),(11,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:58:02'),(12,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 08:59:25'),(13,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-21 09:05:54'),(14,1,'autenticacion','bloqueo','Usuario bloqueado por intentos fallidos',NULL,NULL,'2026-02-21 09:07:14'),(15,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 05:48:08'),(16,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 08:00:42'),(17,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 08:01:16'),(18,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 22:55:36'),(19,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 22:56:20'),(20,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:13:12'),(21,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:34:06'),(22,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:48:51'),(23,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:50:39'),(24,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:53:21'),(25,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:53:27'),(26,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:54:07'),(27,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:54:34'),(28,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:58:29'),(29,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-22 23:58:50'),(30,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:00:10'),(31,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:06:08'),(32,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:15:48'),(33,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:18:16'),(34,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:18:20'),(35,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:08'),(36,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:21'),(37,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:28'),(38,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:20:47'),(39,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:22:27'),(40,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:23:13'),(41,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:27:29'),(42,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-02-23 00:33:08'),(43,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-02-23 00:33:39'),(44,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-02-23 00:33:42'),(45,1,'usuarios','crear','Se creó usuario ID 3 y su perfil asociado',NULL,NULL,'2026-03-02 00:24:09'),(46,1,'usuarios','crear','Se creó usuario ID 4 y su perfil asociado',NULL,NULL,'2026-03-02 00:35:13'),(47,1,'usuarios','crear','Se creó usuario ID 5 y su perfil asociado',NULL,NULL,'2026-03-02 00:49:20'),(48,1,'usuarios','crear','Se creó usuario ID 6 y su perfil asociado',NULL,NULL,'2026-03-02 02:49:21'),(49,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 02:50:48'),(50,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 02:50:59'),(51,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 03:24:31'),(52,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 03:24:38'),(53,1,'usuarios','crear','Se creó usuario ID 7 y su perfil asociado',NULL,NULL,'2026-03-02 03:25:02'),(54,1,'usuarios','crear','Se creó usuario ID 8 y su perfil asociado',NULL,NULL,'2026-03-02 03:39:02'),(55,6,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 04:00:39'),(56,6,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 04:00:43'),(57,8,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-02 04:31:26'),(58,8,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-02 04:31:29'),(59,1,'usuarios','crear','Se creó usuario ID 9 y su perfil asociado',NULL,NULL,'2026-03-06 06:45:40'),(60,1,'usuarios','crear','Se creó usuario ID 10 y su perfil asociado',NULL,NULL,'2026-03-06 06:49:49'),(61,1,'usuarios','crear','Se creó usuario ID 11 y su perfil asociado',NULL,NULL,'2026-03-06 06:54:47'),(62,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 06:57:17'),(63,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 06:57:21'),(64,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 06:58:20'),(65,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 06:58:24'),(66,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 08:58:02'),(67,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 08:58:41'),(68,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:00:21'),(69,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:03:34'),(70,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:03:47'),(71,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:30:24'),(72,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:30:36'),(73,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:33:10'),(74,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:33:19'),(75,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:33:33'),(76,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:33:43'),(77,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 09:36:27'),(78,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 09:36:37'),(79,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-06 10:17:31'),(80,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-06 10:21:42'),(81,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-06 10:21:48'),(82,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-06 10:26:31'),(83,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 03:04:26'),(84,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:12:50'),(85,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:13:02'),(86,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:13:10'),(87,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-07 03:26:26'),(88,1,'usuarios','crear','Se creó usuario ID 12 y su perfil asociado',NULL,NULL,'2026-03-07 03:29:08'),(89,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 03:42:10'),(90,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:42:24'),(91,1,'usuarios','crear','Se creó usuario ID 13 y su perfil asociado',NULL,NULL,'2026-03-07 03:42:49'),(92,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:43:18'),(93,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-07 03:49:18'),(94,1,'usuarios','desactivar','Se desactivó el usuario ID 13',NULL,NULL,'2026-03-07 03:50:49'),(95,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 03:50:56'),(96,1,'usuarios','crear','Se creó usuario ID 14 y su perfil asociado',NULL,NULL,'2026-03-07 03:51:13'),(97,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 04:13:06'),(98,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:18'),(99,1,'usuarios','desactivar','Se desactivó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:28'),(100,1,'usuarios','actualizar','Se actualizó el usuario ID 13',NULL,NULL,'2026-03-07 04:13:35'),(101,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 04:45:05'),(102,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:14:46'),(103,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:14:55'),(104,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:16:36'),(105,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:19:20'),(106,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:19:28'),(107,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 05:23:23'),(108,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 05:27:40'),(109,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 06:07:45'),(110,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 06:44:39'),(111,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:26:05'),(112,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:46:54'),(113,1,'usuarios','crear','Se creó usuario ID 15 y su perfil asociado',NULL,NULL,'2026-03-07 07:47:25'),(114,15,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:48:34'),(115,15,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:48:45'),(116,15,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:49:39'),(117,15,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:49:48'),(118,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-07 07:50:06'),(119,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-07 07:50:18'),(120,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 21:11:59'),(121,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 21:50:26'),(122,1,'usuarios','actualizar','Se actualizó el usuario ID 6',NULL,NULL,'2026-03-08 22:04:01'),(123,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:09'),(124,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:17'),(125,1,'usuarios','actualizar','Se actualizó el usuario ID 12',NULL,NULL,'2026-03-08 22:04:34'),(126,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-08 22:05:02'),(127,1,'usuarios','actualizar','Se actualizó el usuario ID 1',NULL,NULL,'2026-03-08 22:05:07'),(128,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:05:15'),(129,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:05:20'),(130,1,'usuarios','actualizar','Se actualizó el usuario ID 8',NULL,NULL,'2026-03-08 22:05:39'),(131,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:12:02'),(132,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:12:34'),(133,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:13:01'),(134,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:19:42'),(135,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:20:02'),(136,1,'usuarios','actualizar','Se actualizó el usuario ID 5',NULL,NULL,'2026-03-08 22:20:11'),(137,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 22:49:30'),(138,1,'usuarios','actualizar','Se actualizó el usuario ID 6',NULL,NULL,'2026-03-08 22:49:42'),(139,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:50:10'),(140,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:55:23'),(141,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:55:43'),(142,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:57:31'),(143,1,'usuarios','actualizar','Se actualizó el usuario ID 5',NULL,NULL,'2026-03-08 22:57:55'),(144,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 22:58:04'),(145,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:00:17'),(146,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:01:55'),(147,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:04:03'),(148,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:05:25'),(149,1,'usuarios','actualizar','Se actualizó el usuario ID 2',NULL,NULL,'2026-03-08 23:09:43'),(150,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:19:06'),(151,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:19:20'),(152,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:19:26'),(153,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:20:02'),(154,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:26:09'),(155,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-08 23:26:21'),(156,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-08 23:27:33'),(157,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:28:44'),(158,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:29:07'),(159,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:29:59'),(160,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:31:04'),(161,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:31:13'),(162,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:32:10'),(163,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:32:19'),(164,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:33:00'),(165,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:33:09'),(166,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:33:17'),(167,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:33:26'),(168,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 00:59:37'),(169,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 00:59:51'),(170,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:00:03'),(171,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:00:19'),(172,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:00:53'),(173,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:01:05'),(174,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:01:32'),(175,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:01:58'),(176,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:05:34'),(177,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:05:56'),(178,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:06:49'),(179,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:07:01'),(180,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:15:13'),(181,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:15:25'),(182,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:16:17'),(183,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:16:35'),(184,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:19:39'),(185,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:19:52'),(186,1,'usuarios','desactivar','Se desactivó el usuario ID 2',NULL,NULL,'2026-03-09 01:22:00'),(187,1,'usuarios','desactivar','Se desactivó el usuario ID 5',NULL,NULL,'2026-03-09 01:23:30'),(188,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:30:01'),(189,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:30:13'),(190,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:32:09'),(191,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:32:20'),(192,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:32:27'),(193,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:33:20'),(194,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:33:26'),(195,11,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-09 01:33:36'),(196,11,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-09 01:33:42'),(197,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 05:56:11'),(198,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-13 05:56:59'),(199,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 06:16:06'),(200,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-13 06:33:42'),(201,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 06:33:55'),(202,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-13 06:45:53'),(203,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 06:46:12'),(204,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 07:35:56'),(205,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 08:08:46'),(206,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-13 08:20:32'),(207,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-13 08:20:47'),(208,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-15 23:52:39'),(209,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 00:24:49'),(210,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 02:07:34'),(211,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-16 02:14:25'),(212,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 02:14:35'),(213,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-16 02:15:02'),(214,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 02:15:12'),(215,1,'autenticacion','logout','Usuario cerró sesión',NULL,NULL,'2026-03-16 02:15:56'),(216,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 02:16:05'),(217,1,'autenticacion','login','Inicio de sesión exitoso',NULL,NULL,'2026-03-16 02:17:04');
 /*!40000 ALTER TABLE `bitacora` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -98,7 +98,7 @@ CREATE TABLE `cat_actividades_laborales` (
   `created_at` timestamp NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -107,6 +107,7 @@ CREATE TABLE `cat_actividades_laborales` (
 
 LOCK TABLES `cat_actividades_laborales` WRITE;
 /*!40000 ALTER TABLE `cat_actividades_laborales` DISABLE KEYS */;
+INSERT INTO `cat_actividades_laborales` VALUES (1,'Banca',1,'2026-03-13 08:13:28','2026-03-13 08:13:28'),(2,'Retail',1,'2026-03-13 08:13:28','2026-03-13 08:13:28'),(3,'Telecomunicaciones',1,'2026-03-13 08:13:28','2026-03-13 08:13:28');
 /*!40000 ALTER TABLE `cat_actividades_laborales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -154,7 +155,7 @@ CREATE TABLE `cat_cargos_laborales` (
   UNIQUE KEY `uq_cargo_categoria` (`nombre`,`categoria_laboral_id`),
   KEY `idx_categoria_laboral` (`categoria_laboral_id`),
   CONSTRAINT `fk_cargos_categoria` FOREIGN KEY (`categoria_laboral_id`) REFERENCES `cat_categorias_laborales` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -163,6 +164,7 @@ CREATE TABLE `cat_cargos_laborales` (
 
 LOCK TABLES `cat_cargos_laborales` WRITE;
 /*!40000 ALTER TABLE `cat_cargos_laborales` DISABLE KEYS */;
+INSERT INTO `cat_cargos_laborales` VALUES (1,'Oficial de Negocios',1,1,'2026-03-13 08:13:43','2026-03-13 08:13:43'),(2,'Programador',2,1,'2026-03-13 08:13:43','2026-03-13 08:13:43'),(3,'Ejecutivo de Ventas',3,1,'2026-03-13 08:13:43','2026-03-13 08:13:43');
 /*!40000 ALTER TABLE `cat_cargos_laborales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -181,7 +183,7 @@ CREATE TABLE `cat_categorias_laborales` (
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`id`),
   UNIQUE KEY `uq_categoria_nombre` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -190,6 +192,7 @@ CREATE TABLE `cat_categorias_laborales` (
 
 LOCK TABLES `cat_categorias_laborales` WRITE;
 /*!40000 ALTER TABLE `cat_categorias_laborales` DISABLE KEYS */;
+INSERT INTO `cat_categorias_laborales` VALUES (1,'Administración',1,'2026-03-13 08:13:15','2026-03-13 08:13:15'),(2,'Tecnología',1,'2026-03-13 08:13:15','2026-03-13 08:13:15'),(3,'Ventas',1,'2026-03-13 08:13:15','2026-03-13 08:13:15');
 /*!40000 ALTER TABLE `cat_categorias_laborales` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -210,7 +213,7 @@ CREATE TABLE `cat_ciudades` (
   UNIQUE KEY `uq_ciudad_departamento` (`departamento_id`,`nombre`),
   KEY `idx_ciudades_departamento` (`departamento_id`),
   CONSTRAINT `fk_ciudades_departamento` FOREIGN KEY (`departamento_id`) REFERENCES `cat_departamentos` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -219,6 +222,7 @@ CREATE TABLE `cat_ciudades` (
 
 LOCK TABLES `cat_ciudades` WRITE;
 /*!40000 ALTER TABLE `cat_ciudades` DISABLE KEYS */;
+INSERT INTO `cat_ciudades` VALUES (4,8,'Tegucigalpa','2026-03-13 08:20:23','2026-03-13 08:20:23'),(5,8,'Comayagüela','2026-03-13 08:20:23','2026-03-13 08:20:23'),(6,8,'Talanga','2026-03-13 08:20:23','2026-03-13 08:20:23'),(7,8,'Valle de Ángeles','2026-03-13 08:20:23','2026-03-13 08:20:23'),(8,8,'Santa Lucía','2026-03-13 08:20:23','2026-03-13 08:20:23');
 /*!40000 ALTER TABLE `cat_ciudades` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -239,7 +243,7 @@ CREATE TABLE `cat_departamentos` (
   UNIQUE KEY `uq_departamento_pais` (`pais_id`,`nombre`),
   KEY `idx_departamentos_pais` (`pais_id`),
   CONSTRAINT `fk_departamentos_pais` FOREIGN KEY (`pais_id`) REFERENCES `cat_paises` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -248,6 +252,7 @@ CREATE TABLE `cat_departamentos` (
 
 LOCK TABLES `cat_departamentos` WRITE;
 /*!40000 ALTER TABLE `cat_departamentos` DISABLE KEYS */;
+INSERT INTO `cat_departamentos` VALUES (1,78,'Atlántida','2026-03-13 08:19:34','2026-03-13 08:19:34'),(2,78,'Choluteca','2026-03-13 08:19:34','2026-03-13 08:19:34'),(3,78,'Colón','2026-03-13 08:19:34','2026-03-13 08:19:34'),(4,78,'Comayagua','2026-03-13 08:19:34','2026-03-13 08:19:34'),(5,78,'Copán','2026-03-13 08:19:34','2026-03-13 08:19:34'),(6,78,'Cortés','2026-03-13 08:19:34','2026-03-13 08:19:34'),(7,78,'El Paraíso','2026-03-13 08:19:34','2026-03-13 08:19:34'),(8,78,'Francisco Morazán','2026-03-13 08:19:34','2026-03-13 08:19:34'),(9,78,'Gracias a Dios','2026-03-13 08:19:34','2026-03-13 08:19:34'),(10,78,'Intibucá','2026-03-13 08:19:34','2026-03-13 08:19:34'),(11,78,'Islas de la Bahía','2026-03-13 08:19:34','2026-03-13 08:19:34'),(12,78,'La Paz','2026-03-13 08:19:34','2026-03-13 08:19:34'),(13,78,'Lempira','2026-03-13 08:19:34','2026-03-13 08:19:34'),(14,78,'Ocotepeque','2026-03-13 08:19:34','2026-03-13 08:19:34'),(15,78,'Olancho','2026-03-13 08:19:34','2026-03-13 08:19:34'),(16,78,'Santa Bárbara','2026-03-13 08:19:34','2026-03-13 08:19:34'),(17,78,'Valle','2026-03-13 08:19:34','2026-03-13 08:19:34'),(18,78,'Yoro','2026-03-13 08:19:34','2026-03-13 08:19:34');
 /*!40000 ALTER TABLE `cat_departamentos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -689,7 +694,7 @@ CREATE TABLE `personal_access_tokens` (
   UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
   KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`),
   KEY `personal_access_tokens_expires_at_index` (`expires_at`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=116 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -698,7 +703,7 @@ CREATE TABLE `personal_access_tokens` (
 
 LOCK TABLES `personal_access_tokens` WRITE;
 /*!40000 ALTER TABLE `personal_access_tokens` DISABLE KEYS */;
-INSERT INTO `personal_access_tokens` VALUES (8,'App\\Models\\Usuario',1,'api-token','5a52dfbca8868dbafde0085799daab8d6f670b537ff000cecb115f6835f23313','[\"*\"]','2026-02-16 02:54:59',NULL,'2026-02-16 02:54:47','2026-02-16 02:54:59'),(9,'App\\Models\\Usuario',1,'api-token','d73626bef20e55360c22fb8b61cbefa6ac85580de603307bfd304628b78e66ef','[\"*\"]',NULL,NULL,'2026-02-20 08:02:02','2026-02-20 08:02:02'),(11,'App\\Models\\Usuario',1,'api-token','893b3e5afc02bdcf6cea511d47315bb51066164c39d746ddf3e889fec53b6672','[\"*\"]','2026-02-20 08:12:21',NULL,'2026-02-20 08:11:59','2026-02-20 08:12:21'),(12,'App\\Models\\Usuario',1,'api-token','2787018bc2a1eb0a72c7706f3324a4bba76e4fbc24eb79e3c5d07ad3d9bfe5a2','[\"*\"]',NULL,NULL,'2026-02-21 14:00:38','2026-02-21 14:00:38'),(13,'App\\Models\\Usuario',1,'api-token','015dabe60afeac7b6376376cdb9974bad479419b7b7113527190bf6c76c85a9f','[\"*\"]',NULL,NULL,'2026-02-21 14:04:57','2026-02-21 14:04:57'),(14,'App\\Models\\Usuario',1,'api-token','1ad41af3297901ebd3bd43c77f7562c63c6756ad918c5b751b523c48587f72a5','[\"*\"]',NULL,NULL,'2026-02-21 14:42:40','2026-02-21 14:42:40'),(15,'App\\Models\\Usuario',1,'api-token','59dbcb746e71ab0ef9952f4619c031b3cbd11127cb3979473ecf0609f730c83d','[\"*\"]',NULL,NULL,'2026-02-21 14:47:27','2026-02-21 14:47:27'),(16,'App\\Models\\Usuario',1,'api-token','433fe352da77f775255732e5a0e72b42182b0dd182bdf13a252519842d4ddc27','[\"*\"]',NULL,NULL,'2026-02-21 14:47:39','2026-02-21 14:47:39'),(17,'App\\Models\\Usuario',1,'api-token','a04570239cb5912ba0b99ad8f49929655a569828f823108ead9ec59451fa352a','[\"*\"]',NULL,NULL,'2026-02-21 14:52:40','2026-02-21 14:52:40'),(18,'App\\Models\\Usuario',1,'api-token','5c65304471e14de1cc16d2c41ff985e16fe5d96021dae73ffaa4d7694ea1cc09','[\"*\"]',NULL,NULL,'2026-02-21 14:58:02','2026-02-21 14:58:02'),(19,'App\\Models\\Usuario',1,'api-token','393083b1e1d1ad79009b300acf73983ba4b75a0417a4dd1406cf58952d5511ba','[\"*\"]',NULL,NULL,'2026-02-21 14:59:25','2026-02-21 14:59:25'),(20,'App\\Models\\Usuario',1,'api-token','9a507a7d84dc30a3f5a7a41f570c19ed96b5c778dbe2cbf8fc937a328fb7ecde','[\"*\"]',NULL,NULL,'2026-02-21 15:05:54','2026-02-21 15:05:54'),(21,'App\\Models\\Usuario',1,'api-token','7a323a455e6a3cb370b17ebc25263649ac6235f90b27c45d04103e54bdfd8273','[\"*\"]',NULL,NULL,'2026-02-22 11:48:08','2026-02-22 11:48:08'),(22,'App\\Models\\Usuario',1,'api-token','14cc6447eb9ce6a3d001f5928736751942c4e7522774f6075c3f083c4574371b','[\"*\"]',NULL,NULL,'2026-02-22 14:00:42','2026-02-22 14:00:42'),(23,'App\\Models\\Usuario',1,'api-token','9a3624dd144fc82c9a1a7f73d0f020baf96ba3d2ef9a66aa9f2cdd873f4d17ea','[\"*\"]','2026-02-22 14:01:41',NULL,'2026-02-22 14:01:16','2026-02-22 14:01:41'),(24,'App\\Models\\Usuario',1,'api-token','77d220e02a582168a76b4dcd274ea484e712aaf2539c5f5df706770034c76ee7','[\"*\"]',NULL,NULL,'2026-02-23 04:55:36','2026-02-23 04:55:36'),(25,'App\\Models\\Usuario',1,'api-token','c2c244e496ad4b9256318c9a10b093d76335419cfdae50d5acbb9e5bbdd82f85','[\"*\"]',NULL,NULL,'2026-02-23 04:56:20','2026-02-23 04:56:20'),(26,'App\\Models\\Usuario',1,'api-token','d630ba37dca7c80c82af1e83709457138108eb14daa27fd9edff56545b156183','[\"*\"]',NULL,NULL,'2026-02-23 05:13:12','2026-02-23 05:13:12'),(27,'App\\Models\\Usuario',1,'api-token','661df11a4bc30713bbed01dc816a72e72c773a30c0a49d90eeb0c31c33617d75','[\"*\"]',NULL,NULL,'2026-02-23 05:34:06','2026-02-23 05:34:06'),(28,'App\\Models\\Usuario',1,'api-token','2849b33c337fc9ace6e991fa2133d6d815f30825769aa7d8453e5aca4fa7308b','[\"*\"]',NULL,NULL,'2026-02-23 05:48:51','2026-02-23 05:48:51'),(29,'App\\Models\\Usuario',1,'api-token','932543488dccd0d0089cafc2aa9495cddaef964880b94c4178eb78e115a35ba7','[\"*\"]',NULL,NULL,'2026-02-23 05:50:39','2026-02-23 05:50:39'),(30,'App\\Models\\Usuario',1,'api-token','2f1d790777aad3ce0772a2e99b275f1056913dd0ed3e922878e3ac96b2e58c00','[\"*\"]',NULL,NULL,'2026-02-23 05:53:21','2026-02-23 05:53:21'),(31,'App\\Models\\Usuario',1,'api-token','9e3f19a6fbd9231259bf3cb4ab8df7e1d00fb2cbffbb8d5a64c6746ea1ed0bb6','[\"*\"]',NULL,NULL,'2026-02-23 05:53:27','2026-02-23 05:53:27'),(32,'App\\Models\\Usuario',1,'api-token','7b69ae705e4346d3b1fa0570461a1849dcc62bd8fcffda7406011b8ff3d0ea68','[\"*\"]',NULL,NULL,'2026-02-23 05:54:07','2026-02-23 05:54:07'),(33,'App\\Models\\Usuario',1,'api-token','2ce017a38dea0bf9dbf95422d93dee5be9d04a7ff877f76848d096f0e2d662a4','[\"*\"]',NULL,NULL,'2026-02-23 05:54:34','2026-02-23 05:54:34'),(34,'App\\Models\\Usuario',1,'api-token','c680a5b94f073b61c9891c9f0bc65a9fe435e557bc60419b24c0c265813a5a39','[\"*\"]',NULL,NULL,'2026-02-23 05:58:29','2026-02-23 05:58:29'),(35,'App\\Models\\Usuario',1,'api-token','6732fbe291bd0eafd00d54c3403db8d057eb00323e14851aecafc31b46201c4e','[\"*\"]',NULL,NULL,'2026-02-23 05:58:50','2026-02-23 05:58:50'),(36,'App\\Models\\Usuario',1,'api-token','01399ce13e8ba037a5b3f55639662fa4412515216257ef62dc34beace26e71e3','[\"*\"]',NULL,NULL,'2026-02-23 06:00:10','2026-02-23 06:00:10'),(37,'App\\Models\\Usuario',1,'api-token','02c594c2e0fd28bd382959b7ead93ba0227f350daeb0273d0368f471c94638c3','[\"*\"]',NULL,NULL,'2026-02-23 06:06:08','2026-02-23 06:06:08'),(38,'App\\Models\\Usuario',1,'api-token','475cc468956c271ddac9102e91e62276defbacb70075b4c26bd3db7dc5934c06','[\"*\"]',NULL,NULL,'2026-02-23 06:15:48','2026-02-23 06:15:48'),(39,'App\\Models\\Usuario',1,'api-token','ce05fd7eafee84d6852adc792c5af3aa9ef5e6ebfa5c52e43c9dc849df3339c0','[\"*\"]',NULL,NULL,'2026-02-23 06:18:16','2026-02-23 06:18:16'),(40,'App\\Models\\Usuario',1,'api-token','76470ab4b15c2d2c103853ae7e2491aeba594b1960195af82ea35d2d71139b30','[\"*\"]',NULL,NULL,'2026-02-23 06:18:20','2026-02-23 06:18:20'),(41,'App\\Models\\Usuario',1,'api-token','eb89f97e52faff000c230add99a79b6c9c8bee1003bd0b830bc83086c4ff9615','[\"*\"]',NULL,NULL,'2026-02-23 06:20:08','2026-02-23 06:20:08'),(42,'App\\Models\\Usuario',1,'api-token','4244ef0d5d6969652653da6a78fc74b65682d15c036e29de5551357306680c66','[\"*\"]',NULL,NULL,'2026-02-23 06:20:21','2026-02-23 06:20:21'),(43,'App\\Models\\Usuario',1,'api-token','087efd2c380da0cb00fe91f1b7da0c12defc0ecacd64974be90ff22ce974db9c','[\"*\"]',NULL,NULL,'2026-02-23 06:20:28','2026-02-23 06:20:28'),(44,'App\\Models\\Usuario',1,'api-token','b431383121e209d88743c0f415d5bc1ff885dd820971c82525b09ad9c97de44a','[\"*\"]',NULL,NULL,'2026-02-23 06:20:47','2026-02-23 06:20:47'),(45,'App\\Models\\Usuario',1,'api-token','0efd84336132380d00c006e3f56c1d97e43eb8e7c04f99658673209bab1395e1','[\"*\"]',NULL,NULL,'2026-02-23 06:22:27','2026-02-23 06:22:27'),(46,'App\\Models\\Usuario',1,'api-token','65b4f3cb186aac223d1068e21e0547a06fb02e3f377a1ea67c70cf164b844880','[\"*\"]',NULL,NULL,'2026-02-23 06:23:13','2026-02-23 06:23:13'),(61,'App\\Models\\Usuario',1,'api-token','25d218be07584261189a68f74469e4fdc80d96a24255ff94bddbd71cf453d572','[\"*\"]','2026-03-06 16:03:29',NULL,'2026-03-06 15:36:37','2026-03-06 16:03:29'),(63,'App\\Models\\Usuario',1,'api-token','3a6c9983b3bd1605623e3cc2ac7d4d8c860091d6f5d1d992ad7c90e70b759781','[\"*\"]','2026-03-07 09:32:50',NULL,'2026-03-07 09:04:26','2026-03-07 09:32:50'),(64,'App\\Models\\Usuario',1,'api-token','aeab1896324be4500efe836f5a1e7e9fb7b02a9f9541a826f071ee100da806ee','[\"*\"]','2026-03-07 10:06:44',NULL,'2026-03-07 09:42:10','2026-03-07 10:06:44'),(65,'App\\Models\\Usuario',1,'api-token','be9078235b939d707ec6e0c402f8373f4313eb562aac7eaf91ae0dcf087ceb22','[\"*\"]','2026-03-07 10:42:01',NULL,'2026-03-07 10:13:06','2026-03-07 10:42:01'),(68,'App\\Models\\Usuario',1,'api-token','704742a60743f6a331a522c92b99a4d7cce07867873a10fb897d6edef917ed8e','[\"*\"]','2026-03-07 11:16:40',NULL,'2026-03-07 11:16:36','2026-03-07 11:16:40'),(70,'App\\Models\\Usuario',1,'api-token','3efac3f17424b45989e59f53ad6588e4a0e08ca98f207c579a1d2a95e0519868','[\"*\"]','2026-03-07 11:45:08',NULL,'2026-03-07 11:27:40','2026-03-07 11:45:08'),(71,'App\\Models\\Usuario',1,'api-token','26f2b8adcbe96d0e177bfc67c06f873abf5d4429cfd5696c3dee81a41a6b4307','[\"*\"]','2026-03-07 12:20:13',NULL,'2026-03-07 12:07:45','2026-03-07 12:20:13'),(72,'App\\Models\\Usuario',1,'api-token','7e20c42b6ab09108b1313e15ede230863c8c9cfc0087d26cdbc9aa697bc53af6','[\"*\"]','2026-03-07 12:50:51',NULL,'2026-03-07 12:44:39','2026-03-07 12:50:51'),(77,'App\\Models\\Usuario',1,'api-token','357be7d07d5befd1646e26a2840950a962b10dc56681425b2c7f1074a216b586','[\"*\"]','2026-03-09 03:30:43',NULL,'2026-03-09 03:11:59','2026-03-09 03:30:43'),(78,'App\\Models\\Usuario',1,'api-token','6165f8ae8b11ada536a62b74f24c2f40a7f2b9029e3d7699a3431454748d5560','[\"*\"]','2026-03-09 04:20:12',NULL,'2026-03-09 03:50:26','2026-03-09 04:20:12');
+INSERT INTO `personal_access_tokens` VALUES (8,'App\\Models\\Usuario',1,'api-token','5a52dfbca8868dbafde0085799daab8d6f670b537ff000cecb115f6835f23313','[\"*\"]','2026-02-16 02:54:59',NULL,'2026-02-16 02:54:47','2026-02-16 02:54:59'),(9,'App\\Models\\Usuario',1,'api-token','d73626bef20e55360c22fb8b61cbefa6ac85580de603307bfd304628b78e66ef','[\"*\"]',NULL,NULL,'2026-02-20 08:02:02','2026-02-20 08:02:02'),(11,'App\\Models\\Usuario',1,'api-token','893b3e5afc02bdcf6cea511d47315bb51066164c39d746ddf3e889fec53b6672','[\"*\"]','2026-02-20 08:12:21',NULL,'2026-02-20 08:11:59','2026-02-20 08:12:21'),(12,'App\\Models\\Usuario',1,'api-token','2787018bc2a1eb0a72c7706f3324a4bba76e4fbc24eb79e3c5d07ad3d9bfe5a2','[\"*\"]',NULL,NULL,'2026-02-21 14:00:38','2026-02-21 14:00:38'),(13,'App\\Models\\Usuario',1,'api-token','015dabe60afeac7b6376376cdb9974bad479419b7b7113527190bf6c76c85a9f','[\"*\"]',NULL,NULL,'2026-02-21 14:04:57','2026-02-21 14:04:57'),(14,'App\\Models\\Usuario',1,'api-token','1ad41af3297901ebd3bd43c77f7562c63c6756ad918c5b751b523c48587f72a5','[\"*\"]',NULL,NULL,'2026-02-21 14:42:40','2026-02-21 14:42:40'),(15,'App\\Models\\Usuario',1,'api-token','59dbcb746e71ab0ef9952f4619c031b3cbd11127cb3979473ecf0609f730c83d','[\"*\"]',NULL,NULL,'2026-02-21 14:47:27','2026-02-21 14:47:27'),(16,'App\\Models\\Usuario',1,'api-token','433fe352da77f775255732e5a0e72b42182b0dd182bdf13a252519842d4ddc27','[\"*\"]',NULL,NULL,'2026-02-21 14:47:39','2026-02-21 14:47:39'),(17,'App\\Models\\Usuario',1,'api-token','a04570239cb5912ba0b99ad8f49929655a569828f823108ead9ec59451fa352a','[\"*\"]',NULL,NULL,'2026-02-21 14:52:40','2026-02-21 14:52:40'),(18,'App\\Models\\Usuario',1,'api-token','5c65304471e14de1cc16d2c41ff985e16fe5d96021dae73ffaa4d7694ea1cc09','[\"*\"]',NULL,NULL,'2026-02-21 14:58:02','2026-02-21 14:58:02'),(19,'App\\Models\\Usuario',1,'api-token','393083b1e1d1ad79009b300acf73983ba4b75a0417a4dd1406cf58952d5511ba','[\"*\"]',NULL,NULL,'2026-02-21 14:59:25','2026-02-21 14:59:25'),(20,'App\\Models\\Usuario',1,'api-token','9a507a7d84dc30a3f5a7a41f570c19ed96b5c778dbe2cbf8fc937a328fb7ecde','[\"*\"]',NULL,NULL,'2026-02-21 15:05:54','2026-02-21 15:05:54'),(21,'App\\Models\\Usuario',1,'api-token','7a323a455e6a3cb370b17ebc25263649ac6235f90b27c45d04103e54bdfd8273','[\"*\"]',NULL,NULL,'2026-02-22 11:48:08','2026-02-22 11:48:08'),(22,'App\\Models\\Usuario',1,'api-token','14cc6447eb9ce6a3d001f5928736751942c4e7522774f6075c3f083c4574371b','[\"*\"]',NULL,NULL,'2026-02-22 14:00:42','2026-02-22 14:00:42'),(23,'App\\Models\\Usuario',1,'api-token','9a3624dd144fc82c9a1a7f73d0f020baf96ba3d2ef9a66aa9f2cdd873f4d17ea','[\"*\"]','2026-02-22 14:01:41',NULL,'2026-02-22 14:01:16','2026-02-22 14:01:41'),(24,'App\\Models\\Usuario',1,'api-token','77d220e02a582168a76b4dcd274ea484e712aaf2539c5f5df706770034c76ee7','[\"*\"]',NULL,NULL,'2026-02-23 04:55:36','2026-02-23 04:55:36'),(25,'App\\Models\\Usuario',1,'api-token','c2c244e496ad4b9256318c9a10b093d76335419cfdae50d5acbb9e5bbdd82f85','[\"*\"]',NULL,NULL,'2026-02-23 04:56:20','2026-02-23 04:56:20'),(26,'App\\Models\\Usuario',1,'api-token','d630ba37dca7c80c82af1e83709457138108eb14daa27fd9edff56545b156183','[\"*\"]',NULL,NULL,'2026-02-23 05:13:12','2026-02-23 05:13:12'),(27,'App\\Models\\Usuario',1,'api-token','661df11a4bc30713bbed01dc816a72e72c773a30c0a49d90eeb0c31c33617d75','[\"*\"]',NULL,NULL,'2026-02-23 05:34:06','2026-02-23 05:34:06'),(28,'App\\Models\\Usuario',1,'api-token','2849b33c337fc9ace6e991fa2133d6d815f30825769aa7d8453e5aca4fa7308b','[\"*\"]',NULL,NULL,'2026-02-23 05:48:51','2026-02-23 05:48:51'),(29,'App\\Models\\Usuario',1,'api-token','932543488dccd0d0089cafc2aa9495cddaef964880b94c4178eb78e115a35ba7','[\"*\"]',NULL,NULL,'2026-02-23 05:50:39','2026-02-23 05:50:39'),(30,'App\\Models\\Usuario',1,'api-token','2f1d790777aad3ce0772a2e99b275f1056913dd0ed3e922878e3ac96b2e58c00','[\"*\"]',NULL,NULL,'2026-02-23 05:53:21','2026-02-23 05:53:21'),(31,'App\\Models\\Usuario',1,'api-token','9e3f19a6fbd9231259bf3cb4ab8df7e1d00fb2cbffbb8d5a64c6746ea1ed0bb6','[\"*\"]',NULL,NULL,'2026-02-23 05:53:27','2026-02-23 05:53:27'),(32,'App\\Models\\Usuario',1,'api-token','7b69ae705e4346d3b1fa0570461a1849dcc62bd8fcffda7406011b8ff3d0ea68','[\"*\"]',NULL,NULL,'2026-02-23 05:54:07','2026-02-23 05:54:07'),(33,'App\\Models\\Usuario',1,'api-token','2ce017a38dea0bf9dbf95422d93dee5be9d04a7ff877f76848d096f0e2d662a4','[\"*\"]',NULL,NULL,'2026-02-23 05:54:34','2026-02-23 05:54:34'),(34,'App\\Models\\Usuario',1,'api-token','c680a5b94f073b61c9891c9f0bc65a9fe435e557bc60419b24c0c265813a5a39','[\"*\"]',NULL,NULL,'2026-02-23 05:58:29','2026-02-23 05:58:29'),(35,'App\\Models\\Usuario',1,'api-token','6732fbe291bd0eafd00d54c3403db8d057eb00323e14851aecafc31b46201c4e','[\"*\"]',NULL,NULL,'2026-02-23 05:58:50','2026-02-23 05:58:50'),(36,'App\\Models\\Usuario',1,'api-token','01399ce13e8ba037a5b3f55639662fa4412515216257ef62dc34beace26e71e3','[\"*\"]',NULL,NULL,'2026-02-23 06:00:10','2026-02-23 06:00:10'),(37,'App\\Models\\Usuario',1,'api-token','02c594c2e0fd28bd382959b7ead93ba0227f350daeb0273d0368f471c94638c3','[\"*\"]',NULL,NULL,'2026-02-23 06:06:08','2026-02-23 06:06:08'),(38,'App\\Models\\Usuario',1,'api-token','475cc468956c271ddac9102e91e62276defbacb70075b4c26bd3db7dc5934c06','[\"*\"]',NULL,NULL,'2026-02-23 06:15:48','2026-02-23 06:15:48'),(39,'App\\Models\\Usuario',1,'api-token','ce05fd7eafee84d6852adc792c5af3aa9ef5e6ebfa5c52e43c9dc849df3339c0','[\"*\"]',NULL,NULL,'2026-02-23 06:18:16','2026-02-23 06:18:16'),(40,'App\\Models\\Usuario',1,'api-token','76470ab4b15c2d2c103853ae7e2491aeba594b1960195af82ea35d2d71139b30','[\"*\"]',NULL,NULL,'2026-02-23 06:18:20','2026-02-23 06:18:20'),(41,'App\\Models\\Usuario',1,'api-token','eb89f97e52faff000c230add99a79b6c9c8bee1003bd0b830bc83086c4ff9615','[\"*\"]',NULL,NULL,'2026-02-23 06:20:08','2026-02-23 06:20:08'),(42,'App\\Models\\Usuario',1,'api-token','4244ef0d5d6969652653da6a78fc74b65682d15c036e29de5551357306680c66','[\"*\"]',NULL,NULL,'2026-02-23 06:20:21','2026-02-23 06:20:21'),(43,'App\\Models\\Usuario',1,'api-token','087efd2c380da0cb00fe91f1b7da0c12defc0ecacd64974be90ff22ce974db9c','[\"*\"]',NULL,NULL,'2026-02-23 06:20:28','2026-02-23 06:20:28'),(44,'App\\Models\\Usuario',1,'api-token','b431383121e209d88743c0f415d5bc1ff885dd820971c82525b09ad9c97de44a','[\"*\"]',NULL,NULL,'2026-02-23 06:20:47','2026-02-23 06:20:47'),(45,'App\\Models\\Usuario',1,'api-token','0efd84336132380d00c006e3f56c1d97e43eb8e7c04f99658673209bab1395e1','[\"*\"]',NULL,NULL,'2026-02-23 06:22:27','2026-02-23 06:22:27'),(46,'App\\Models\\Usuario',1,'api-token','65b4f3cb186aac223d1068e21e0547a06fb02e3f377a1ea67c70cf164b844880','[\"*\"]',NULL,NULL,'2026-02-23 06:23:13','2026-02-23 06:23:13'),(61,'App\\Models\\Usuario',1,'api-token','25d218be07584261189a68f74469e4fdc80d96a24255ff94bddbd71cf453d572','[\"*\"]','2026-03-06 16:03:29',NULL,'2026-03-06 15:36:37','2026-03-06 16:03:29'),(63,'App\\Models\\Usuario',1,'api-token','3a6c9983b3bd1605623e3cc2ac7d4d8c860091d6f5d1d992ad7c90e70b759781','[\"*\"]','2026-03-07 09:32:50',NULL,'2026-03-07 09:04:26','2026-03-07 09:32:50'),(64,'App\\Models\\Usuario',1,'api-token','aeab1896324be4500efe836f5a1e7e9fb7b02a9f9541a826f071ee100da806ee','[\"*\"]','2026-03-07 10:06:44',NULL,'2026-03-07 09:42:10','2026-03-07 10:06:44'),(65,'App\\Models\\Usuario',1,'api-token','be9078235b939d707ec6e0c402f8373f4313eb562aac7eaf91ae0dcf087ceb22','[\"*\"]','2026-03-07 10:42:01',NULL,'2026-03-07 10:13:06','2026-03-07 10:42:01'),(68,'App\\Models\\Usuario',1,'api-token','704742a60743f6a331a522c92b99a4d7cce07867873a10fb897d6edef917ed8e','[\"*\"]','2026-03-07 11:16:40',NULL,'2026-03-07 11:16:36','2026-03-07 11:16:40'),(70,'App\\Models\\Usuario',1,'api-token','3efac3f17424b45989e59f53ad6588e4a0e08ca98f207c579a1d2a95e0519868','[\"*\"]','2026-03-07 11:45:08',NULL,'2026-03-07 11:27:40','2026-03-07 11:45:08'),(71,'App\\Models\\Usuario',1,'api-token','26f2b8adcbe96d0e177bfc67c06f873abf5d4429cfd5696c3dee81a41a6b4307','[\"*\"]','2026-03-07 12:20:13',NULL,'2026-03-07 12:07:45','2026-03-07 12:20:13'),(72,'App\\Models\\Usuario',1,'api-token','7e20c42b6ab09108b1313e15ede230863c8c9cfc0087d26cdbc9aa697bc53af6','[\"*\"]','2026-03-07 12:50:51',NULL,'2026-03-07 12:44:39','2026-03-07 12:50:51'),(77,'App\\Models\\Usuario',1,'api-token','357be7d07d5befd1646e26a2840950a962b10dc56681425b2c7f1074a216b586','[\"*\"]','2026-03-09 03:30:43',NULL,'2026-03-09 03:11:59','2026-03-09 03:30:43'),(78,'App\\Models\\Usuario',1,'api-token','6165f8ae8b11ada536a62b74f24c2f40a7f2b9029e3d7699a3431454748d5560','[\"*\"]','2026-03-09 04:20:12',NULL,'2026-03-09 03:50:26','2026-03-09 04:20:12'),(105,'App\\Models\\Usuario',1,'api-token','4aee38a36e6e90c906bbd07cf986f5757000e41970d9220477429cd4dfb9c95f','[\"*\"]','2026-03-13 12:46:25',NULL,'2026-03-13 12:46:12','2026-03-13 12:46:25'),(106,'App\\Models\\Usuario',1,'api-token','63f13f560070f48b87fd51ac9518aa9e9ca59e609613a5972549a6a399f6f0da','[\"*\"]','2026-03-13 13:46:17',NULL,'2026-03-13 13:35:56','2026-03-13 13:46:17'),(108,'App\\Models\\Usuario',1,'api-token','7415e1f635fadd9de0146c640d6a2c535a88bbc2ef82cfc56fd2d87f2a1504dc','[\"*\"]','2026-03-13 14:34:00',NULL,'2026-03-13 14:20:47','2026-03-13 14:34:00'),(109,'App\\Models\\Usuario',1,'api-token','e9f0937ce1fc8adcbd5a2755709ed90a18233aeb921befa32f70b67f860a41c4','[\"*\"]','2026-03-16 06:20:57',NULL,'2026-03-16 05:52:38','2026-03-16 06:20:57'),(110,'App\\Models\\Usuario',1,'api-token','8b0e097d7bc7a3c3180cdd10515fd3e2f8cb25c8cf9e8fdd3804d0169b67bf9e','[\"*\"]','2026-03-16 06:49:07',NULL,'2026-03-16 06:24:49','2026-03-16 06:49:07'),(114,'App\\Models\\Usuario',1,'api-token','cbfae3b3a740f512dd08e08cbc4ed1bd8293ae5d419fb517df8d1e7d794e284a','[\"*\"]','2026-03-16 08:45:10',NULL,'2026-03-16 08:16:05','2026-03-16 08:45:10'),(115,'App\\Models\\Usuario',1,'api-token','67c7ceee2f37b12f499d6ab75f4dd9253961323ce37d679f6572a4ed636fee37','[\"*\"]',NULL,NULL,'2026-03-16 08:17:04','2026-03-16 08:17:04');
 /*!40000 ALTER TABLE `personal_access_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -749,7 +754,7 @@ CREATE TABLE `plazas` (
   CONSTRAINT `fk_plaza_nivel` FOREIGN KEY (`nivel_educativo_id`) REFERENCES `cat_niveles_educativos` (`id`),
   CONSTRAINT `fk_plaza_sexo` FOREIGN KEY (`sexo_id`) REFERENCES `cat_sexos` (`id`),
   CONSTRAINT `fk_plaza_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -758,6 +763,7 @@ CREATE TABLE `plazas` (
 
 LOCK TABLES `plazas` WRITE;
 /*!40000 ALTER TABLE `plazas` DISABLE KEYS */;
+INSERT INTO `plazas` VALUES (1,1,8,2,1,1,5,2,'Oficial de Negocios','Prueba','Prueba','Prueba','Tiempo completo',18,15,133,100.00,1110.00,1,'2026-03-16 00:20:56','2026-03-16','2026-03-16 00:20:56','2026-03-16 00:20:56',0),(2,1,4,2,3,3,1,1,'Prueba Titulo','Prueba Desc','* 3\n*4','Benf1\nBen2','Por contrato',10,15,40,100.00,150.00,0,'2026-03-16 00:32:51','2026-03-26','2026-03-16 00:32:51','2026-03-16 08:45:08',0);
 /*!40000 ALTER TABLE `plazas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1601,6 +1607,189 @@ BEGIN
     ELSE
         SELECT 1 AS success;
     END IF;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_actividades` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_actividades`()
+BEGIN
+
+SELECT
+    id,
+    nombre
+FROM cat_actividades_laborales
+WHERE estado = 1
+ORDER BY nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_cargos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_cargos`()
+BEGIN
+
+SELECT
+    c.id,
+    c.nombre,
+    cat.nombre AS categoria
+FROM cat_cargos_laborales c
+JOIN cat_categorias_laborales cat
+ON cat.id = c.categoria_laboral_id
+WHERE c.estado = 1
+ORDER BY c.nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_categorias` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_categorias`()
+BEGIN
+
+SELECT
+    id,
+    nombre
+FROM cat_categorias_laborales
+WHERE estado = 1
+ORDER BY nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_ciudades` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_ciudades`()
+BEGIN
+
+SELECT
+    c.id,
+    c.nombre,
+    d.nombre AS departamento
+FROM cat_ciudades c
+JOIN cat_departamentos d ON d.id = c.departamento_id
+ORDER BY c.nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_departamentos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_departamentos`()
+BEGIN
+
+SELECT
+    id,
+    nombre
+FROM cat_departamentos
+ORDER BY nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_niveles_educativos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_niveles_educativos`()
+BEGIN
+
+SELECT
+    id,
+    nombre
+FROM cat_niveles_educativos
+ORDER BY nombre;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_catalogos_sexos` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_catalogos_sexos`()
+BEGIN
+
+SELECT
+    id,
+    nombre
+FROM cat_sexos
+ORDER BY nombre;
 
 END ;;
 DELIMITER ;
@@ -2930,6 +3119,118 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `usp_plazas_crear` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_unicode_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `usp_plazas_crear`(
+    IN p_titulo VARCHAR(255),
+    IN p_descripcion TEXT,
+    IN p_requisitos TEXT,
+    IN p_beneficios TEXT,
+
+    IN p_ciudad_id INT,
+    IN p_cargo_id INT,
+    IN p_categoria_laboral_id INT,
+    IN p_actividad_laboral_id INT,
+
+    IN p_tipo_contratacion VARCHAR(100),
+
+    IN p_nivel_educativo_id INT,
+    IN p_sexo_id INT,
+
+    IN p_experiencia_minima INT,
+    IN p_edad_minima INT,
+    IN p_edad_maxima INT,
+
+    IN p_salario_min DECIMAL(10,2),
+    IN p_salario_max DECIMAL(10,2),
+
+    IN p_fecha_cierre DATE,
+
+    IN p_usuario_id INT
+)
+BEGIN
+
+INSERT INTO plazas (
+
+    titulo,
+    descripcion,
+    requisitos,
+    beneficios,
+
+    ciudad_id,
+    cargo_id,
+    categoria_laboral_id,
+    actividad_laboral_id,
+
+    tipo_contratacion,
+
+    nivel_educativo_id,
+    sexo_id,
+
+    experiencia_minima,
+    edad_minima,
+    edad_maxima,
+
+    salario_min,
+    salario_max,
+
+    fecha_cierre,
+
+    usuario_id,
+    estado,
+    created_at
+
+)
+VALUES (
+
+    p_titulo,
+    p_descripcion,
+    p_requisitos,
+    p_beneficios,
+
+    p_ciudad_id,
+    p_cargo_id,
+    p_categoria_laboral_id,
+    p_actividad_laboral_id,
+
+    p_tipo_contratacion,
+
+    p_nivel_educativo_id,
+    p_sexo_id,
+
+    p_experiencia_minima,
+    p_edad_minima,
+    p_edad_maxima,
+
+    p_salario_min,
+    p_salario_max,
+
+    p_fecha_cierre,
+
+    p_usuario_id,
+    1,
+    NOW()
+
+);
+
+SELECT
+    1 AS success,
+    'Plaza creada correctamente' AS message;
+
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `usp_usuario_actualizar` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -3392,4 +3693,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-08 19:36:12
+-- Dump completed on 2026-03-15 23:11:44
