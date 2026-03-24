@@ -35,16 +35,59 @@ class PlazaService
                 'ca.nombre as categoria'
             )
 
-            ->where('p.estado', 1) 
+            // ->where('p.estado', 1)
 
             ->orderBy('p.created_at', 'desc')
 
             ->get();
     }
 
+    public function listarActivas()
+    {
+        return DB::table('plazas as p')
+
+            ->leftJoin('cat_ciudades as c', 'c.id', '=', 'p.ciudad_id')
+            ->leftJoin('cat_departamentos as d', 'd.id', '=', 'c.departamento_id')
+            ->leftJoin('cat_cargos_laborales as cl', 'cl.id', '=', 'p.cargo_id')
+            ->leftJoin('cat_categorias_laborales as ca', 'ca.id', '=', 'p.categoria_laboral_id')
+
+            ->select(
+                'p.id',
+                'p.titulo',
+                'p.salario_min',
+                'p.salario_max',
+                'p.estado',
+                'p.created_at',
+
+                'p.cargo_id',
+                'p.ciudad_id',
+                'p.categoria_laboral_id as categoria_id',
+
+                'd.id as departamento_id',
+
+                'c.nombre as ciudad',
+                'd.nombre as departamento',
+                'cl.nombre as cargo',
+                'ca.nombre as categoria'
+            )
+
+            ->where('p.estado', 1)
+            ->orderBy('p.created_at', 'desc')
+            ->get();
+    }
+
     public function obtener($id)
     {
         return DB::table('plazas as p')
+
+            ->leftJoin('cat_ciudades as c', 'c.id', '=', 'p.ciudad_id')
+            ->leftJoin('cat_departamentos as d', 'd.id', '=', 'c.departamento_id')
+            ->leftJoin('cat_cargos_laborales as cl', 'cl.id', '=', 'p.cargo_id')
+            ->leftJoin('cat_categorias_laborales as ca', 'ca.id', '=', 'p.categoria_laboral_id')
+            ->leftJoin('cat_actividades_laborales as act', 'act.id', '=', 'p.actividad_laboral_id')
+            ->leftJoin('cat_niveles_educativos as ne', 'ne.id', '=', 'p.nivel_educativo_id') // 🔥
+            ->leftJoin('cat_sexos as s', 's.id', '=', 'p.sexo_id') // 🔥
+
             ->select(
                 'p.id',
                 'p.titulo',
@@ -52,27 +95,37 @@ class PlazaService
                 'p.requisitos',
                 'p.beneficios',
 
-                'p.ciudad_id',
-                'p.cargo_id',
-
-                'p.categoria_laboral_id as categoria_id',
-                'p.actividad_laboral_id as actividad_id',
-
+                'p.salario_min',
+                'p.salario_max',
                 'p.tipo_contratacion',
-
-                'p.nivel_educativo_id',
-                'p.sexo_id',
-
                 'p.experiencia_minima',
                 'p.edad_minima',
                 'p.edad_maxima',
+                'p.fecha_cierre',
 
-                'p.salario_min',
-                'p.salario_max',
+                'p.created_at',
+                'p.estado',
 
-                'p.fecha_cierre'
+                'p.categoria_laboral_id as categoria_id',
+                'p.cargo_id',
+                'p.actividad_laboral_id as actividad_id',
+                'p.nivel_educativo_id',
+                'p.sexo_id',
+                'p.ciudad_id',
+
+                'd.id as departamento_id',
+
+                'c.nombre as ciudad',
+                'd.nombre as departamento',
+                'cl.nombre as cargo',
+                'ca.nombre as categoria',
+                'act.nombre as actividad',
+                'ne.nombre as nivel_educativo',
+                's.nombre as sexo'
             )
+
             ->where('p.id', $id)
+
             ->first();
     }
 

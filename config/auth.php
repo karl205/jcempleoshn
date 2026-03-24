@@ -14,6 +14,12 @@ return [
             'driver' => 'session',
             'provider' => 'usuarios',
         ],
+
+        // 🔥 ESTE FALTABA
+        'api' => [
+            'driver' => 'sanctum',
+            'provider' => 'usuarios',
+        ],
     ],
 
     // User Providers

@@ -13,6 +13,8 @@ class Usuario extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, Notifiable;
 
+    protected $guard_name = 'api';
+
     protected $table = 'usuarios';
 
     protected $fillable = [
@@ -109,7 +111,7 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         return Cache::remember(
             "user_roles_{$this->id}",
             now()->addMinutes(60),
-            fn () => $this->roles()->pluck('nombre')
+            fn() => $this->roles()->pluck('nombre')
         );
     }
 

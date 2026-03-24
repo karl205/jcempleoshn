@@ -128,14 +128,14 @@ class PlazaController extends Controller
 
     }
 
-    public function ultimas()
-    {
-        $data = $this->service->ultimasPublicadas(3);
+    // public function ultimas()
+    // {
+    //     $data = $this->service->ultimasPublicadas(3);
     
-        return ApiResponse::success(
-            $data,
-            'Últimas plazas publicadas',
-            'PLAZAS_LATEST'
-        );
-    }
+    //     return ApiResponse::success(
+    //         $data,
+    //         'Últimas plazas publicadas',
+    //         'PLAZAS_LATEST'
+    //     );
+    // }
 }
