@@ -1,5 +1,5 @@
 import apiClient from "./apiClient";
-import api from "./axios";
+import api from "./apiClient";
 
 /* CRUD PERMISOS */
 

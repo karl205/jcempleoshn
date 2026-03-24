@@ -8,14 +8,16 @@
   padding: 0;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   min-height: 100%;
 }
 
 body {
   background: #f3f2ef;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   color: #1f1f1f;
 }
 
@@ -23,14 +25,13 @@ a {
   text-decoration: none;
 }
 
-
 /* =====================================================
    NAVBAR
 ===================================================== */
 
 .navbar-modern {
   background: #ffffff;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
 
 .nav-link-custom {
@@ -111,7 +112,6 @@ a {
   color: #111;
 }
 
-
 /* =====================================================
    HERO SECTION
 ===================================================== */
@@ -131,18 +131,15 @@ a {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    rgba(0,0,0,0.45),
-    rgba(0,0,0,0.25)
-  );
+  background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.25));
 }
 
 .hero-panel {
   max-width: 780px;
-  background: rgba(255,255,255,0.70);
+  background: rgba(255, 255, 255, 0.7);
   border-radius: 24px;
   padding: 2.5rem;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(12px);
 }
 
@@ -162,16 +159,13 @@ a {
 .hero-logo {
   height: 75px;
   margin-bottom: 1.5rem;
-  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.25));
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
   transition: 0.3s ease;
 }
 
 .hero-logo:hover {
   transform: scale(1.05);
 }
-
-
-
 
 /* =====================================================
    LATEST JOBS
@@ -186,14 +180,14 @@ a {
   background: #ffffff;
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
   transition: 0.3s ease;
   height: 100%;
 }
 
 .job-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 20px 45px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.1);
 }
 
 .job-badge {
@@ -215,7 +209,6 @@ a {
   font-size: 0.85rem;
 }
 
-
 /* =====================================================
    VISION / MISSION / OBJECTIVE
 ===================================================== */
@@ -229,13 +222,13 @@ a {
   background: #ffffff;
   border-radius: 22px;
   padding: 2.5rem 2rem;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.05);
   transition: 0.3s ease;
 }
 
 .vm-card-modern:hover {
   transform: translateY(-6px);
-  box-shadow: 0 22px 50px rgba(0,0,0,0.08);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.08);
 }
 
 .vm-icon-modern {
@@ -262,11 +255,7 @@ a {
 ===================================================== */
 
 .testimonials-section {
-  background: linear-gradient(
-    to bottom,
-    #ffffff 0%,
-    #f3f2ef 100%
-  );
+  background: linear-gradient(to bottom, #ffffff 0%, #f3f2ef 100%);
   padding: 50px 0 40px 0;
 }
 
@@ -276,7 +265,6 @@ a {
   flex-direction: column;
   justify-content: space-between;
 }
-
 
 /* =====================================================
    COMMENT SECTION (WIDE VERSION)
@@ -304,7 +292,7 @@ a {
 .comment-textarea-modern:focus {
   border-color: #0d6efd;
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(13,110,253,0.12);
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
 
 .char-counter-modern {
@@ -318,7 +306,7 @@ a {
 .btn-comment-elegant {
   padding: 0.75rem 2.5rem;
   border-radius: 999px;
-  background: linear-gradient(135deg,#0d6efd,#2563eb);
+  background: linear-gradient(135deg, #0d6efd, #2563eb);
   color: #ffffff;
   font-weight: 600;
   border: none;
@@ -327,15 +315,13 @@ a {
 
 .btn-comment-elegant:hover {
   transform: translateY(-3px);
-  box-shadow: 0 15px 35px rgba(13,110,253,0.35);
+  box-shadow: 0 15px 35px rgba(13, 110, 253, 0.35);
 }
 
 .btn-comment-elegant:disabled {
   background: #d6d6d6;
   cursor: not-allowed;
 }
-
-
 
 /* =====================================================
    FOOTER MODERN
@@ -392,7 +378,6 @@ a {
 /* =====================================================
    REDES SOCIALES
 ===================================================== */
-
 
 .social-icons {
   display: flex;
@@ -483,13 +468,13 @@ a {
   background: #ffffff;
   border-radius: 16px;
   padding: 25px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   transition: 0.25s;
 }
 
 .admin-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.08);
 }
 
 /* =====================================================
@@ -504,7 +489,7 @@ a {
   background: #ffffff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
 }
 
 .admin-table {
@@ -529,140 +514,215 @@ a {
 }
 
 /* Estilos para Admin Usuarios */
-.admin-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:25px;
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
 }
 
-.admin-toolbar{
-display:flex;
-justify-content:space-between;
-margin-bottom:15px;
+.admin-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
-.search-box{
-display:flex;
-align-items:center;
-background:#fff;
-padding:8px 14px;
-border-radius:30px;
-box-shadow:0 4px 12px rgba(0,0,0,0.06);
-gap:8px;
+.search-box {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  gap: 8px;
 }
 
-.search-box input{
-border:none;
-outline:none;
+.search-box input {
+  border: none;
+  outline: none;
 }
 
-.admin-table-wrapper{
-background:#fff;
-border-radius:14px;
-overflow:hidden;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
+.admin-table-wrapper {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
 }
 
-.admin-table{
-width:100%;
-border-collapse:collapse;
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.admin-table th{
-background:#f7f9fc;
-padding:12px;
-text-align:left;
+.admin-table th {
+  background: #f7f9fc;
+  padding: 12px;
+  text-align: left;
 }
 
-.admin-table td{
-padding:12px;
-border-top:1px solid #eee;
+.admin-table td {
+  padding: 12px;
+  border-top: 1px solid #eee;
 }
 
-.admin-table tr:hover{
-background:#f9fbff;
+.admin-table tr:hover {
+  background: #f9fbff;
 }
 
-.actions{
-display:flex;
-gap:8px;
+.actions {
+  display: flex;
+  gap: 8px;
 }
 
-.btn-icon{
-border:none;
-padding:7px 10px;
-border-radius:8px;
-cursor:pointer;
+.btn-icon {
+  border: none;
+  padding: 7px 10px;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-.btn-icon.edit{
-background:#e8f1ff;
-color:#0d6efd;
+.btn-icon.edit {
+  background: #e8f1ff;
+  color: #0d6efd;
 }
 
-.btn-icon.delete{
-background:#ffe8e8;
-color:#dc3545;
+.btn-icon.delete {
+  background: #ffe8e8;
+  color: #dc3545;
 }
 
 /* =====================================================
    MODAL
 ===================================================== */
 
-.modal-overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.35);
-display:flex;
-align-items:center;
-justify-content:center;
-padding:20px;
-z-index:999;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
 
-overflow-y:auto; /* permite scroll en pantallas pequeñas */
+  overflow-y: auto; /* permite scroll en pantallas pequeñas */
 }
 
-.modal-card{
-background:#fff;
-border-radius:14px;
+.modal-card {
+  background: #fff;
+  border-radius: 14px;
 
-width:100%;
-max-width:900px; /* permite modal más ancho */
+  width: 100%;
+  max-width: 900px; /* permite modal más ancho */
 
-max-height:90vh; /* evita que se salga de pantalla */
+  max-height: 90vh; /* evita que se salga de pantalla */
 
-display:flex;
-flex-direction:column;
+  display: flex;
+  flex-direction: column;
 
-box-shadow:0 20px 50px rgba(0,0,0,0.2);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
 }
 
-.modal-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 22px;
-border-bottom:1px solid #eee;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 22px;
+  border-bottom: 1px solid #eee;
 }
 
-.modal-body{
-padding:20px 22px;
-overflow-y:auto; /* scroll interno */
+.modal-body {
+  padding: 20px 22px;
+  overflow-y: auto; /* scroll interno */
 }
 
-.modal-footer{
-display:flex;
-justify-content:flex-end;
-gap:10px;
-padding:16px 22px;
-border-top:1px solid #eee;
-background:#fff;
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px;
+  border-top: 1px solid #eee;
+  background: #fff;
 }
 
-.modal-close{
-border:none;
-background:none;
-font-size:18px;
-cursor:pointer;
+.modal-close {
+  border: none;
+  background: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* CSS OPCIONAL */
+.card {
+  transition: all 0.2s ease;
+  border-radius: 16px;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.container {
+  max-width: 1100px;
+}
+
+.btn-light:hover {
+  transform: translateX(-2px);
+  transition: all 0.2s ease;
+}
+
+.job-card {
+  transition: all 0.2s ease;
+}
+
+.job-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+  border-color: #0d6efd;
+}
+
+select:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.job-card {
+  transition: all 0.2s ease;
+}
+
+/* OPCIONAL PARA PERFIL */
+/* opcional */
+.card {
+  border-radius: 16px !important;
+}
+
+input,
+select,
+textarea {
+  border-radius: 10px !important;
+}
+
+.btn-success {
+  border-radius: 999px !important;
+  padding: 10px 20px;
+}
+
+.nav-pills .nav-link {
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-weight: 500;
+  color: #555;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #0a66c2;
+  color: #fff;
 }

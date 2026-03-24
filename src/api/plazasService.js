@@ -1,9 +1,13 @@
 import apiClient from "./apiClient";
 
 export const getUltimasPlazas = () => {
-  return apiClient.get("/plazas/ultimas");
+  return apiClient.get("/public/plazas/ultimas");
 };
 
 export const getPlazas = () => {
-  return apiClient.get("/plazas");
+  return apiClient.get("/public/plazas"); // ✅ AQUÍ
+};
+
+export const getPlaza = (id) => {
+  return apiClient.get(`/public/plazas/${id}`); // ✅ AQUÍ
 };

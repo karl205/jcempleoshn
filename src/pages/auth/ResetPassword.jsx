@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import PublicLayout from "../../layouts/PublicLayout";
 import "../../styles/login.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import api from "../../api/axios";
+import api from "../../api/apiClient";
 
 export default function ResetPassword() {
 

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
+
 import {
     getCiudades,
     getCargos,
     getCategorias,
     getActividades,
     getNivelesEducativos,
-    getSexos
+    getSexos,
+    getDepartamentos
 } from "../../api/catalogosService";
 
 export default function PlazaModal({
@@ -16,13 +18,13 @@ export default function PlazaModal({
     plaza = null
 }) {
 
-    const [form, setForm] = useState({
-
+    const initialForm = {
         titulo: "",
         descripcion: "",
         requisitos: "",
         beneficios: "",
 
+        departamento_id: "",
         ciudad_id: "",
         cargo_id: "",
         categoria_id: "",
@@ -41,15 +43,20 @@ export default function PlazaModal({
         salario_max: "",
 
         fecha_cierre: ""
+    };
 
-    });
-
+    const [form, setForm] = useState(initialForm);
     const [ciudades, setCiudades] = useState([]);
     const [cargos, setCargos] = useState([]);
     const [categorias, setCategorias] = useState([]);
     const [actividades, setActividades] = useState([]);
     const [niveles, setNiveles] = useState([]);
     const [sexos, setSexos] = useState([]);
+
+    const [departamentos, setDepartamentos] = useState([]);
+    const [cargosFiltrados, setCargosFiltrados] = useState([]);
+    const [ciudadesFiltradas, setCiudadesFiltradas] = useState([]);
+    const loadingCatalogos = cargos.length === 0 || ciudades.length === 0;
 
     useEffect(() => {
 
@@ -59,35 +66,80 @@ export default function PlazaModal({
 
     useEffect(() => {
 
-        if (!plaza) return;
+        console.log("FORM categoria_id:", form.categoria_id);
+        console.log("CARGOS RAW:", cargos);
 
-        setForm({
+        const filtrados = cargos.filter(c => {
 
-            titulo: plaza.titulo ?? "",
-            descripcion: plaza.descripcion ?? "",
-            requisitos: plaza.requisitos ?? "",
-            beneficios: plaza.beneficios ?? "",
+            const categoriaCargo =
+                c.categoria_laboral_id ?? c.categoria_id;
 
-            ciudad_id: plaza.ciudad_id ?? "",
-            cargo_id: plaza.cargo_id ?? "",
-            categoria_id: plaza.categoria_id ?? "",
-            actividad_id: plaza.actividad_id ?? "",
+            console.log("Comparando:", categoriaCargo, "vs", form.categoria_id);
 
-            tipo_contratacion: plaza.tipo_contratacion ?? "",
-
-            nivel_educativo_id: plaza.nivel_educativo_id ?? "",
-            sexo_id: plaza.sexo_id ?? "",
-
-            experiencia_minima: plaza.experiencia_minima ?? "",
-            edad_minima: plaza.edad_minima ?? "",
-            edad_maxima: plaza.edad_maxima ?? "",
-
-            salario_min: plaza.salario_min ?? "",
-            salario_max: plaza.salario_max ?? "",
-
-            fecha_cierre: plaza.fecha_cierre ?? ""
+            return Number(categoriaCargo) === Number(form.categoria_id);
 
         });
+
+        console.log("CARGOS FILTRADOS:", filtrados);
+
+        setCargosFiltrados(filtrados);
+
+    }, [form.categoria_id, cargos]);
+
+    useEffect(() => {
+
+        if (!form.departamento_id || ciudades.length === 0) {
+            setCiudadesFiltradas([]);
+            return;
+        }
+
+        const filtradas = ciudades.filter(c => {
+
+            const depCiudad =
+                c.departamento_id ?? c.departamentoId;
+
+            return Number(depCiudad) === Number(form.departamento_id);
+
+        });
+
+        setCiudadesFiltradas(filtradas);
+
+    }, [form.departamento_id, ciudades]);
+
+    useEffect(() => {
+
+        if (plaza) {
+
+            setForm({
+                titulo: plaza.titulo ?? "",
+                descripcion: plaza.descripcion ?? "",
+                requisitos: plaza.requisitos ?? "",
+                beneficios: plaza.beneficios ?? "",
+
+                departamento_id: plaza.departamento_id ?? "",
+                ciudad_id: plaza.ciudad_id ?? "",
+                cargo_id: plaza.cargo_id ?? "",
+                categoria_id: plaza.categoria_id ?? "",
+                actividad_id: plaza.actividad_id ?? "",
+
+                tipo_contratacion: plaza.tipo_contratacion ?? "",
+
+                nivel_educativo_id: plaza.nivel_educativo_id ?? "",
+                sexo_id: plaza.sexo_id ?? "",
+
+                experiencia_minima: plaza.experiencia_minima ?? "",
+                edad_minima: plaza.edad_minima ?? "",
+                edad_maxima: plaza.edad_maxima ?? "",
+
+                salario_min: plaza.salario_min ?? "",
+                salario_max: plaza.salario_max ?? "",
+
+                fecha_cierre: plaza.fecha_cierre ?? ""
+            });
+
+        } else {
+            setForm(initialForm);
+        }
 
     }, [plaza]);
 
@@ -101,14 +153,16 @@ export default function PlazaModal({
                 categoriasRes,
                 actividadesRes,
                 nivelesRes,
-                sexosRes
+                sexosRes,
+                departamentosRes
             ] = await Promise.all([
                 getCiudades(),
                 getCargos(),
                 getCategorias(),
                 getActividades(),
                 getNivelesEducativos(),
-                getSexos()
+                getSexos(),
+                getDepartamentos()
             ]);
 
             setCiudades(ciudadesRes.data.data);
@@ -117,6 +171,19 @@ export default function PlazaModal({
             setActividades(actividadesRes.data.data);
             setNiveles(nivelesRes.data.data);
             setSexos(sexosRes.data.data);
+            setDepartamentos(departamentosRes.data.data);
+
+            useEffect(() => {
+                if (!form.categoria_id) {
+                    setForm(prev => ({ ...prev, cargo_id: "" }));
+                }
+            }, [form.categoria_id]);
+
+            useEffect(() => {
+                if (!form.departamento_id) {
+                    setForm(prev => ({ ...prev, ciudad_id: "" }));
+                }
+            }, [form.departamento_id]);
 
         } catch (error) {
 
@@ -247,30 +314,6 @@ export default function PlazaModal({
 
                         <div className="col-md-4">
 
-                            <label>Cargo</label>
-
-                            <select
-                                className="form-select"
-                                name="cargo_id"
-                                value={form.cargo_id}
-                                onChange={handleChange}
-                                required
-                            >
-
-                                <option value="">Seleccione</option>
-
-                                {cargos.map(c => (
-                                    <option key={c.id} value={c.id}>
-                                        {c.nombre}
-                                    </option>
-                                ))}
-
-                            </select>
-
-                        </div>
-
-                        <div className="col-md-4">
-
                             <label>Categoría laboral</label>
 
                             <select
@@ -283,6 +326,33 @@ export default function PlazaModal({
                                 <option value="">Seleccione</option>
 
                                 {categorias.map(c => (
+                                    <option key={c.id} value={c.id}>
+                                        {c.nombre}
+                                    </option>
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                        <div className="col-md-4">
+
+                            <label>Cargo</label>
+
+                            <select
+                                className="form-select"
+                                name="cargo_id"
+                                value={form.cargo_id}
+                                onChange={handleChange}
+                                disabled={loadingCatalogos || !form.categoria_id}
+                                required
+                            >
+
+                                <option value="">
+                                    {form.categoria_id ? "Seleccione" : "Seleccione categoría primero"}
+                                </option>
+
+                                {cargosFiltrados.map(c => (
                                     <option key={c.id} value={c.id}>
                                         {c.nombre}
                                     </option>
@@ -315,7 +385,30 @@ export default function PlazaModal({
 
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-md-4">
+
+                            <label>Departamento</label>
+
+                            <select
+                                className="form-select"
+                                name="departamento_id"
+                                value={form.departamento_id}
+                                onChange={handleChange}
+                            >
+
+                                <option value="">Seleccione</option>
+
+                                {departamentos.map(d => (
+                                    <option key={d.id} value={d.id}>
+                                        {d.nombre}
+                                    </option>
+                                ))}
+
+                            </select>
+
+                        </div>
+
+                        <div className="col-md-4">
 
                             <label>Ciudad</label>
 
@@ -324,11 +417,16 @@ export default function PlazaModal({
                                 name="ciudad_id"
                                 value={form.ciudad_id}
                                 onChange={handleChange}
+                                disabled={loadingCatalogos || !form.departamento_id}
                             >
 
-                                <option value="">Seleccione</option>
+                                <option value="">
+                                    {form.departamento_id
+                                        ? "Seleccione"
+                                        : "Seleccione departamento primero"}
+                                </option>
 
-                                {ciudades.map(c => (
+                                {ciudadesFiltradas.map(c => (
                                     <option key={c.id} value={c.id}>
                                         {c.nombre}
                                     </option>
@@ -338,7 +436,7 @@ export default function PlazaModal({
 
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-md-4">
 
                             <label>Tipo de contratación</label>
 

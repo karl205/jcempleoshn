@@ -7,23 +7,19 @@ import {
 
 export default function PlazaFilters({ filtros, setFiltros }) {
 
-  const [categorias,setCategorias] = useState([]);
-  const [cargos,setCargos] = useState([]);
-  const [departamentos,setDepartamentos] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [cargos, setCargos] = useState([]);
+  const [departamentos, setDepartamentos] = useState([]);
 
-  useEffect(()=>{
+  const [cargosFiltrados, setCargosFiltrados] = useState([]);
 
+  useEffect(() => {
     cargarCatalogos();
-
-  },[])
+  }, [])
 
   const cargarCatalogos = async () => {
 
-    const [
-      cat,
-      car,
-      dep
-    ] = await Promise.all([
+    const [cat, car, dep] = await Promise.all([
       getCategorias(),
       getCargos(),
       getDepartamentos()
@@ -34,6 +30,36 @@ export default function PlazaFilters({ filtros, setFiltros }) {
     setDepartamentos(dep.data.data);
 
   }
+
+  // FILTRAR CARGOS SEGÚN ÁREA
+  useEffect(() => {
+
+    if (!filtros.categoria) {
+      setCargosFiltrados(cargos);
+      return;
+    }
+
+    const categoriaSeleccionada = categorias.find(
+      c => String(c.id) === String(filtros.categoria)
+    );
+
+    if (!categoriaSeleccionada) return;
+
+    const filtrados = cargos.filter(
+      c => c.categoria === categoriaSeleccionada.nombre
+    );
+
+    setCargosFiltrados(filtrados);
+
+    // limpiar si ya no aplica
+    if (!filtrados.some(c => String(c.id) === String(filtros.cargo))) {
+      setFiltros(prev => ({
+        ...prev,
+        cargo: ""
+      }));
+    }
+
+  }, [filtros.categoria, categorias, cargos]);
 
   const handleChange = (e) => {
 
@@ -55,7 +81,6 @@ export default function PlazaFilters({ filtros, setFiltros }) {
         </h5>
 
         {/* AREA */}
-
         <label className="form-label">
           Área
         </label>
@@ -66,19 +91,16 @@ export default function PlazaFilters({ filtros, setFiltros }) {
           value={filtros.categoria}
           onChange={handleChange}
         >
-
           <option value="">Todas</option>
 
-          {categorias.map(c=>(
+          {categorias.map(c => (
             <option key={c.id} value={c.id}>
               {c.nombre}
             </option>
           ))}
-
         </select>
 
         {/* CARGO */}
-
         <label className="form-label">
           Cargo
         </label>
@@ -89,19 +111,18 @@ export default function PlazaFilters({ filtros, setFiltros }) {
           value={filtros.cargo}
           onChange={handleChange}
         >
+          <option value="">
+            {filtros.categoria ? "Todos en esta área" : "Todos"}
+          </option>
 
-          <option value="">Todos</option>
-
-          {cargos.map(c=>(
+          {cargosFiltrados.map(c => (
             <option key={c.id} value={c.id}>
               {c.nombre}
             </option>
           ))}
-
         </select>
 
         {/* DEPARTAMENTO */}
-
         <label className="form-label">
           Departamento
         </label>
@@ -112,15 +133,13 @@ export default function PlazaFilters({ filtros, setFiltros }) {
           value={filtros.departamento}
           onChange={handleChange}
         >
-
           <option value="">Todos</option>
 
-          {departamentos.map(d=>(
+          {departamentos.map(d => (
             <option key={d.id} value={d.id}>
               {d.nombre}
             </option>
           ))}
-
         </select>
 
       </div>

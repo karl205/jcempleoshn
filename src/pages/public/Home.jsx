@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import api from "../../api/axios";
+import api from "../../api/apiClient";
 
 import PublicLayout from "../../layouts/PublicLayout";
 import HeroSection from "../../components/HeroSection";
@@ -9,13 +9,6 @@ import Testimonials from "../../components/Testimonials";
 import CommentForm from "../../components/CommentForm";
 
 export default function Home() {
-
-  // useEffect(() => {
-  //   api.get("/ping")
-  //     .then(res => console.log("API OK:", res.data))
-  //     .catch(err => console.error("API ERROR:", err));
-  // }, []);
-
   return (
     <PublicLayout>
       <HeroSection />

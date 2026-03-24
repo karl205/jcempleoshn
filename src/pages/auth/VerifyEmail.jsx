@@ -3,7 +3,7 @@ import { useSearchParams, useNavigate, useLocation } from "react-router-dom";
 import { FiCheckCircle, FiXCircle, FiMail } from "react-icons/fi";
 import PublicLayout from "../../layouts/PublicLayout";
 import "../../styles/login.css";
-import api from "../../api/axios";
+import api from "../../api/apiClient";
 
 export default function VerifyEmail() {
 

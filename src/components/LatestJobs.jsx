@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaClock } from "react-icons/fa";
 import { getUltimasPlazas } from "../api/plazasService";
+import { useNavigate } from "react-router-dom";
 
 export default function LatestJobs() {
 
+  const navigate = useNavigate();
   const [plazas, setPlazas] = useState([]);
 
   useEffect(() => {
@@ -69,8 +71,9 @@ export default function LatestJobs() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
-                whileHover={{ y: -6 }}
-                className="job-card"
+                whileHover={{ y: -6, scale: 1.01 }}
+                className="job-card cursor-pointer"
+                onClick={() => navigate(`/plazas/${p.id}`)}
               >
 
                 <div className="job-card-body">
@@ -95,7 +98,10 @@ export default function LatestJobs() {
                     {tiempoPublicado(p.created_at)}
                   </p>
 
-                  <button className="btn btn-outline-primary btn-sm rounded-pill">
+                  <button
+                    className="btn btn-outline-primary btn-sm rounded-pill"
+                    onClick={() => navigate(`/plazas/${p.id}`)}
+                  >
                     Ver detalles
                   </button>
 

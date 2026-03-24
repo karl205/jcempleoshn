@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PublicLayout from "../../layouts/PublicLayout";
 import "../../styles/login.css";
-import api from "../../api/axios";
+import api from "../../api/apiClient";
 
 export default function ForgotPassword() {
 

@@ -18,6 +18,13 @@ import AdminPermisos from "../pages/admin/AdminPermisos";
 import AdminPlazas from "../pages/admin/AdminPlazas";
 import Plazas from "../pages/public/Plazas";
 
+import PlazaDetalle from "../pages/public/PlazaDetalle";
+
+import PublicLayout from "../layouts/PublicLayout";
+import ProfilePage from "../pages/profile/ProfilePage";
+
+
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -29,15 +36,24 @@ export default function AppRouter() {
       <Route path="/verify-code" element={<VerifyCode />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/reset-password" element={<ResetPassword />} />
-      
+
       <Route path="/plazas" element={<Plazas />} />
+      <Route path="/plazas/:id" element={<PlazaDetalle />} />
 
       <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
       <Route path="/admin/usuarios" element={<AdminRoute><AdminUsuarios /></AdminRoute>} />
       <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
       <Route path="/admin/permisos" element={<AdminRoute><AdminPermisos /></AdminRoute>} />
       <Route path="/admin/plazas" element={<AdminRoute><AdminPlazas /></AdminRoute>} />
-    
+
+      <Route
+        path="/perfil"
+        element={
+          <PublicLayout>
+            <ProfilePage />
+          </PublicLayout>
+        }
+      />
     </Routes>
   );
 }

@@ -15,6 +15,7 @@ export default function HeroSection() {
   const [cargos, setCargos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [departamentos, setDepartamentos] = useState([]);
+  const [cargosFiltrados, setCargosFiltrados] = useState([]);
 
   const [filtros, setFiltros] = useState({
     categoria: "",
@@ -25,6 +26,27 @@ export default function HeroSection() {
   useEffect(() => {
     cargarCatalogos();
   }, []);
+
+  useEffect(() => {
+
+    if (!filtros.categoria) {
+      setCargosFiltrados([]);
+      return;
+    }
+
+    const categoriaSeleccionada = categorias.find(
+      c => String(c.id) === String(filtros.categoria)
+    );
+
+    if (!categoriaSeleccionada) return;
+
+    const filtrados = cargos.filter(
+      c => c.categoria === categoriaSeleccionada.nombre
+    );
+
+    setCargosFiltrados(filtrados);
+
+  }, [filtros.categoria, cargos, categorias]);
 
   const cargarCatalogos = async () => {
 
@@ -55,6 +77,15 @@ export default function HeroSection() {
   const handleChange = (e) => {
 
     const { name, value } = e.target;
+
+    if (name === "categoria") {
+      setFiltros({
+        ...filtros,
+        categoria: value,
+        cargo: ""
+      });
+      return;
+    }
 
     setFiltros({
       ...filtros,
@@ -87,6 +118,7 @@ export default function HeroSection() {
 
         <div className="hero-panel mx-auto text-center">
 
+          {/* LOGO */}
           <img
             src={logo}
             alt="JC Empleos"
@@ -104,89 +136,72 @@ export default function HeroSection() {
           <div className="row g-3">
 
             {/* AREA */}
-
             <div className="col-md-4">
-
               <select
                 className="form-select rounded-pill"
                 name="categoria"
                 value={filtros.categoria}
                 onChange={handleChange}
               >
-
                 <option value="">Área</option>
 
                 {categorias.map(c => (
-
                   <option key={c.id} value={c.id}>
                     {c.nombre}
                   </option>
-
                 ))}
-
               </select>
-
             </div>
 
             {/* CARGO */}
-
             <div className="col-md-4">
-
               <select
                 className="form-select rounded-pill"
                 name="cargo"
                 value={filtros.cargo}
                 onChange={handleChange}
+                disabled={!filtros.categoria}
               >
+                <option value="" disabled>
+                  {filtros.categoria
+                    ? "Seleccione un cargo"
+                    : "Primero seleccione área"}
+                </option>
 
-                <option value="">Cargo</option>
-
-                {cargos.map(c => (
-
+                {cargosFiltrados.map(c => (
                   <option key={c.id} value={c.id}>
                     {c.nombre}
                   </option>
-
                 ))}
-
               </select>
-
             </div>
 
             {/* DEPARTAMENTO */}
-
             <div className="col-md-4">
-
               <select
                 className="form-select rounded-pill"
                 name="departamento"
                 value={filtros.departamento}
                 onChange={handleChange}
               >
-
                 <option value="">Departamento</option>
 
                 {departamentos.map(d => (
-
                   <option key={d.id} value={d.id}>
                     {d.nombre}
                   </option>
-
                 ))}
-
               </select>
-
             </div>
 
+            {/* BOTÓN */}
             <div className="col-12 d-grid mt-3">
-
               <button
                 className="btn btn-primary btn-lg rounded-pill"
                 onClick={buscar}
               >
                 Buscar empleos
               </button>
-
             </div>
 
           </div>

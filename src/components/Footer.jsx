@@ -1,60 +1,71 @@
-import { FaEnvelope, FaPhone, FaHome, FaSearch } from "react-icons/fa";
+import { FaEnvelope, FaPhone, FaFacebook, FaInstagram } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="footer-modern text-white pt-5 pb-3">
+    <footer className="bg-dark text-white py-3">
       <div className="container">
-        <div className="row justify-content-between gy-4">
 
-          {/* Columna 1 */}
-          <div className="col-md-4">
-            <h5 className="fw-bold mb-3">JC Empleos</h5>
-            <p className="small text-light mb-0">
-              Conectamos talento hondureño con oportunidades laborales reales.
-            </p>
+        {/* Línea 1 */}
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
+
+          {/* Izquierda */}
+          <div className="fw-semibold">
+            JC Empleos
           </div>
 
-          {/* Columna 2 */}
-          <div className="col-md-3">
-            <h6 className="fw-bold mb-3">Navegación</h6>
-            <ul className="list-unstyled">
-              <li className="mb-2">
-                <a href="/" className="footer-link">
-                  <FaHome className="me-2" />
-                  Inicio
-                </a>
-              </li>
-              <li>
-                <a href="#" className="footer-link">
-                  <FaSearch className="me-2" />
-                  Buscar plazas
-                </a>
-              </li>
-            </ul>
-          </div>
+          {/* Derecha */}
+          <div className="d-flex align-items-center gap-3 small mt-2 mt-md-0 flex-wrap">
 
-          {/* Columna 3 */}
-          <div className="col-md-3">
-            <h6 className="fw-bold mb-3">Contáctanos</h6>
-
-            <p className="small mb-2 footer-contact">
-              <FaEnvelope className="me-2" />
+            {/* Correo */}
+            <a
+              href="mailto:contacto@jcempleos.com"
+              className="text-light text-decoration-none"
+            >
+              <FaEnvelope className="me-1" />
               contacto@jcempleos.com
-            </p>
+            </a>
 
-            <p className="small footer-contact">
-              <FaPhone className="me-2" />
+            {/* Teléfono */}
+            <a
+              href="tel:+50422223333"
+              className="text-light text-decoration-none"
+            >
+              <FaPhone className="me-1" />
               (504) 2222-3333
-            </p>
-          </div>
+            </a>
 
+            {/* Redes */}
+            <a
+              href="https://facebook.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-light"
+            >
+              <FaFacebook />
+            </a>
+
+            <a
+              href="https://instagram.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-light"
+            >
+              <FaInstagram />
+            </a>
+
+          </div>
         </div>
 
-        <hr className="border-secondary my-4" />
+        {/* Línea 2 */}
+        <div className="text-secondary small mt-1">
+          Conectamos talento hondureño con oportunidades laborales reales.
+        </div>
 
-        <div className="text-center small text-secondary">
+        {/* Línea 3 */}
+        <div className="text-center text-secondary small mt-2">
           © {new Date().getFullYear()} JC Empleos. Todos los derechos reservados.
         </div>
+
       </div>
     </footer>
   );
