@@ -8,7 +8,7 @@ export default function PublicLayout({ children }) {
       <Navbar />
 
       <main className="flex-grow-1">
-        {children} {/* 🔥 IMPORTANTE */}
+        {children} {/* IMPORTANTE */}
       </main>
 
       <Footer />
