@@ -54,7 +54,6 @@ class ProfileApiController extends Controller
 
                 $ruta = storage_path('app/public/fotos_perfil/' . $fotoNombre);
 
-                // 🔥 asegurar carpeta
                 if (!file_exists(dirname($ruta))) {
                     mkdir(dirname($ruta), 0777, true);
                 }

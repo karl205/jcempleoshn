@@ -83,102 +83,102 @@ Route::middleware(['auth:sanctum'])
     ->prefix('admin')
     ->group(function () {
 
-    /*
-    |--------------------------------------------------------------------------
-    | Menú dinámico
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Menú dinámico
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('menu', [AdminMenuController::class, 'index'])
-        ->middleware('permiso:ver_dashboard');
+        Route::get('menu', [AdminMenuController::class, 'index'])
+            ->middleware('permiso:ver_dashboard');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Usuarios
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Usuarios
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('usuarios', [AdminUsuarioController::class, 'index'])
-        ->middleware('permiso:usuarios.ver');
+        Route::get('usuarios', [AdminUsuarioController::class, 'index'])
+            ->middleware('permiso:usuarios.ver');
 
-    Route::post('usuarios', [AdminUsuarioController::class, 'store'])
-        ->middleware('permiso:usuarios.crear');
+        Route::post('usuarios', [AdminUsuarioController::class, 'store'])
+            ->middleware('permiso:usuarios.crear');
 
-    Route::put('usuarios/{id}', [AdminUsuarioController::class, 'update'])
-        ->middleware('permiso:usuarios.editar');
+        Route::put('usuarios/{id}', [AdminUsuarioController::class, 'update'])
+            ->middleware('permiso:usuarios.editar');
 
-    Route::patch('usuarios/{id}/desactivar', [AdminUsuarioController::class, 'deactivate'])
-        ->middleware('permiso:usuarios.eliminar');
+        Route::patch('usuarios/{id}/desactivar', [AdminUsuarioController::class, 'deactivate'])
+            ->middleware('permiso:usuarios.eliminar');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Roles
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Roles
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('roles', [AdminRolController::class, 'index'])
-        ->middleware('permiso:roles.ver');
+        Route::get('roles', [AdminRolController::class, 'index'])
+            ->middleware('permiso:roles.ver');
 
-    Route::post('roles', [AdminRolController::class, 'store'])
-        ->middleware('permiso:roles.crear');
+        Route::post('roles', [AdminRolController::class, 'store'])
+            ->middleware('permiso:roles.crear');
 
-    Route::put('roles/{id}', [AdminRolController::class, 'update'])
-        ->middleware('permiso:roles.editar');
+        Route::put('roles/{id}', [AdminRolController::class, 'update'])
+            ->middleware('permiso:roles.editar');
 
-    Route::patch('roles/{id}/desactivar', [AdminRolController::class, 'deactivate'])
-        ->middleware('permiso:roles.eliminar');
+        Route::patch('roles/{id}/desactivar', [AdminRolController::class, 'deactivate'])
+            ->middleware('permiso:roles.eliminar');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Permisos
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Permisos
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('permisos', [AdminPermisoController::class, 'index'])
-        ->middleware('permiso:permisos.ver');
+        Route::get('permisos', [AdminPermisoController::class, 'index'])
+            ->middleware('permiso:permisos.ver');
 
-    Route::post('permisos', [AdminPermisoController::class, 'store'])
-        ->middleware('permiso:permisos.crear');
+        Route::post('permisos', [AdminPermisoController::class, 'store'])
+            ->middleware('permiso:permisos.crear');
 
-    Route::put('permisos/{id}', [AdminPermisoController::class, 'update'])
-        ->middleware('permiso:permisos.editar');
+        Route::put('permisos/{id}', [AdminPermisoController::class, 'update'])
+            ->middleware('permiso:permisos.editar');
 
-    Route::patch('permisos/{id}/desactivar', [AdminPermisoController::class, 'deactivate'])
-        ->middleware('permiso:permisos.eliminar');
+        Route::patch('permisos/{id}/desactivar', [AdminPermisoController::class, 'deactivate'])
+            ->middleware('permiso:permisos.eliminar');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Matriz permisos por rol
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Matriz permisos por rol
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('permisos-roles', [AdminPermisoController::class, 'permisosRoles'])
-        ->middleware('permiso:permisos.ver');
+        Route::get('permisos-roles', [AdminPermisoController::class, 'permisosRoles'])
+            ->middleware('permiso:permisos.ver');
 
-    Route::post('permisos-roles', [AdminPermisoController::class, 'guardarPermisoRol'])
-        ->middleware('permiso:permisos.asignar');
+        Route::post('permisos-roles', [AdminPermisoController::class, 'guardarPermisoRol'])
+            ->middleware('permiso:permisos.asignar');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Plazas (ADMIN)
-    |--------------------------------------------------------------------------
-    */
+        /*
+        |--------------------------------------------------------------------------
+        | Plazas (ADMIN)
+        |--------------------------------------------------------------------------
+        */
 
-    Route::get('plazas', [PlazaController::class, 'index'])
-        ->middleware('permiso:plazas.ver');
+        Route::get('plazas', [PlazaController::class, 'index'])
+            ->middleware('permiso:plazas.ver');
 
-    Route::get('plazas/{id}', [PlazaController::class, 'show'])
-        ->middleware('permiso:plazas.ver');
+        Route::get('plazas/{id}', [PlazaController::class, 'show'])
+            ->middleware('permiso:plazas.ver');
 
-    Route::post('plazas', [PlazaController::class, 'store'])
-        ->middleware('permiso:plazas.crear');
+        Route::post('plazas', [PlazaController::class, 'store'])
+            ->middleware('permiso:plazas.crear');
 
-    Route::put('plazas/{id}', [PlazaController::class, 'update'])
-        ->middleware('permiso:plazas.editar');
+        Route::put('plazas/{id}', [PlazaController::class, 'update'])
+            ->middleware('permiso:plazas.editar');
 
-    Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
-        ->middleware('permiso:plazas.eliminar');
-});
+        Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
+            ->middleware('permiso:plazas.eliminar');
+    });
 
 /*
 |--------------------------------------------------------------------------
