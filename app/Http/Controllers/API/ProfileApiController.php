@@ -18,25 +18,45 @@ use App\Http\Controllers\Controller;
 
 class ProfileApiController extends Controller
 {
-
     public function show(Request $request)
     {
         $userId = $request->user()->id;
 
-        $result = DB::select('CALL usp_perfil_obtener(?)', [$userId]);
+        $perfil = DB::select('CALL usp_perfil_obtener(?)', [$userId]);
+        $educaciones = DB::select('CALL usp_perfil_educacion_listar(?)', [$userId]);
+        $idiomas = DB::select('CALL usp_perfil_idioma_listar(?)', [$userId]);
+        $experiencias = DB::select('CALL usp_perfil_experiencia_listar(?)', [$userId]);
 
-        if (empty($result) || !$result[0]->success) {
-            return response()->json([
-                'perfil' => null,
-                'catalogos' => $this->getCatalogos()
-            ]);
-        }
+        $data = json_decode($perfil[0]->data, true);
+
+        $data['educaciones'] = $educaciones;
+        $data['idiomas'] = $idiomas;
+        $data['experiencias'] = $experiencias;
 
         return response()->json([
-            'perfil' => json_decode($result[0]->data),
+            'perfil' => $data,
             'catalogos' => $this->getCatalogos()
         ]);
     }
+
+    // public function show(Request $request)
+    // {
+    //     $userId = $request->user()->id;
+
+    //     $result = DB::select('CALL usp_perfil_obtener(?)', [$userId]);
+
+    //     if (empty($result) || !$result[0]->success) {
+    //         return response()->json([
+    //             'perfil' => null,
+    //             'catalogos' => $this->getCatalogos()
+    //         ]);
+    //     }
+
+    //     return response()->json([
+    //         'perfil' => json_decode($result[0]->data),
+    //         'catalogos' => $this->getCatalogos()
+    //     ]);
+    // }
 
 
     public function update(Request $request)

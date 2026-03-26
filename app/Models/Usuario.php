@@ -131,10 +131,10 @@ class Usuario extends Authenticatable implements MustVerifyEmail
         return $this->password;
     }
 
-    public function getAuthIdentifierName()
-    {
-        return 'email';
-    }
+    // public function getAuthIdentifierName()
+    // {
+    //     return 'email';
+    // }
 
     public function routeNotificationForMail()
     {

@@ -15,7 +15,7 @@ return [
             'provider' => 'usuarios',
         ],
 
-        // 🔥 ESTE FALTABA
+        //
         'api' => [
             'driver' => 'sanctum',
             'provider' => 'usuarios',
