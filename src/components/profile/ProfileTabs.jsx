@@ -10,7 +10,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
     return (
         <div>
 
-            {/* 🔥 NAV TABS */}
+            {/* NAV TABS */}
             <div className="border-bottom px-3 pt-3">
                 <ul className="nav nav-pills gap-2">
 
@@ -53,7 +53,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                 </ul>
             </div>
 
-            {/* 🔥 CONTENT */}
+            {/* CONTENT */}
             <div className="p-3">
 
                 {active === "personal" && (
@@ -66,29 +66,29 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
 
                 {active === "academic" && (
                     <AcademicTab
-                        data={form.educaciones || []}
+                        data={form.educations || []}
                         catalogos={catalogos}
                         onChange={(val) =>
-                            setForm({ ...form, educaciones: val })
+                            setForm({ ...form, educations: val })
                         }
                     />
                 )}
 
                 {active === "languages" && (
                     <LanguagesTab
-                        data={form.idiomas || []}
+                        data={form.languages || []}
                         catalogos={catalogos}
                         onChange={(val) =>
-                            setForm({ ...form, idiomas: val })
+                            setForm({ ...form, languages: val })
                         }
                     />
                 )}
 
                 {active === "experience" && (
                     <ExperienceTab
-                        data={form.experiencias || []}
+                        data={form.experiences || []}
                         onChange={(val) =>
-                            setForm({ ...form, experiencias: val })
+                            setForm({ ...form, experiences: val })
                         }
                     />
                 )}

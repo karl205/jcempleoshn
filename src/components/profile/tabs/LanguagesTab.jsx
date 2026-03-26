@@ -1,12 +1,12 @@
-import { useState } from "react";
-
 export default function LanguagesTab({ data, catalogos, onChange }) {
     const items = data || [];
 
     const handleChange = (index, field, value) => {
         const updated = [...items];
         updated[index][field] = value;
-        setItems(updated);
+
+        console.log("Languages updated:", updated);
+
         onChange(updated);
     };
 
@@ -15,13 +15,11 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
             ...items,
             { idioma_id: "", nivel_id: "" },
         ];
-        setItems(updated);
         onChange(updated);
     };
 
     const removeItem = (index) => {
         const updated = items.filter((_, i) => i !== index);
-        setItems(updated);
         onChange(updated);
     };
 
@@ -30,7 +28,10 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
 
             <div className="d-flex justify-content-between mb-3">
                 <h6 className="fw-bold">Idiomas</h6>
-                <button className="btn btn-sm btn-outline-primary" onClick={addItem}>
+                <button
+                    className="btn btn-sm btn-outline-primary"
+                    onClick={addItem}
+                >
                     + Agregar
                 </button>
             </div>
@@ -41,7 +42,7 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                     <div className="col-md-5">
                         <select
                             className="form-select"
-                            value={item.idioma_id}
+                            value={item.idioma_id || ""}
                             onChange={(e) =>
                                 handleChange(index, "idioma_id", e.target.value)
                             }
@@ -58,7 +59,7 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                     <div className="col-md-5">
                         <select
                             className="form-select"
-                            value={item.nivel_id}
+                            value={item.nivel_id || ""}
                             onChange={(e) =>
                                 handleChange(index, "nivel_id", e.target.value)
                             }

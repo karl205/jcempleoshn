@@ -11,6 +11,8 @@ export default function AcademicTab({ data, catalogos, onChange }) {
     const updated = [...items];
     updated[index][field] = value;
 
+    console.log("Academic updated:", updated);
+
     onChange(updated);
   };
 
@@ -20,7 +22,9 @@ export default function AcademicTab({ data, catalogos, onChange }) {
       {
         institucion: "",
         nivel_educativo_id: "",
-        area_estudio: "",
+        area_estudio_id: "",
+        fecha_desde: "",
+        fecha_hasta: ""
       },
     ]);
   };

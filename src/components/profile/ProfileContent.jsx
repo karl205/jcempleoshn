@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 import ProfileTabs from "./ProfileTabs";
-import { getProfile, updateProfile } from "../../api/profileService";
+// import { getProfile, updateProfile } from "../../api/profileService";
+import {
+    getProfile,
+    updateProfile,
+    createEducacion,
+    updateEducacion,
+    createIdioma,
+    updateIdioma,
+    createExperiencia,
+    updateExperiencia
+} from "../../api/profileService";
 
 export default function ProfileContent() {
 
@@ -11,13 +21,15 @@ export default function ProfileContent() {
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
 
-    // 🔥 LOAD DATA GLOBAL
+    // LOAD DATA GLOBAL
     useEffect(() => {
         const loadData = async () => {
             try {
                 const res = await getProfile();
 
                 const perfil = res.data.perfil || {};
+
+                console.log("PERFIL BACKEND:", perfil);
 
                 setForm({
                     nombre: perfil.nombre || "",
@@ -28,6 +40,10 @@ export default function ProfileContent() {
                     sexo_id: perfil.sexo?.id || "",
                     pais_id: perfil.pais?.id || "",
                     foto: perfil.foto || null,
+
+                    educations: perfil.educaciones || [],
+                    languages: perfil.idiomas || [],
+                    experiences: perfil.experiencias || [],
                 });
 
                 setCatalogos(res.data.catalogos || {});
@@ -41,16 +57,23 @@ export default function ProfileContent() {
         loadData();
     }, []);
 
-    // 🔥 SAVE GLOBAL
+    // SAVE GLOBAL
     const handleSave = async () => {
         try {
             setSaving(true);
             setSaved(false);
 
+            // 1. PERFIL
             const formData = new FormData();
 
             Object.keys(form).forEach(key => {
-                if (form[key] !== null && form[key] !== undefined) {
+                if (
+                    form[key] !== null &&
+                    form[key] !== undefined &&
+                    key !== "educations" &&
+                    key !== "languages" &&
+                    key !== "experiences"
+                ) {
                     formData.append(key, form[key]);
                 }
             });
@@ -61,8 +84,34 @@ export default function ProfileContent() {
 
             await updateProfile(formData);
 
-            setSaved(true);
+            // 2. EDUCACIONES
+            for (const edu of form.educations || []) {
+                if (edu.id) {
+                    await updateEducacion(edu.id, edu);
+                } else {
+                    await createEducacion(edu);
+                }
+            }
 
+            // 3. IDIOMAS
+            for (const lang of form.languages || []) {
+                if (lang.id) {
+                    await updateIdioma(lang.id, lang);
+                } else {
+                    await createIdioma(lang);
+                }
+            }
+
+            // 4. EXPERIENCIAS
+            for (const exp of form.experiences || []) {
+                if (exp.id) {
+                    await updateExperiencia(exp.id, exp);
+                } else {
+                    await createExperiencia(exp);
+                }
+            }
+
+            setSaved(true);
             setTimeout(() => setSaved(false), 2500);
 
         } catch (error) {
