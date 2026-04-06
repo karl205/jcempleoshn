@@ -44,11 +44,12 @@ class PerfilEducacionController extends Controller
 
         $userId = auth()->id();
 
-        $result = DB::select('CALL usp_perfil_educacion_agregar(?, ?, ?, ?, ?, ?)', [
+        $result = DB::select('CALL usp_perfil_educacion_agregar(?, ?, ?, ?, ?, ?, ?)', [
             $userId,
             $request->institucion,
             $request->nivel_educativo_id,
             $request->area_estudio_id,
+            $request->pais_id,
             $request->fecha_desde,
             $request->fecha_hasta,
         ]);
@@ -62,7 +63,7 @@ class PerfilEducacionController extends Controller
         }
 
         return ApiResponse::success(
-            json_decode($result[0]->data),
+            null,
             'Educación agregada correctamente.',
             'EDUCATION_CREATED'
         );
@@ -131,12 +132,13 @@ class PerfilEducacionController extends Controller
     {
         $userId = auth()->id();
 
-        $result = DB::select('CALL usp_perfil_educacion_actualizar(?, ?, ?, ?, ?, ?, ?)', [
+        $result = DB::select('CALL usp_perfil_educacion_actualizar(?, ?, ?, ?, ?, ?, ?, ?)', [
             $userId,
             $id,
             $request->institucion,
             $request->nivel_educativo_id,
             $request->area_estudio_id,
+            $request->pais_id,
             $request->fecha_desde,
             $request->fecha_hasta,
         ]);

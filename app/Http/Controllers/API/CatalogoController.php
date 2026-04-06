@@ -67,4 +67,12 @@ class CatalogoController extends Controller
             'data' => $this->ejecutar('usp_catalogos_departamentos'),
         ]);
     }
+
+    public function paises()
+    {
+        return response()->json([
+            'success' => true,
+            'data' => DB::table('cat_paises')->get(),
+        ]);
+    }
 }

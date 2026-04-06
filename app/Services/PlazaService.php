@@ -85,8 +85,8 @@ class PlazaService
             ->leftJoin('cat_cargos_laborales as cl', 'cl.id', '=', 'p.cargo_id')
             ->leftJoin('cat_categorias_laborales as ca', 'ca.id', '=', 'p.categoria_laboral_id')
             ->leftJoin('cat_actividades_laborales as act', 'act.id', '=', 'p.actividad_laboral_id')
-            ->leftJoin('cat_niveles_educativos as ne', 'ne.id', '=', 'p.nivel_educativo_id') // 🔥
-            ->leftJoin('cat_sexos as s', 's.id', '=', 'p.sexo_id') // 🔥
+            ->leftJoin('cat_niveles_educativos as ne', 'ne.id', '=', 'p.nivel_educativo_id') 
+            ->leftJoin('cat_sexos as s', 's.id', '=', 'p.sexo_id') 
 
             ->select(
                 'p.id',

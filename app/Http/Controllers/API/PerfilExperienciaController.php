@@ -38,6 +38,8 @@ class PerfilExperienciaController extends Controller
         $request->validate([
             'empresa' => 'required|string|max:150',
             'pais_id' => 'nullable|integer',
+            'actividad_id' => 'nullable|integer', 
+            'categoria_id' => 'nullable|integer', 
             'cargo' => 'required|string|max:150',
             'fecha_desde' => 'nullable|date',
             'fecha_hasta' => 'nullable|date',
@@ -46,14 +48,15 @@ class PerfilExperienciaController extends Controller
 
         $userId = auth()->id();
 
-        $result = DB::select('CALL usp_perfil_experiencia_agregar(?, ?, ?, ?, ?, ?, ?)', [
+        $result = DB::select('CALL usp_perfil_experiencia_agregar(?, ?, ?, ?, ?, ?, ?, ?)', [
             $userId,
             $request->empresa,
             $request->pais_id,
+            $request->actividad_id,
+            $request->categoria_id,
             $request->cargo,
             $request->fecha_desde,
-            $request->fecha_hasta,
-            $request->descripcion
+            $request->fecha_hasta
         ]);
 
         if (empty($result) || !$result[0]->success) {
@@ -135,15 +138,16 @@ class PerfilExperienciaController extends Controller
     {
         $userId = auth()->id();
 
-        $result = DB::select('CALL usp_perfil_experiencia_actualizar(?, ?, ?, ?, ?, ?, ?, ?)', [
+        $result = DB::select('CALL usp_perfil_experiencia_actualizar(?, ?, ?, ?, ?, ?, ?, ?, ?)', [
             $userId,
             $id,
             $request->empresa,
             $request->pais_id,
+            $request->actividad_id,
+            $request->categoria_id,
             $request->cargo,
             $request->fecha_desde,
-            $request->fecha_hasta,
-            $request->descripcion
+            $request->fecha_hasta
         ]);
 
         if (empty($result) || !$result[0]->success) {

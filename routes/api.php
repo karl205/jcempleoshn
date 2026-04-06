@@ -4,9 +4,15 @@ use App\Http\Controllers\API\Admin\AdminMenuController;
 use App\Http\Controllers\API\Admin\AdminPermisoController;
 use App\Http\Controllers\API\Admin\AdminRolController;
 use App\Http\Controllers\API\Admin\AdminUsuarioController;
+use App\Http\Controllers\API\Admin\AdminTestimonioController;
+use App\Http\Controllers\API\Admin\BitacoraController;
+use App\Http\Controllers\API\Admin\BackupController;
+use App\Http\Controllers\API\Admin\CategoriaLaboralController;
+use App\Http\Controllers\API\Admin\CatalogosController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CatalogoController;
 use App\Http\Controllers\API\PerfilController;
+use App\Http\Controllers\API\ProfileSecurityController;
 use App\Http\Controllers\API\PerfilCvController;
 use App\Http\Controllers\API\PerfilEducacionController;
 use App\Http\Controllers\API\PerfilExperienciaController;
@@ -15,6 +21,7 @@ use App\Http\Controllers\API\PlazaController;
 use App\Http\Controllers\API\ProfileApiController;
 use App\Http\Controllers\API\PublicPlazaController;
 use App\Http\Controllers\API\UsuarioController;
+use App\Http\Controllers\API\TestimonioController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,12 +41,9 @@ Route::post('verify-code', [AuthController::class, 'verifyCode']);
 Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('plazas/ultimas', [PlazaController::class, 'ultimas']);
-// Route::get('ping', function () {
-//     return response()->json([
-//         'success' => true,
-//         'message' => 'API conectada correctamente',
-//     ]);
-// });
+Route::get('/testimonios', [TestimonioController::class, 'index']);
+
+Route::get('/admin/backups/{file}', [BackupController::class, 'download']);
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +58,7 @@ Route::get('catalogos/actividades', [CatalogoController::class, 'actividades']);
 Route::get('catalogos/niveles-educativos', [CatalogoController::class, 'nivelesEducativos']);
 Route::get('catalogos/sexos', [CatalogoController::class, 'sexos']);
 Route::get('catalogos/departamentos', [CatalogoController::class, 'departamentos']);
+Route::get('catalogos/paises', [CatalogoController::class, 'paises']);
 
 /*
 |--------------------------------------------------------------------------
@@ -65,13 +70,6 @@ Route::prefix('public')->group(function () {
     Route::get('plazas/ultimas', [PublicPlazaController::class, 'ultimas']);
     Route::get('plazas/{id}', [PublicPlazaController::class, 'show']);
 });
-
-
-// Route::get('public/plazas', [PublicPlazaController::class, 'index']);
-// Route::get('public/plazas/{id}', [PublicPlazaController::class, 'show']);
-
-// Route::get('plazas', [PublicPlazaController::class, 'index']);
-// Route::get('plazas/{id}', [PublicPlazaController::class, 'show']);
 
 /*
 |--------------------------------------------------------------------------
@@ -178,6 +176,72 @@ Route::middleware(['auth:sanctum'])
 
         Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
             ->middleware('permiso:plazas.eliminar');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Comentarios (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('testimonios', [AdminTestimonioController::class, 'index'])
+            ->middleware('permiso:testimonios.ver');
+
+        Route::put('testimonios/{id}/aprobar', [AdminTestimonioController::class, 'aprobar'])
+            ->middleware('permiso:testimonios.editar');
+
+        Route::put('testimonios/{id}/destacar', [AdminTestimonioController::class, 'destacar'])
+            ->middleware('permiso:testimonios.editar');
+
+        Route::delete('testimonios/{id}', [AdminTestimonioController::class, 'destroy'])
+            ->middleware('permiso:testimonios.eliminar');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bitácora (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('bitacora', [BitacoraController::class, 'index'])
+            ->middleware('permiso:bitacora.ver');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Backups (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('backups', [BackupController::class, 'index'])
+            ->middleware('permiso:backups.ver');
+
+        Route::post('backups', [BackupController::class, 'create'])
+            ->middleware('permiso:backups.crear');
+
+        // Route::get('backups/{file}', [BackupController::class, 'download'])
+        //     ->middleware('permiso:backups.descargar');
+    
+        Route::delete('backups/{file}', [BackupController::class, 'delete'])
+            ->middleware('permiso:backups.eliminar');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Categorías Laborales (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/categorias-laborales', [CategoriaLaboralController::class, 'index']);
+        Route::post('/categorias-laborales', [CategoriaLaboralController::class, 'store']);
+        Route::put('/categorias-laborales/{id}', [CategoriaLaboralController::class, 'update']);
+        Route::put('/categorias-laborales/{id}/toggle', [CategoriaLaboralController::class, 'toggle']);
+        Route::delete('/categorias-laborales/{id}', [CategoriaLaboralController::class, 'destroy']);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Mantenimientos (ADMIN)
+        |--------------------------------------------------------------------------
+        */
+        Route::prefix('catalogos')->group(function () {
+            Route::get('{catalogo}', [CatalogosController::class, 'index']);
+            Route::post('{catalogo}', [CatalogosController::class, 'store']);
+            Route::put('{catalogo}/{id}', [CatalogosController::class, 'update']);
+            Route::put('{catalogo}/{id}/toggle', [CatalogosController::class, 'toggle']);
+            Route::delete('{catalogo}/{id}', [CatalogosController::class, 'destroy']);
+        });
     });
 
 /*
@@ -197,6 +261,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('change-password', [AuthController::class, 'changePassword']);
+    Route::put('/profile/password', [ProfileSecurityController::class, 'updatePassword']);
 
     /*
     |--------------------------------------------------------------------------
@@ -212,14 +277,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     |--------------------------------------------------------------------------
     */
 
-    // Route::get('perfil', [PerfilController::class, 'show']);
-    // Route::put('perfil', [PerfilController::class, 'update']);
-
-    // Route::get('perfil/cv', [PerfilCvController::class, 'show']);
-
     Route::get('/profile', [ProfileApiController::class, 'show']);
-    Route::post('/profile', [ProfileApiController::class, 'store']);
+    // Route::post('/profile', [ProfileApiController::class, 'store']);
     Route::post('/profile', [ProfileApiController::class, 'update']);
+    Route::put('/profile/basic', [ProfileApiController::class, 'updateBasic']);
+    Route::post('/profile/delete', [ProfileApiController::class, 'destroy']);
 
     /*
     |--------------------------------------------------------------------------
@@ -253,4 +315,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('perfil/idioma', [PerfilIdiomaController::class, 'store']);
     Route::put('perfil/idioma/{id}', [PerfilIdiomaController::class, 'update']);
     Route::delete('perfil/idioma/{id}', [PerfilIdiomaController::class, 'destroy']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Comentarios
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('/testimonios', [TestimonioController::class, 'store']);
+
 });

@@ -39,7 +39,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(function (\Throwable $e, $request) {
 
-            // 🔥 Excluir Swagger
+            // Excluir Swagger
             if (
                 $request->is('api/documentation') ||
                 $request->is('docs') ||

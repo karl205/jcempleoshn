@@ -39,36 +39,37 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
+
         $result = DB::select('CALL usp_autenticacion_login(?)', [
             $request->email,
         ]);
-    
+
+        // error del SP (usuario no existe, bloqueado, inactivo)
         if (empty($result) || !$result[0]->success) {
             return ApiResponse::error(
-                'Credenciales inválidas',
-                'AUTH_INVALID_CREDENTIALS',
+                $result[0]->message ?? 'Error en autenticación',
+                'AUTH_ERROR',
                 401
             );
         }
-    
+
         $userData = json_decode($result[0]->data);
-    
-        // Validar contraseña
+
+        // contraseña incorrecta
         if (!Hash::check($request->password, $userData->password)) {
-    
+
             DB::select('CALL usp_autenticacion_intento_fallido(?)', [
                 $userData->id
             ]);
-    
+
             return ApiResponse::error(
-                'Credenciales inválidas',
-                'AUTH_INVALID_CREDENTIALS',
+                'Contraseña incorrecta',
+                'AUTH_INVALID_PASSWORD',
                 401
             );
         }
-    
-        // Verificar email
+
+        // email no verificado
         if (is_null($userData->email_verified_at)) {
             return ApiResponse::error(
                 'Debes verificar tu correo antes de iniciar sesión.',
@@ -76,35 +77,108 @@ class AuthController extends Controller
                 403
             );
         }
-    
+
         $user = Usuario::find($userData->id);
-    
+
         $token = $user->createToken('api-token', ['*'])->plainTextToken;
-    
-        // Registrar login exitoso
+
+        // registrar login exitoso
         DB::select('CALL usp_autenticacion_registrar_login(?)', [
             $user->id
         ]);
-    
-        // 🔐 Obtener permisos del usuario
+
+        // permisos
         $permisos = DB::table('usuarios_roles as ur')
             ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
             ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
             ->where('ur.usuario_id', $user->id)
             ->pluck('p.nombre')
             ->toArray();
-    
+
         return ApiResponse::success(
-        [
-            'user' => $user,
-            'roles' => $user->getRoles(),
-            'permisos' => $permisos,
-            'token' => $token,
-        ],
-        'Inicio de sesión exitoso',
-        'AUTH_LOGIN_SUCCESS'
+            [
+                'user' => $user,
+                'roles' => $user->getRoles(),
+                'permisos' => $permisos,
+                'token' => $token,
+            ],
+            'Inicio de sesión exitoso',
+            'AUTH_LOGIN_SUCCESS'
         );
     }
+
+    // public function login(Request $request)
+    // {
+    //     $request->validate([
+    //         'email' => 'required|email',
+    //         'password' => 'required',
+    //     ]);
+
+    //     $result = DB::select('CALL usp_autenticacion_login(?)', [
+    //         $request->email,
+    //     ]);
+
+    //     if (empty($result) || !$result[0]->success) {
+    //         return ApiResponse::error(
+    //             'Credenciales inválidas',
+    //             'AUTH_INVALID_CREDENTIALS',
+    //             401
+    //         );
+    //     }
+
+    //     $userData = json_decode($result[0]->data);
+
+    //     // Validar contraseña
+    //     if (!Hash::check($request->password, $userData->password)) {
+
+    //         DB::select('CALL usp_autenticacion_intento_fallido(?)', [
+    //             $userData->id
+    //         ]);
+
+    //         return ApiResponse::error(
+    //             'Credenciales inválidas',
+    //             'AUTH_INVALID_CREDENTIALS',
+    //             401
+    //         );
+    //     }
+
+    //     // Verificar email
+    //     if (is_null($userData->email_verified_at)) {
+    //         return ApiResponse::error(
+    //             'Debes verificar tu correo antes de iniciar sesión.',
+    //             'EMAIL_NOT_VERIFIED',
+    //             403
+    //         );
+    //     }
+
+    //     $user = Usuario::find($userData->id);
+
+    //     $token = $user->createToken('api-token', ['*'])->plainTextToken;
+
+    //     // Registrar login exitoso
+    //     DB::select('CALL usp_autenticacion_registrar_login(?)', [
+    //         $user->id
+    //     ]);
+
+    //     // 🔐 Obtener permisos del usuario
+    //     $permisos = DB::table('usuarios_roles as ur')
+    //         ->join('roles_permisos as rp', 'rp.rol_id', '=', 'ur.rol_id')
+    //         ->join('permisos as p', 'p.id', '=', 'rp.permiso_id')
+    //         ->where('ur.usuario_id', $user->id)
+    //         ->pluck('p.nombre')
+    //         ->toArray();
+
+    //     return ApiResponse::success(
+    //     [
+    //         'user' => $user,
+    //         'roles' => $user->getRoles(),
+    //         'permisos' => $permisos,
+    //         'token' => $token,
+    //     ],
+    //     'Inicio de sesión exitoso',
+    //     'AUTH_LOGIN_SUCCESS'
+    //     );
+    // }
 
     /**
      * @OA\Post(
@@ -230,31 +304,31 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    *     path="/api/register",
-    *     summary="Registro de usuario postulante",
-    *     tags={"Autenticación"},
-    *     @OA\RequestBody(
-    *         required=true,
-    *         @OA\JsonContent(
-    *             required={"nombre","apellido","email","password","password_confirmation"},
-    *             @OA\Property(property="nombre", type="string", example="Juan"),
-    *             @OA\Property(property="apellido", type="string", example="Pérez"),
-    *             @OA\Property(property="email", type="string", example="juan@email.com"),
-    *             @OA\Property(property="password", type="string", example="Password123!"),
-    *             @OA\Property(property="password_confirmation", type="string", example="Password123!")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Usuario creado correctamente, correo de verificación enviado"
-    *     ),
-    *     @OA\Response(
-    *         response=422,
-    *         description="Error de validación o correo duplicado"
-    *     )
-    * )
-    */
+     * @OA\Post(
+     *     path="/api/register",
+     *     summary="Registro de usuario postulante",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre","apellido","email","password","password_confirmation"},
+     *             @OA\Property(property="nombre", type="string", example="Juan"),
+     *             @OA\Property(property="apellido", type="string", example="Pérez"),
+     *             @OA\Property(property="email", type="string", example="juan@email.com"),
+     *             @OA\Property(property="password", type="string", example="Password123!"),
+     *             @OA\Property(property="password_confirmation", type="string", example="Password123!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Usuario creado correctamente, correo de verificación enviado"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación o correo duplicado"
+     *     )
+     * )
+     */
     public function register(Request $request)
     {
         $request->validate([
@@ -287,7 +361,7 @@ class AuthController extends Controller
             );
         }
 
-       $usuario = json_decode($result[0]->data);
+        $usuario = json_decode($result[0]->data);
 
         $token = (string) Str::uuid();
         $expira = now()->addMinutes(30)->format('Y-m-d H:i:s');
@@ -300,7 +374,7 @@ class AuthController extends Controller
                 $expira
             ]
         );
-        
+
         // 4️⃣ Construir enlace
         $frontendUrl = config('app.frontend_url');
         $link = "{$frontendUrl}/verify-email?token={$token}";
@@ -359,31 +433,31 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    *     path="/api/resend-verification",
-    *     summary="Reenviar correo de verificación",
-    *     tags={"Autenticación"},
-    *     @OA\RequestBody(
-    *         required=true,
-    *         @OA\JsonContent(
-    *             required={"email"},
-    *             @OA\Property(property="email", type="string", example="usuario@email.com")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Correo reenviado correctamente"
-    *     ),
-    *     @OA\Response(
-    *         response=400,
-    *         description="Correo ya verificado"
-    *     ),
-    *     @OA\Response(
-    *         response=404,
-    *         description="Usuario no encontrado"
-    *     )
-    * )
-    */
+     * @OA\Post(
+     *     path="/api/resend-verification",
+     *     summary="Reenviar correo de verificación",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", example="usuario@email.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Correo reenviado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Correo ya verificado"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Usuario no encontrado"
+     *     )
+     * )
+     */
     public function resendVerification(Request $request)
     {
         $request->validate([
@@ -428,7 +502,7 @@ class AuthController extends Controller
             "Confirma tu cuenta aquí: http://localhost:5173/verify-email?token=$token",
             function ($message) use ($usuario) {
                 $message->to($usuario->email)
-                        ->subject('Verifica tu cuenta - JC Empleos');
+                    ->subject('Verifica tu cuenta - JC Empleos');
             }
         );
 
@@ -440,27 +514,27 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    *     path="/api/forgot-password",
-    *     summary="Enviar código de recuperación de contraseña",
-    *     tags={"Autenticación"},
-    *     @OA\RequestBody(
-    *         required=true,
-    *         @OA\JsonContent(
-    *             required={"email"},
-    *             @OA\Property(property="email", type="string", example="usuario@email.com")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Código enviado correctamente"
-    *     ),
-    *     @OA\Response(
-    *         response=404,
-    *         description="Correo no registrado"
-    *     )
-    * )
-    */
+     * @OA\Post(
+     *     path="/api/forgot-password",
+     *     summary="Enviar código de recuperación de contraseña",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email"},
+     *             @OA\Property(property="email", type="string", example="usuario@email.com")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Código enviado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Correo no registrado"
+     *     )
+     * )
+     */
     public function forgotPassword(Request $request)
     {
         $request->validate([
@@ -484,7 +558,7 @@ class AuthController extends Controller
 
         Mail::raw("Tu código de recuperación es: {$codigo}", function ($message) use ($request) {
             $message->to($request->email)
-                    ->subject('Código de recuperación - JC Empleos');
+                ->subject('Código de recuperación - JC Empleos');
         });
 
         return ApiResponse::success(
@@ -495,28 +569,28 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    *     path="/api/verify-code",
-    *     summary="Verificar código de recuperación",
-    *     tags={"Autenticación"},
-    *     @OA\RequestBody(
-    *         required=true,
-    *         @OA\JsonContent(
-    *             required={"email","code"},
-    *             @OA\Property(property="email", type="string", example="usuario@email.com"),
-    *             @OA\Property(property="code", type="string", example="123456")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Código verificado correctamente"
-    *     ),
-    *     @OA\Response(
-    *         response=422,
-    *         description="Código inválido"
-    *     )
-    * )
-    */
+     * @OA\Post(
+     *     path="/api/verify-code",
+     *     summary="Verificar código de recuperación",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","code"},
+     *             @OA\Property(property="email", type="string", example="usuario@email.com"),
+     *             @OA\Property(property="code", type="string", example="123456")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Código verificado correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Código inválido"
+     *     )
+     * )
+     */
     public function verifyCode(Request $request)
     {
         $request->validate([
@@ -545,29 +619,29 @@ class AuthController extends Controller
     }
 
     /**
-    * @OA\Post(
-    *     path="/api/reset-password",
-    *     summary="Restablecer contraseña",
-    *     tags={"Autenticación"},
-    *     @OA\RequestBody(
-    *         required=true,
-    *         @OA\JsonContent(
-    *             required={"email","password","password_confirmation"},
-    *             @OA\Property(property="email", type="string", example="usuario@email.com"),
-    *             @OA\Property(property="password", type="string", example="Password123!"),
-    *             @OA\Property(property="password_confirmation", type="string", example="Password123!")
-    *         )
-    *     ),
-    *     @OA\Response(
-    *         response=200,
-    *         description="Contraseña actualizada correctamente"
-    *     ),
-    *     @OA\Response(
-    *         response=422,
-    *         description="Error de validación o fallo en actualización"
-    *     )
-    * )
-    */
+     * @OA\Post(
+     *     path="/api/reset-password",
+     *     summary="Restablecer contraseña",
+     *     tags={"Autenticación"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password","password_confirmation"},
+     *             @OA\Property(property="email", type="string", example="usuario@email.com"),
+     *             @OA\Property(property="password", type="string", example="Password123!"),
+     *             @OA\Property(property="password_confirmation", type="string", example="Password123!")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Contraseña actualizada correctamente"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación o fallo en actualización"
+     *     )
+     * )
+     */
     public function resetPassword(Request $request)
     {
         $request->validate([
