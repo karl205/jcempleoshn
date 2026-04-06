@@ -32,7 +32,7 @@ export default function AdminRoles() {
 
             const response = await getRoles();
 
-            console.log("RESPUESTA API ROLES:", response);
+            // console.log("RESPUESTA API ROLES:", response);
 
             setRoles(response.data.data);
 

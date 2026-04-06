@@ -74,7 +74,7 @@ export default function Login() {
         try {
             const response = await login(form.email, form.password);
 
-            console.log("RESPUESTA LOGIN:", response);
+            // console.log("RESPUESTA LOGIN:", response);
 
             if (response.success) {
                 const userData = response.data.user;

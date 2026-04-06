@@ -726,3 +726,48 @@ textarea {
   background-color: #0a66c2;
   color: #fff;
 }
+
+/* PANEL ADMIN */
+
+.menu-group {
+  margin-top: 10px;
+}
+
+.menu-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.6;
+  padding: 10px 15px;
+}
+
+.menu-group-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-child {
+  padding: 8px 10px 5px 16px;
+  font-size: 14px;
+  color: #cbd5e1;
+  text-decoration: none;
+  gap: 10px;
+  transition: 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.menu-group-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu-item-child:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+}
+
+.menu-item-child:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}

@@ -66,21 +66,21 @@ export default function PlazaModal({
 
     useEffect(() => {
 
-        console.log("FORM categoria_id:", form.categoria_id);
-        console.log("CARGOS RAW:", cargos);
+        // console.log("FORM categoria_id:", form.categoria_id);
+        // console.log("CARGOS RAW:", cargos);
 
         const filtrados = cargos.filter(c => {
 
             const categoriaCargo =
                 c.categoria_laboral_id ?? c.categoria_id;
 
-            console.log("Comparando:", categoriaCargo, "vs", form.categoria_id);
+            // console.log("Comparando:", categoriaCargo, "vs", form.categoria_id);
 
             return Number(categoriaCargo) === Number(form.categoria_id);
 
         });
 
-        console.log("CARGOS FILTRADOS:", filtrados);
+        // console.log("CARGOS FILTRADOS:", filtrados);
 
         setCargosFiltrados(filtrados);
 
@@ -143,6 +143,18 @@ export default function PlazaModal({
 
     }, [plaza]);
 
+    useEffect(() => {
+        if (!form.categoria_id) {
+            setForm(prev => ({ ...prev, cargo_id: "" }));
+        }
+    }, [form.categoria_id]);
+
+    useEffect(() => {
+        if (!form.departamento_id) {
+            setForm(prev => ({ ...prev, ciudad_id: "" }));
+        }
+    }, [form.departamento_id]);
+
     const cargarCatalogos = async () => {
 
         try {
@@ -172,18 +184,6 @@ export default function PlazaModal({
             setNiveles(nivelesRes.data.data);
             setSexos(sexosRes.data.data);
             setDepartamentos(departamentosRes.data.data);
-
-            useEffect(() => {
-                if (!form.categoria_id) {
-                    setForm(prev => ({ ...prev, cargo_id: "" }));
-                }
-            }, [form.categoria_id]);
-
-            useEffect(() => {
-                if (!form.departamento_id) {
-                    setForm(prev => ({ ...prev, ciudad_id: "" }));
-                }
-            }, [form.departamento_id]);
 
         } catch (error) {
 

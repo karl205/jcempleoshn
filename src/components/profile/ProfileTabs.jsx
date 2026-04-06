@@ -19,7 +19,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                             className={`nav-link ${active === "personal" ? "active" : ""}`}
                             onClick={() => setActive("personal")}
                         >
-                            Información
+                            Datos Personales
                         </button>
                     </li>
 
@@ -28,7 +28,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                             className={`nav-link ${active === "academic" ? "active" : ""}`}
                             onClick={() => setActive("academic")}
                         >
-                            Formación
+                            Formación Académica
                         </button>
                     </li>
 
@@ -46,7 +46,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                             className={`nav-link ${active === "experience" ? "active" : ""}`}
                             onClick={() => setActive("experience")}
                         >
-                            Experiencia
+                            Experiencia Laboral
                         </button>
                     </li>
 
@@ -87,6 +87,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                 {active === "experience" && (
                     <ExperienceTab
                         data={form.experiences || []}
+                        catalogos={catalogos} 
                         onChange={(val) =>
                             setForm({ ...form, experiences: val })
                         }

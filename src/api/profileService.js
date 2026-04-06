@@ -28,3 +28,20 @@ export const createExperiencia = (data) =>
 
 export const updateExperiencia = (id, data) =>
   apiClient.put(`/perfil/experiencia/${id}`, data);
+
+export const deleteEducacion = (id) =>
+  apiClient.delete(`/perfil/educacion/${id}`);
+
+export const deleteIdioma = (id) => apiClient.delete(`/perfil/idioma/${id}`);
+
+export const deleteExperiencia = (id) =>
+  apiClient.delete(`/perfil/experiencia/${id}`);
+
+export const updatePassword = (data) =>
+  apiClient.put("/profile/password", data);
+
+export const updateBasic = (data) => apiClient.put("/profile/basic", data);
+
+export const getTestimonios = () => apiClient.get("/testimonios");
+
+export const createTestimonio = (data) => apiClient.post("/testimonios", data);

@@ -57,7 +57,7 @@ export default function UsuarioModal({
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        console.log("FORM ENVIADO:", form);
+        // console.log("FORM ENVIADO:", form);
         
         onSave(form);
     };

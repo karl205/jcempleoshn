@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import ProfileTabs from "./ProfileTabs";
-// import { getProfile, updateProfile } from "../../api/profileService";
+import { deleteIdioma } from "../../api/profileService";
+import { deleteExperiencia } from "../../api/profileService";
 import {
     getProfile,
     updateProfile,
     createEducacion,
     updateEducacion,
+    deleteEducacion,
     createIdioma,
     updateIdioma,
     createExperiencia,
@@ -21,7 +23,11 @@ export default function ProfileContent() {
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
 
-    // LOAD DATA GLOBAL
+    const [originalEducations, setOriginalEducations] = useState([]);
+    const [originalLanguages, setOriginalLanguages] = useState([]);
+    const [originalExperiences, setOriginalExperiences] = useState([]);
+
+    // LOAD DATA
     useEffect(() => {
         const loadData = async () => {
             try {
@@ -29,7 +35,7 @@ export default function ProfileContent() {
 
                 const perfil = res.data.perfil || {};
 
-                console.log("PERFIL BACKEND:", perfil);
+                // console.log("PERFIL BACKEND:", perfil);
 
                 setForm({
                     nombre: perfil.nombre || "",
@@ -37,8 +43,16 @@ export default function ProfileContent() {
                     email: perfil.email || "",
                     telefono: perfil.telefono || "",
                     acerca_de_mi: perfil.acerca_de_mi || "",
+
                     sexo_id: perfil.sexo?.id || "",
                     pais_id: perfil.pais?.id || "",
+                    departamento_id: perfil.departamento?.id || "",
+                    ciudad_id: perfil.ciudad?.id || "",
+                    disponibilidad_vehicular_id: perfil.disponibilidad_vehicular?.id || "",
+
+                    fecha_nacimiento: perfil.fecha_nacimiento || "",
+                    aspiracion_salarial: perfil.aspiracion_salarial || "",
+
                     foto: perfil.foto || null,
 
                     educations: perfil.educaciones || [],
@@ -46,6 +60,9 @@ export default function ProfileContent() {
                     experiences: perfil.experiencias || [],
                 });
 
+                setOriginalEducations(perfil.educaciones || []);
+                setOriginalLanguages(perfil.idiomas || []);
+                setOriginalExperiences(perfil.experiencias || []);
                 setCatalogos(res.data.catalogos || {});
             } catch (error) {
                 console.error(error);
@@ -57,7 +74,7 @@ export default function ProfileContent() {
         loadData();
     }, []);
 
-    // SAVE GLOBAL
+    // SAVE
     const handleSave = async () => {
         try {
             setSaving(true);
@@ -85,31 +102,115 @@ export default function ProfileContent() {
             await updateProfile(formData);
 
             // 2. EDUCACIONES
+
+            // detectar eliminados
+            const currentIds = (form.educations || [])
+                .filter(e => e.id)
+                .map(e => e.id);
+
+            const deleted = originalEducations.filter(
+                e => !currentIds.includes(e.id)
+            );
+
+            // eliminar en backend
+            for (const edu of deleted) {
+                await deleteEducacion(edu.id);
+            }
+
+            // crear / actualizar
             for (const edu of form.educations || []) {
+
+                const cleanEdu = {
+                    institucion: edu.institucion,
+                    nivel_educativo_id: edu.nivel_educativo_id || null,
+                    area_estudio_id: edu.area_estudio_id || null,
+                    pais_id: edu.pais_id || null,
+                    fecha_desde: edu.fecha_desde || null,
+                    fecha_hasta: edu.fecha_hasta || null
+                };
+
+                // console.log("EDU LIMPIO:", cleanEdu);
+
                 if (edu.id) {
-                    await updateEducacion(edu.id, edu);
+                    await updateEducacion(edu.id, cleanEdu);
                 } else {
-                    await createEducacion(edu);
+                    await createEducacion(cleanEdu);
                 }
             }
+
+            // actualizar referencia
+            setOriginalEducations(form.educations);
 
             // 3. IDIOMAS
+
+            // detectar eliminados
+            const currentLangIds = (form.languages || [])
+                .filter(l => l.id)
+                .map(l => l.id);
+
+            const deletedLangs = originalLanguages.filter(
+                l => !currentLangIds.includes(l.id)
+            );
+
+            // eliminar en backend
+            for (const lang of deletedLangs) {
+                await deleteIdioma(lang.id);
+            }
+
+            // crear / actualizar
             for (const lang of form.languages || []) {
+
+                const cleanLang = {
+                    idioma_id: lang.idioma_id || null,
+                    nivel_id: lang.nivel_id || null
+                };
+
                 if (lang.id) {
-                    await updateIdioma(lang.id, lang);
+                    await updateIdioma(lang.id, cleanLang);
                 } else {
-                    await createIdioma(lang);
+                    await createIdioma(cleanLang);
                 }
             }
 
+            // actualizar referencia
+            setOriginalLanguages(form.languages);
+
             // 4. EXPERIENCIAS
+
+            const currentExpIds = (form.experiences || [])
+                .filter(e => e.id)
+                .map(e => e.id);
+
+            const deletedExp = originalExperiences.filter(
+                e => !currentExpIds.includes(e.id)
+            );
+
+            // eliminar
+            for (const exp of deletedExp) {
+                await deleteExperiencia(exp.id);
+            }
+
+            // crear / actualizar
             for (const exp of form.experiences || []) {
+
+                const cleanExp = {
+                    empresa: exp.empresa,
+                    cargo: exp.cargo,
+                    pais_id: exp.pais_id || null,
+                    actividad_id: exp.actividad_id || null,
+                    categoria_id: exp.categoria_id || null,
+                    fecha_desde: exp.fecha_desde || null,
+                    fecha_hasta: exp.fecha_hasta || null
+                };
+
                 if (exp.id) {
-                    await updateExperiencia(exp.id, exp);
+                    await updateExperiencia(exp.id, cleanExp);
                 } else {
-                    await createExperiencia(exp);
+                    await createExperiencia(cleanExp);
                 }
             }
+
+            setOriginalExperiences(form.experiences);
 
             setSaved(true);
             setTimeout(() => setSaved(false), 2500);

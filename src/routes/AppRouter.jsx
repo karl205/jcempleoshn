@@ -16,14 +16,19 @@ import AdminUsuarios from "../pages/admin/AdminUsuarios";
 import AdminRoles from "../pages/admin/AdminRoles";
 import AdminPermisos from "../pages/admin/AdminPermisos";
 import AdminPlazas from "../pages/admin/AdminPlazas";
-import Plazas from "../pages/public/Plazas";
+import AdminTestimonios from "../pages/admin/AdminTestimonios";
+import AdminBitacora from "../pages/admin/AdminBitacora";
+import AdminCategoriasLaborales from "../pages/admin/mantenimientos/AdminCategoriasLaborales";
+import AdminCatalogoPage from "../pages/admin/AdminCatalogoPage";
 
+import Plazas from "../pages/public/Plazas";
 import PlazaDetalle from "../pages/public/PlazaDetalle";
 
 import PublicLayout from "../layouts/PublicLayout";
 import ProfilePage from "../pages/profile/ProfilePage";
+import AdminBackups from "../pages/admin/AdminBackups";
 
-
+import AdminCatalogoPageWrapper from "../pages/admin/AdminCatalogoPageWrapper";
 
 export default function AppRouter() {
   return (
@@ -45,15 +50,30 @@ export default function AppRouter() {
       <Route path="/admin/roles" element={<AdminRoute><AdminRoles /></AdminRoute>} />
       <Route path="/admin/permisos" element={<AdminRoute><AdminPermisos /></AdminRoute>} />
       <Route path="/admin/plazas" element={<AdminRoute><AdminPlazas /></AdminRoute>} />
+      <Route path="/admin/testimonios" element={<AdminRoute><AdminTestimonios /></AdminRoute>} />
+      <Route path="/admin/bitacora" element={<AdminRoute><AdminBitacora /></AdminRoute>} />
+      <Route path="/admin/backups" element={<AdminRoute><AdminBackups /></AdminRoute>} />
+      {/* <Route path="/admin/mantenimientos/categorias-laborales" element={<AdminRoute><AdminCategoriasLaborales /></AdminRoute>} /> */}
 
-      <Route
-        path="/perfil"
-        element={
-          <PublicLayout>
-            <ProfilePage />
-          </PublicLayout>
-        }
-      />
-    </Routes>
+      // MANTENIMIENTOS
+
+      <Route path="/admin/mantenimientos/:catalogo" element={<AdminRoute><AdminCatalogoPageWrapper /></AdminRoute>} />
+
+      {/* <Route path="/admin/mantenimientos/actividades-laborales" element={<AdminRoute><AdminCatalogoPage title="Actividades laborales" name="actividades_laborales" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/paises" element={<AdminCatalogoPage title="Países" name="paises" />} />
+      <Route path="/admin/mantenimientos/areas-estudio" element={<AdminRoute><AdminCatalogoPage title="Áreas de estudio" name="areas_estudio" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/cargos-laborales" element={<AdminRoute><AdminCatalogoPage title="Cargos laborales" name="cargos_laborales" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/categorias-laborales" element={<AdminRoute><AdminCatalogoPage title="Categorías laborales" name="categorias_laborales" /></AdminRoute>}/>
+      <Route path="/admin/mantenimientos/ciudades" element={<AdminRoute><AdminCatalogoPage title="Ciudades" name="ciudades" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/departamentos" element={<AdminRoute><AdminCatalogoPage title="Departamentos" name="departamentos" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/disponibilidad-vehicular" element={<AdminRoute><AdminCatalogoPage title="Disponibilidad vehicular" name="disponibilidad_vehicular" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/idiomas" element={<AdminRoute><AdminCatalogoPage title="Idiomas" name="idiomas" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/nacionalidades" element={<AdminRoute><AdminCatalogoPage title="Nacionalidades" name="nacionalidades" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/niveles-educativos" element={<AdminRoute><AdminCatalogoPage title="Niveles educativos" name="niveles_educativos" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/niveles-idioma" element={<AdminRoute><AdminCatalogoPage title="Niveles de idioma" name="niveles_idioma" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/paises" element={<AdminRoute><AdminCatalogoPage title="Países" name="paises" /></AdminRoute>} />
+      <Route path="/admin/mantenimientos/sexos" element={<AdminRoute><AdminCatalogoPage title="Sexos" name="sexos" /></AdminRoute>} /> */}
+
+      <Route path="/perfil" element={<PublicLayout><ProfilePage /></PublicLayout>} /></Routes>
   );
 }

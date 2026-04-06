@@ -1,7 +1,6 @@
 import { useState } from "react";
 
-export default function ProfileSidebar() {
-    const [active, setActive] = useState("perfil");
+export default function ProfileSidebar({ active, onChange }) {
 
     const menu = [
         { key: "perfil", label: "Información personal" },
@@ -17,7 +16,7 @@ export default function ProfileSidebar() {
             {menu.map((item) => (
                 <div
                     key={item.key}
-                    onClick={() => setActive(item.key)}
+                    onClick={() => onChange(item.key)}
                     className={`px-3 py-2 rounded-3 mb-2 ${active === item.key
                             ? "bg-primary text-white fw-semibold"
                             : "text-dark"

@@ -4,33 +4,59 @@ export default function AcademicTab({ data, catalogos, onChange }) {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    setItems(data || []);
+    const cleanData = (data || []).map(item => ({
+      ...item,
+      institucion: item.institucion || "",
+      nivel_educativo_id: item.nivel_educativo_id || "",
+      area_estudio_id: item.area_estudio_id || "",
+      pais_id: item.pais_id || "",
+      fecha_desde: item.fecha_desde || "",
+      fecha_hasta: item.fecha_hasta || ""
+    }));
+
+    setItems(cleanData);
   }, [data]);
 
   const handleChange = (index, field, value) => {
-    const updated = [...items];
-    updated[index][field] = value;
+    const updated = items.map((item, i) =>
+      i === index ? { ...item, [field]: value } : item
+    );
 
-    console.log("Academic updated:", updated);
-
+    setItems(updated);
     onChange(updated);
   };
 
+  const latestItems = [...items]
+    .sort((a, b) => {
+      if (!a.id) return -1;
+      if (!b.id) return 1;
+
+      return b.id - a.id;
+    })
+    .slice(0, 3);
+
+
   const addItem = () => {
-    onChange([
-      ...items,
+    const updated = [
       {
         institucion: "",
         nivel_educativo_id: "",
         area_estudio_id: "",
+        pais_id: "",
         fecha_desde: "",
         fecha_hasta: ""
       },
-    ]);
+      ...items 
+    ];
+
+    setItems(updated);
+    onChange(updated);
   };
 
   const removeItem = (index) => {
-    onChange(items.filter((_, i) => i !== index));
+    const updated = items.filter((_, i) => i !== index);
+    setItems(updated);
+    onChange(updated);
   };
 
   return (
@@ -43,15 +69,16 @@ export default function AcademicTab({ data, catalogos, onChange }) {
         </button>
       </div>
 
-      {items.map((item, index) => (
-        <div key={index} className="border rounded p-3 mb-2">
+      {latestItems.map((item, index) => (
+        <div key={index} className="border rounded p-3 mb-3">
 
           <div className="row g-2">
 
+            {/* NOMBRE */}
             <div className="col-md-6">
               <input
                 className="form-control"
-                placeholder="Institución"
+                placeholder="Nombre institución"
                 value={item.institucion}
                 onChange={(e) =>
                   handleChange(index, "institucion", e.target.value)
@@ -59,7 +86,48 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               />
             </div>
 
-            <div className="col-md-6">
+            {/* FECHA INICIO */}
+            <div className="col-md-3">
+              <input
+                type="date"
+                className="form-control"
+                value={item.fecha_desde}
+                onChange={(e) =>
+                  handleChange(index, "fecha_desde", e.target.value)
+                }
+              />
+            </div>
+
+            {/* FECHA FIN */}
+            <div className="col-md-3">
+              <input
+                type="date"
+                className="form-control"
+                value={item.fecha_hasta}
+                onChange={(e) =>
+                  handleChange(index, "fecha_hasta", e.target.value)
+                }
+              />
+            </div>
+
+            {/* PAÍS */}
+            <div className="col-md-4">
+              <select
+                className="form-select"
+                value={item.pais_id}
+                onChange={(e) =>
+                  handleChange(index, "pais_id", e.target.value)
+                }
+              >
+                <option value="">País de estudio</option>
+                {catalogos.paises?.map(p => (
+                  <option key={p.id} value={p.id}>{p.nombre}</option>
+                ))}
+              </select>
+            </div>
+
+            {/* NIVEL */}
+            <div className="col-md-4">
               <select
                 className="form-select"
                 value={item.nivel_educativo_id}
@@ -67,32 +135,36 @@ export default function AcademicTab({ data, catalogos, onChange }) {
                   handleChange(index, "nivel_educativo_id", e.target.value)
                 }
               >
-                <option value="">Nivel educativo</option>
-                {catalogos.niveles?.map((n) => (
-                  <option key={n.id} value={n.id}>
-                    {n.nombre}
-                  </option>
+                <option value="">Nivel de estudio</option>
+                {catalogos.niveles?.map(n => (
+                  <option key={n.id} value={n.id}>{n.nombre}</option>
                 ))}
               </select>
             </div>
 
-            <div className="col-md-10">
-              <input
-                className="form-control"
-                placeholder="Área de estudio"
-                value={item.area_estudio}
+            {/* ÁREA */}
+            <div className="col-md-3">
+              <select
+                className="form-select"
+                value={item.area_estudio_id}
                 onChange={(e) =>
-                  handleChange(index, "area_estudio", e.target.value)
+                  handleChange(index, "area_estudio_id", e.target.value)
                 }
-              />
+              >
+                <option value="">Área de estudio</option>
+                {catalogos.areas_estudio?.map(a => (
+                  <option key={a.id} value={a.id}>{a.nombre}</option>
+                ))}
+              </select>
             </div>
 
-            <div className="col-md-2 d-flex align-items-center">
+            {/* ELIMINAR */}
+            <div className="col-md-1 d-flex align-items-center">
               <button
                 className="btn btn-sm btn-outline-danger w-100"
                 onClick={() => removeItem(index)}
               >
-                Eliminar
+                X
               </button>
             </div>
 

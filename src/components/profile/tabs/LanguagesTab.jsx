@@ -1,25 +1,48 @@
+import { useEffect, useState } from "react";
+
 export default function LanguagesTab({ data, catalogos, onChange }) {
-    const items = data || [];
+
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        setItems(data || []);
+    }, [data]);
 
     const handleChange = (index, field, value) => {
-        const updated = [...items];
-        updated[index][field] = value;
+        const updated = items.map((item, i) =>
+            i === index ? { ...item, [field]: value } : item
+        );
 
-        console.log("Languages updated:", updated);
-
+        setItems(updated);
         onChange(updated);
     };
 
+    // ordenar: nuevos primero + últimos 3
+    const latestItems = [...items]
+        .sort((a, b) => {
+            if (!a.id) return -1;
+            if (!b.id) return 1;
+            return b.id - a.id;
+        })
+        .slice(0, 3);
+
+    // agregar arriba
     const addItem = () => {
         const updated = [
-            ...items,
-            { idioma_id: "", nivel_id: "" },
+            {
+                idioma_id: "",
+                nivel_id: ""
+            },
+            ...items
         ];
+
+        setItems(updated);
         onChange(updated);
     };
 
     const removeItem = (index) => {
         const updated = items.filter((_, i) => i !== index);
+        setItems(updated);
         onChange(updated);
     };
 
@@ -36,9 +59,10 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                 </button>
             </div>
 
-            {items.map((item, index) => (
-                <div key={index} className="row g-2 mb-2">
+            {latestItems.map((item, index) => (
+                <div key={item.id || index} className="row g-2 mb-2">
 
+                    {/* IDIOMA */}
                     <div className="col-md-5">
                         <select
                             className="form-select"
@@ -56,6 +80,7 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                         </select>
                     </div>
 
+                    {/* NIVEL */}
                     <div className="col-md-5">
                         <select
                             className="form-select"
@@ -73,6 +98,7 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                         </select>
                     </div>
 
+                    {/* ELIMINAR */}
                     <div className="col-md-2">
                         <button
                             className="btn btn-outline-danger w-100"
