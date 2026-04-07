@@ -27,6 +27,9 @@ import PlazaDetalle from "../pages/public/PlazaDetalle";
 import PublicLayout from "../layouts/PublicLayout";
 import ProfilePage from "../pages/profile/ProfilePage";
 import AdminBackups from "../pages/admin/AdminBackups";
+import Postulaciones from "../pages/admin/Postulaciones";
+import MisPostulaciones from "../pages/profile/MisPostulaciones";
+import PerfilPostulante from "../pages/admin/PerfilPostulante";
 
 import AdminCatalogoPageWrapper from "../pages/admin/AdminCatalogoPageWrapper";
 
@@ -53,11 +56,16 @@ export default function AppRouter() {
       <Route path="/admin/testimonios" element={<AdminRoute><AdminTestimonios /></AdminRoute>} />
       <Route path="/admin/bitacora" element={<AdminRoute><AdminBitacora /></AdminRoute>} />
       <Route path="/admin/backups" element={<AdminRoute><AdminBackups /></AdminRoute>} />
+      <Route path="/admin/postulaciones" element={<AdminRoute><Postulaciones /></AdminRoute>} />
+      <Route path="/mis-postulaciones" element={<PublicLayout><MisPostulaciones /></PublicLayout>} />
+      <Route path="/admin/postulantes/:id" element={<PerfilPostulante />} />
+      
       {/* <Route path="/admin/mantenimientos/categorias-laborales" element={<AdminRoute><AdminCategoriasLaborales /></AdminRoute>} /> */}
 
       // MANTENIMIENTOS
 
       <Route path="/admin/mantenimientos/:catalogo" element={<AdminRoute><AdminCatalogoPageWrapper /></AdminRoute>} />
+
 
       {/* <Route path="/admin/mantenimientos/actividades-laborales" element={<AdminRoute><AdminCatalogoPage title="Actividades laborales" name="actividades_laborales" /></AdminRoute>} />
       <Route path="/admin/mantenimientos/paises" element={<AdminCatalogoPage title="Países" name="paises" />} />

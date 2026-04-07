@@ -35,7 +35,7 @@ export default function ProfileContent() {
 
                 const perfil = res.data.perfil || {};
 
-                // console.log("PERFIL BACKEND:", perfil);
+                console.log("PERFIL BACKEND:", perfil);
 
                 setForm({
                     nombre: perfil.nombre || "",

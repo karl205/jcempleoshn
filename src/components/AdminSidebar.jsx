@@ -23,7 +23,8 @@ import {
     FaFlag,
     FaGraduationCap,
     FaGlobe,
-    FaVenusMars
+    FaVenusMars,
+    FaUserCheck
 } from "react-icons/fa";
 
 const icons = {
@@ -47,7 +48,8 @@ const icons = {
     FaFlag,
     FaGraduationCap,
     FaGlobe,
-    FaVenusMars
+    FaVenusMars,
+    FaUserCheck
 };
 
 export default function AdminSidebar() {

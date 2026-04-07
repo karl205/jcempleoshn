@@ -8,7 +8,8 @@ import {
   FaHome,
   FaBriefcase,
   FaSignOutAlt,
-  FaUserCog
+  FaUserCog,
+  FaClipboardList
 } from "react-icons/fa";
 
 export default function Navbar() {
@@ -101,6 +102,12 @@ export default function Navbar() {
                   <Link to="/perfil" className="dropdown-item">
                     <FaUserCog className="me-2" />
                     Administrar perfil
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/mis-postulaciones" className="dropdown-item">
+                    <FaClipboardList className="me-2" />
+                    Mis postulaciones
                   </Link>
                 </li>
                 <li>

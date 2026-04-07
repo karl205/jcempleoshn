@@ -73,9 +73,9 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                         src={
                             form.foto_preview
                                 ? form.foto_preview
-                                : form.foto
+                                : form.foto && form.foto.trim() !== ""
                                     ? `http://localhost:8000/storage/fotos_perfil/${form.foto}`
-                                    : "/avatar.png"
+                                    : "http://localhost:8000/storage/fotos_perfil/avatar.jpg"
                         }
                         alt="perfil"
                         style={{
@@ -189,7 +189,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             name="telefono"
                             value={form.telefono || ""}
                             onChange={(e) => {
-                                const value = e.target.value.replace(/\D/g, ""); 
+                                const value = e.target.value.replace(/\D/g, "");
                                 handleChange({
                                     target: {
                                         name: "telefono",

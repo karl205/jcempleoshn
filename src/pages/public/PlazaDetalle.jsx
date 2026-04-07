@@ -10,11 +10,16 @@ import {
     FaMoneyBillWave
 } from "react-icons/fa";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
+import apiClient from "../../api/apiClient";
 
 export default function PlazaDetalle() {
 
     const { id } = useParams();
     const navigate = useNavigate();
+
+    const token = localStorage.getItem("token");
+    const isAuth = !!token;
 
     const [plaza, setPlaza] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -44,6 +49,50 @@ export default function PlazaDetalle() {
     const formatearFecha = (fecha) => {
         if (!fecha) return "No definida";
         return new Date(fecha).toLocaleDateString();
+    };
+
+    const postular = async () => {
+
+        // NO LOGUEADO
+        if (!isAuth) {
+            Swal.fire({
+                icon: "warning",
+                title: "Acceso requerido 🔐",
+                text: "Para postularte a esta plaza necesitas iniciar sesión.",
+                confirmButtonText: "Iniciar sesión",
+                confirmButtonColor: "#0d6efd",
+            }).then(() => {
+                navigate("/login");
+            });
+            return;
+        }
+
+        try {
+
+            await apiClient.post(`/plazas/${id}/postular`);
+
+            Swal.fire({
+                icon: "success",
+                title: "¡Postulación enviada!",
+                text: "Te has postulado correctamente"
+            });
+
+        } catch (error) {
+
+            if (error.response?.status === 401) {
+                Swal.fire("Sesión expirada", "Vuelve a iniciar sesión", "warning");
+                navigate("/login");
+                return;
+            }
+
+            Swal.fire({
+                icon: "error",
+                title: "No se pudo completar la acción",
+                text: error.response?.data?.message || "Inténtalo nuevamente en unos momentos.",
+                confirmButtonColor: "#dc3545"
+            });
+
+        }
     };
 
     if (loading) {
@@ -173,6 +222,7 @@ export default function PlazaDetalle() {
                             </div>
 
                             <motion.button
+                                onClick={postular}
                                 whileHover={{ scale: 1.03 }}
                                 whileTap={{ scale: 0.97 }}
                                 className="btn btn-primary w-100 rounded-pill mt-2 fw-semibold"
