@@ -27,4 +27,20 @@ class PerfilExperiencia extends Model
     {
         return $this->belongsTo(CatPais::class, 'pais_id');
     }
+
+    public function categoria()
+    {
+        return $this->belongsTo(
+            CatCategorias::class,
+            'categoria_id'
+        );
+    }
+
+    public function actividad()
+    {
+        return $this->belongsTo(
+            CatActividadLaboral::class,
+            'actividad_id'
+        );
+    }
 }

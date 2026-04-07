@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\catCiudades;
 
 class Perfil extends Model
 {
@@ -60,6 +61,24 @@ class Perfil extends Model
         return $this->belongsTo(
             CatDisponibilidadVehicular::class,
             'disponibilidad_vehicular_id'
+        );
+    }
+
+    public function ciudad()
+    {
+        return $this->belongsTo
+        (
+            CatCiudades::class,
+            'ciudad_id'
+        );
+    }
+
+    public function departamento()
+    {
+        return $this->belongsTo
+        (
+            CatDepartamentos::class,
+            'departamento_id'
         );
     }
 }

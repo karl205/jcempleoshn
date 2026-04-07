@@ -25,4 +25,9 @@ class Postulacion extends Model
     {
         return $this->belongsTo(Plaza::class);
     }
+
+    // public function plaza()
+    // {
+    //     return $this->belongsTo(Plaza::class, 'plaza_id');
+    // }
 }

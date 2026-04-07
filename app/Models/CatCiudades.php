@@ -13,4 +13,12 @@ class catCiudades extends Model
     ];
 
     public $timestamps = true;
+
+    public function departamento()
+    {
+        return $this->belongsTo(
+            CatDepartamentos::class,
+            'departamento_id'
+        );
+    }
 }

@@ -22,7 +22,9 @@ use App\Http\Controllers\API\ProfileApiController;
 use App\Http\Controllers\API\PublicPlazaController;
 use App\Http\Controllers\API\UsuarioController;
 use App\Http\Controllers\API\TestimonioController;
+use App\Http\Controllers\API\PostulacionController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -177,6 +179,17 @@ Route::middleware(['auth:sanctum'])
         Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
             ->middleware('permiso:plazas.eliminar');
 
+        Route::get('postulaciones', [PostulacionController::class, 'adminListado'])
+            ->middleware('permiso:postulaciones.ver');
+
+        Route::get('postulaciones/{plaza_id}', [PostulacionController::class, 'porPlaza'])
+            ->middleware('permiso:postulaciones.ver');
+
+        Route::patch('postulaciones/{id}/estado', [PostulacionController::class, 'cambiarEstado'])
+            ->middleware('permiso:postulaciones.evaluar');
+
+        Route::get('postulantes/{id}', [PostulacionController::class, 'verPerfil'])
+            ->middleware('permiso:postulaciones.ver');
         /*
         |--------------------------------------------------------------------------
         | Comentarios (ADMIN)
@@ -262,6 +275,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('me', [AuthController::class, 'me']);
     Route::post('change-password', [AuthController::class, 'changePassword']);
     Route::put('/profile/password', [ProfileSecurityController::class, 'updatePassword']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Plazas
+    |--------------------------------------------------------------------------
+    */
+
+    Route::post('plazas/{id}/postular', [PostulacionController::class, 'postular']);
+
+    /*
+    |--------------------------------------------------------------------------
+    | Postulaciones
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('mis-postulaciones', [PostulacionController::class, 'misPostulaciones']);
 
     /*
     |--------------------------------------------------------------------------

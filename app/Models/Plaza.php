@@ -37,16 +37,21 @@ class Plaza extends Model
 
     public function cargo()
     {
-        return $this->belongsTo(CargoLaboral::class,'cargo_id');
+        return $this->belongsTo(CargoLaboral::class, 'cargo_id');
     }
 
     public function categoria()
     {
-        return $this->belongsTo(CategoriaLaboral::class,'categoria_laboral_id');
+        return $this->belongsTo(CategoriaLaboral::class, 'categoria_laboral_id');
     }
 
     public function usuario()
     {
         return $this->belongsTo(Usuario::class);
+    }
+
+    public function postulaciones()
+    {
+        return $this->hasMany(Postulacion::class, 'plaza_id');
     }
 }
