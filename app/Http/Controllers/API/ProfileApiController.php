@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\catActividades;
+// use App\Models\CatActividadLaboral;
+use App\Models\CatActividadLaboral;
 use App\Models\catAreasEstudio;
 use App\Models\catCategorias;
 use App\Models\CatDisponibilidadVehicular;
@@ -188,7 +189,7 @@ class ProfileApiController extends Controller
             'nacionalidades' => CatNacionalidad::all(),
             'vehiculos' => CatDisponibilidadVehicular::all(),
             'areas_estudio' => catAreasEstudio::all(),
-            'actividades' => catActividades::all(),
+            'actividades' => CatActividadLaboral::all(),
             'categorias' => catCategorias::all(),
         ];
     }

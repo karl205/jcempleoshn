@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CategoriaLaboral extends Model
+class CatActividadLaboral extends Model
 {
     protected $table = 'cat_actividades_laborales';
 
