@@ -44,15 +44,15 @@
                     <!-- BUTTON -->
                     <tr>
                         <td align="center" style="padding:30px;">
-                            <a href="http://localhost:5173/verify-email?token={{ $token }}"
+                            <a href="{{ $link ?? (config('app.frontend_url') . '/verify-email?token=' . $token) }}"
                                 style="background:#0a66c2;
-              color:#ffffff;
-              padding:14px 32px;
-              text-decoration:none;
-              border-radius:8px;
-              font-weight:600;
-              font-size:15px;
-              display:inline-block;">
+          color:#ffffff;
+          padding:14px 32px;
+          text-decoration:none;
+          border-radius:8px;
+          font-weight:600;
+          font-size:15px;
+          display:inline-block;">
                                 Verificar mi cuenta
                             </a>
                         </td>

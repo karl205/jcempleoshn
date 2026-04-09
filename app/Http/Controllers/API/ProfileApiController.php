@@ -28,7 +28,15 @@ class ProfileApiController extends Controller
 {
     public function show(Request $request)
     {
-        $userId = $request->user()->id;
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'No autenticado'
+            ], 401);
+        }
+
+        $userId = $user->id;
 
         $perfil = DB::select('CALL usp_perfil_obtener(?)', [$userId]);
         $educaciones = DB::select('CALL usp_perfil_educacion_listar(?)', [$userId]);

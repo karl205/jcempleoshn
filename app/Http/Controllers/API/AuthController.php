@@ -425,13 +425,17 @@ class AuthController extends Controller
         ]);
 
         // 🔹 Enviar correo
-        Mail::raw(
-            "Confirma tu cuenta aquí: http://localhost:5173/verify-email?token=$token",
-            function ($message) use ($usuario) {
-                $message->to($usuario->email)
-                    ->subject('Verifica tu cuenta - JC Empleos');
-            }
-        );
+        $link = config('app.frontend_url') . "/verify-email?token={$token}";
+
+        Mail::to($usuario->email)
+            ->send(new VerifyEmailMail($link));
+        // Mail::raw(
+        //     "Confirma tu cuenta aquí: " . config('app.frontend_url') . "/verify-email?token={$token}",
+        //     function ($message) use ($usuario) {
+        //         $message->to($usuario->email)
+        //             ->subject('Verifica tu cuenta - JC Empleos');
+        //     }
+        // );
 
         return ApiResponse::success(
             null,
