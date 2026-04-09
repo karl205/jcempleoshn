@@ -3,6 +3,8 @@ import { useMemo } from "react";
 
 export default function PersonalTab({ form, setForm, catalogos }) {
 
+    const baseURL = import.meta.env.VITE_API_URL.replace("/api", "");
+
     const [errors, setErrors] = useState({});
 
     const handleChange = (e) => {
@@ -74,8 +76,8 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             form.foto_preview
                                 ? form.foto_preview
                                 : form.foto && form.foto.trim() !== ""
-                                    ? `http://localhost:8000/storage/fotos_perfil/${form.foto}`
-                                    : "http://localhost:8000/storage/fotos_perfil/avatar.jpg"
+                                    ? `${baseURL}/storage/fotos_perfil/${form.foto}`
+                                    : `${baseURL}/storage/fotos_perfil/avatar.jpg`
                         }
                         alt="perfil"
                         style={{

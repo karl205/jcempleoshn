@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function Postulaciones() {
 
+    const baseURL = import.meta.env.VITE_API_URL.replace("/api", "");
     const navigate = useNavigate();
     const [plazas, setPlazas] = useState([]);
     const [postulantes, setPostulantes] = useState([]);
@@ -154,8 +155,8 @@ export default function Postulaciones() {
                                                                 <img
                                                                     src={
                                                                         p.usuario?.perfil?.foto && p.usuario.perfil.foto.trim() !== ""
-                                                                            ? `http://localhost:8000/storage/fotos_perfil/${p.usuario.perfil.foto}`
-                                                                            : "http://localhost:8000/storage/fotos_perfil/avatar.jpg"
+                                                                            ? `${baseURL}/storage/fotos_perfil/${p.usuario.perfil.foto}`
+                                                                            : `${baseURL}/storage/fotos_perfil/avatar.jpg`
                                                                     }
                                                                     alt=""
                                                                     width="40"

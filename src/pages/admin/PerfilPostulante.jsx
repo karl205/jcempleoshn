@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function PerfilPostulante() {
 
+    const baseURL = import.meta.env.VITE_API_URL.replace("/api", "");
     const navigate = useNavigate();
     const { id } = useParams();
     const [data, setData] = useState(null);
@@ -61,8 +62,8 @@ export default function PerfilPostulante() {
                         <img
                             src={
                                 perfil?.foto
-                                    ? `http://localhost:8000/storage/fotos_perfil/${perfil.foto}`
-                                    : "http://localhost:8000/storage/fotos_perfil/avatar.jpg"
+                                    ? `${baseURL}/storage/fotos_perfil/${perfil.foto}`
+                                    : `${baseURL}/storage/fotos_perfil/avatar.jpg`
                             }
                             width="100"
                             height="100"
@@ -138,71 +139,71 @@ export default function PerfilPostulante() {
                     </div>
 
                     {/* DERECHA */}
-                    
 
-                        <div className="col-md-8">
 
-                            {/* EXPERIENCIA */}
-                            <div className="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                                <h6 className="fw-bold mb-3">Experiencia</h6>
+                    <div className="col-md-8">
 
-                                {perfil.experiencias?.length > 0 ? perfil.experiencias.map(e => (
-                                    <div key={e.id} className="mb-4">
+                        {/* EXPERIENCIA */}
+                        <div className="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                            <h6 className="fw-bold mb-3">Experiencia</h6>
 
-                                        <div className="fw-semibold">{e.cargo}</div>
-                                        <div className="text-muted small">{e.empresa}</div>
+                            {perfil.experiencias?.length > 0 ? perfil.experiencias.map(e => (
+                                <div key={e.id} className="mb-4">
 
-                                        <div className="text-muted small">
-                                            {e.fecha_desde || "-"} - {e.fecha_hasta || "Actual"}
-                                        </div>
+                                    <div className="fw-semibold">{e.cargo}</div>
+                                    <div className="text-muted small">{e.empresa}</div>
 
-                                        <div className="d-flex gap-2 mt-2 flex-wrap">
-                                            {e.categoria && (
-                                                <span className="badge bg-light border text-dark">
-                                                    {e.categoria.nombre}
-                                                </span>
-                                            )}
-
-                                            {e.actividad && (
-                                                <span className="badge bg-light border text-dark">
-                                                    {e.actividad.nombre}
-                                                </span>
-                                            )}
-                                        </div>
-
-                                        <hr />
+                                    <div className="text-muted small">
+                                        {e.fecha_desde || "-"} - {e.fecha_hasta || "Actual"}
                                     </div>
-                                )) : (
-                                    <span className="text-muted">Sin experiencia registrada</span>
-                                )}
-                            </div>
 
-                            {/* EDUCACIÓN */}
-                            <div className="card border-0 shadow-sm rounded-4 p-4 mb-4">
-                                <h6 className="fw-bold mb-3">Educación</h6>
+                                    <div className="d-flex gap-2 mt-2 flex-wrap">
+                                        {e.categoria && (
+                                            <span className="badge bg-light border text-dark">
+                                                {e.categoria.nombre}
+                                            </span>
+                                        )}
 
-                                {perfil.educaciones?.length > 0 ? perfil.educaciones.map(e => (
-                                    <div key={e.id} className="mb-4">
+                                        {e.actividad && (
+                                            <span className="badge bg-light border text-dark">
+                                                {e.actividad.nombre}
+                                            </span>
+                                        )}
+                                    </div>
 
-                                        <div className="fw-semibold">{e.institucion}</div>
+                                    <hr />
+                                </div>
+                            )) : (
+                                <span className="text-muted">Sin experiencia registrada</span>
+                            )}
+                        </div>
 
-                                        <div className="text-muted small">
-                                            {e.fecha_desde} - {e.fecha_hasta || "Actual"}
-                                        </div>
+                        {/* EDUCACIÓN */}
+                        <div className="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                            <h6 className="fw-bold mb-3">Educación</h6>
 
-                                        {/* <div className="text-muted small mt-1">
+                            {perfil.educaciones?.length > 0 ? perfil.educaciones.map(e => (
+                                <div key={e.id} className="mb-4">
+
+                                    <div className="fw-semibold">{e.institucion}</div>
+
+                                    <div className="text-muted small">
+                                        {e.fecha_desde} - {e.fecha_hasta || "Actual"}
+                                    </div>
+
+                                    {/* <div className="text-muted small mt-1">
                                             {e.nivel_educativo?.nombre || "Nivel"} · {e.area_estudio?.nombre || "Área"}
                                         </div> */}
 
-                                        <hr />
-                                    </div>
-                                )) : (
-                                    <span className="text-muted">Sin educación registrada</span>
-                                )}
-                            </div>
+                                    <hr />
+                                </div>
+                            )) : (
+                                <span className="text-muted">Sin educación registrada</span>
+                            )}
+                        </div>
 
-                            {/* IDIOMAS */}
-                            {/* <div className="card border-0 shadow-sm rounded-4 p-4">
+                        {/* IDIOMAS */}
+                        {/* <div className="card border-0 shadow-sm rounded-4 p-4">
                                 <h6 className="fw-bold mb-3">Idiomas</h6>
 
                                 <div className="d-flex flex-wrap gap-2">
@@ -219,7 +220,7 @@ export default function PerfilPostulante() {
                                 </div>
                             </div> */}
 
-                        </div>
+                    </div>
 
 
                 </div>
