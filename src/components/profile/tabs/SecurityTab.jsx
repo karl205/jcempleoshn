@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react";
 import { updatePassword } from "../../../api/profileService";
 import apiClient from "../../../api/apiClient";
+import { FiEye, FiEyeOff } from "react-icons/fi";
+
+// ── Reglas de contraseña ─────────────────────────
+const reglas = [
+    { id: "length",  label: "Mínimo 8 caracteres",                   test: (p) => p.length >= 8 },
+    { id: "upper",   label: "Al menos una mayúscula",                 test: (p) => /[A-Z]/.test(p) },
+    { id: "number",  label: "Al menos un número",                     test: (p) => /[0-9]/.test(p) },
+    { id: "special", label: "Al menos un carácter especial (@#$%...)", test: (p) => /[^A-Za-z0-9]/.test(p) },
+];
 
 export default function SecurityTab() {
 
@@ -11,12 +20,16 @@ export default function SecurityTab() {
     });
 
     const [email, setEmail] = useState("");
-
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState(null);
     const [error, setError] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
 
-    // obtener correo del usuario
+    // ── Validar reglas ───────────────────────────────
+    const reglasOk = reglas.map(r => ({ ...r, ok: r.test(form.password) }));
+    const todasOk  = reglasOk.every(r => r.ok);
+    // ────────────────────────────────────────────────
+
     useEffect(() => {
         const getProfile = async () => {
             try {
@@ -26,18 +39,25 @@ export default function SecurityTab() {
                 console.error(err);
             }
         };
-
         getProfile();
     }, []);
 
     const handleChange = (e) => {
-        setForm({
-            ...form,
-            [e.target.name]: e.target.value
-        });
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
     const handleSave = async () => {
+
+        if (!todasOk) {
+            setError("La contraseña no cumple con todos los requisitos");
+            return;
+        }
+
+        if (form.password !== form.password_confirmation) {
+            setError("Las contraseñas no coinciden");
+            return;
+        }
+
         try {
             setLoading(true);
             setError(null);
@@ -46,7 +66,6 @@ export default function SecurityTab() {
             await updatePassword(form);
 
             setMessage("Contraseña actualizada correctamente");
-
             setForm({
                 password_actual: "",
                 password: "",
@@ -63,7 +82,7 @@ export default function SecurityTab() {
     return (
         <div className="card border-0 shadow-sm rounded-4 p-4">
 
-            {/* 🔐 CAMBIO DE CONTRASEÑA */}
+            {/* CAMBIO DE CONTRASEÑA */}
             <h6 className="fw-bold mb-3">Cambiar contraseña</h6>
 
             <div className="mb-2">
@@ -77,16 +96,35 @@ export default function SecurityTab() {
                 />
             </div>
 
-            <div className="mb-2">
+            {/* Nueva contraseña con ojo */}
+            <div className="mb-2 position-relative">
                 <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Nueva contraseña"
-                    className="form-control"
+                    className="form-control pe-5"
                     value={form.password}
                     onChange={handleChange}
                 />
+                <span
+                    className="position-absolute top-50 end-0 translate-middle-y me-3"
+                    style={{ cursor: "pointer", color: "#98a2b3" }}
+                    onClick={() => setShowPassword(!showPassword)}
+                >
+                    {showPassword ? <FiEyeOff /> : <FiEye />}
+                </span>
             </div>
+
+            {/* Indicador de requisitos */}
+            {form.password.length > 0 && (
+                <ul className="password-rules mb-2">
+                    {reglasOk.map(r => (
+                        <li key={r.id} className={r.ok ? "rule-ok" : "rule-fail"}>
+                            {r.ok ? "✔" : "✖"} {r.label}
+                        </li>
+                    ))}
+                </ul>
+            )}
 
             <div className="mb-3">
                 <input
@@ -99,20 +137,20 @@ export default function SecurityTab() {
                 />
             </div>
 
-            {error && <div className="text-danger mb-2">{error}</div>}
+            {error   && <div className="text-danger mb-2">{error}</div>}
             {message && <div className="text-success mb-2">{message}</div>}
 
             <button
                 className="btn btn-primary mb-4"
                 onClick={handleSave}
-                disabled={loading}
+                disabled={loading || !todasOk}
             >
                 {loading ? "Guardando..." : "Guardar cambios"}
             </button>
 
             <hr />
 
-            {/* 📧 CORREO */}
+            {/* CORREO */}
             <h6 className="fw-bold mt-4 mb-3">Correo electrónico</h6>
 
             <div className="mb-2">
