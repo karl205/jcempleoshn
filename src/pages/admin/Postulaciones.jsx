@@ -14,6 +14,10 @@ export default function Postulaciones() {
     const [loading, setLoading] = useState(true);
     const [busqueda, setBusqueda] = useState("");
 
+    // ── Filtro estado ────────────────────────────────
+    const [filtroEstado, setFiltroEstado] = useState("activa");
+    // ────────────────────────────────────────────────
+
     useEffect(() => {
         cargarPlazas();
     }, []);
@@ -41,25 +45,25 @@ export default function Postulaciones() {
 
     const cambiarEstado = async (id, estado) => {
         try {
-
-            await apiClient.patch(`/admin/postulaciones/${id}/estado`, {
-                estado
-            });
-
-            // actualizar lista
+            await apiClient.patch(`/admin/postulaciones/${id}/estado`, { estado });
             verPostulantes(plazaSeleccionada);
-
         } catch (error) {
             console.error("Error actualizando estado", error);
         }
     };
 
-    const plazasFiltradas = plazas.filter(p =>
-        p.titulo.toLowerCase().includes(busqueda.toLowerCase())
-    );
+    // ── Filtrado combinado ───────────────────────────
+    const plazasFiltradas = plazas.filter(p => {
+        const coincideBusqueda = p.titulo.toLowerCase().includes(busqueda.toLowerCase());
+        const coincideEstado =
+            filtroEstado === "" ||
+            (filtroEstado === "activa"  && p.estado === 1) ||
+            (filtroEstado === "cerrada" && p.estado === 0);
+        return coincideBusqueda && coincideEstado;
+    });
+    // ────────────────────────────────────────────────
 
     return (
-
         <AdminLayout>
 
             {/* HEADER */}
@@ -67,8 +71,9 @@ export default function Postulaciones() {
                 <h2>Gestión de Postulaciones</h2>
             </div>
 
-            {/* BUSCADOR */}
+            {/* TOOLBAR */}
             <div className="admin-toolbar">
+
                 <div className="search-box">
                     <FaSearch />
                     <input
@@ -77,62 +82,74 @@ export default function Postulaciones() {
                         onChange={(e) => setBusqueda(e.target.value)}
                     />
                 </div>
+
+                <select
+                    className="form-select"
+                    style={{ maxWidth: "180px" }}
+                    value={filtroEstado}
+                    onChange={(e) => setFiltroEstado(e.target.value)}
+                >
+                    <option value="">Todas</option>
+                    <option value="activa">Activas</option>
+                    <option value="cerrada">Cerradas</option>
+                </select>
+
             </div>
 
             {loading ? (
                 <p>Cargando postulaciones...</p>
             ) : (
-
                 <>
                     {/* GRID PLAZAS */}
                     <div className="row g-3">
 
                         {plazasFiltradas.map(p => (
-
                             <div key={p.id} className="col-md-4">
-
                                 <div className="card shadow-sm border-0 p-3 rounded-4 h-100">
 
-                                    <h6 className="fw-bold">{p.titulo}</h6>
+                                    <div className="d-flex justify-content-between align-items-start mb-1">
+                                        <h6 className="fw-bold mb-0">{p.titulo}</h6>
+                                        {p.estado === 1
+                                            ? <span className="badge bg-success">Activa</span>
+                                            : <span className="badge bg-danger">Cerrada</span>}
+                                    </div>
 
                                     <div className="d-flex align-items-center justify-content-between mt-2">
-
                                         <span className="text-muted small">
-                                            <FaUsers /> {p.postulaciones_count} postulantes
+                                            <FaUsers className="me-1" />
+                                            {p.postulaciones_count} postulantes
                                         </span>
-
                                         <button
                                             className="btn btn-sm btn-primary rounded-pill"
                                             onClick={() => verPostulantes(p)}
                                         >
                                             Ver
                                         </button>
-
                                     </div>
 
                                 </div>
-
                             </div>
-
                         ))}
+
+                        {plazasFiltradas.length === 0 && (
+                            <div className="col-12 text-center text-muted py-4">
+                                No hay plazas que coincidan con los filtros
+                            </div>
+                        )}
 
                     </div>
 
                     {/* DETALLE POSTULANTES */}
                     {plazaSeleccionada && (
-
                         <div className="mt-4">
 
                             <h5 className="fw-bold">
-                                Postulantes - {plazaSeleccionada.titulo}
+                                Postulantes — {plazaSeleccionada.titulo}
                             </h5>
 
                             <div className="admin-table-wrapper mt-3">
-
                                 <div className="table-responsive">
-
                                     <table className="admin-table">
-
                                         <thead className="table-light">
                                             <tr>
                                                 <th>Usuario</th>
@@ -141,99 +158,73 @@ export default function Postulaciones() {
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
-
                                         <tbody>
-
-                                            {postulantes.length > 0 ? (
-
-                                                postulantes.map(p => (
-
-                                                    <tr key={p.id}>
-
-                                                        <td>
-                                                            <div className="d-flex align-items-center gap-2">
-                                                                <img
-                                                                    src={
-                                                                        p.usuario?.perfil?.foto && p.usuario.perfil.foto.trim() !== ""
-                                                                            ? `${baseURL}/storage/fotos_perfil/${p.usuario.perfil.foto}`
-                                                                            : `${baseURL}/storage/fotos_perfil/avatar.jpg`
-                                                                    }
-                                                                    alt=""
-                                                                    width="40"
-                                                                    height="40"
-                                                                    className="rounded-circle"
-                                                                />
-                                                                {p.usuario?.nombre}
-                                                            </div>
-                                                        </td>
-
-                                                        <td>{p.usuario?.email}</td>
-
-                                                        <td>
-                                                            {p.estado === "apto"
-                                                                ? <span className="badge bg-success">Apto</span>
-                                                                : p.estado === "no_apto"
-                                                                    ? <span className="badge bg-danger">No apto</span>
-                                                                    : <span className="badge bg-warning text-dark">En revisión</span>
-                                                            }
-                                                        </td>
-
-                                                        <td className="actions">
-
-                                                            <button
-                                                                className="btn-icon edit"
-                                                                title="Marcar como apto"
-                                                                onClick={() => cambiarEstado(p.id, "apto")}
-                                                            >
-                                                                ✔
-                                                            </button>
-
-                                                            <button
-                                                                className="btn-icon delete"
-                                                                title="Marcar como no apto"
-                                                                onClick={() => cambiarEstado(p.id, "no_apto")}
-                                                            >
-                                                                ✖
-                                                            </button>
-
-                                                            <button
-                                                                className="btn-icon view"
-                                                                title="Ver perfil"
-                                                                onClick={() => navigate(`/admin/postulantes/${p.usuario.id}`)}
-                                                            >
-                                                                👁
-                                                            </button>
-
-                                                        </td>
-
-                                                    </tr>
-
-                                                ))
-
-                                            ) : (
-
+                                            {postulantes.length > 0 ? postulantes.map(p => (
+                                                <tr key={p.id}>
+                                                    <td>
+                                                        <div className="d-flex align-items-center gap-2">
+                                                            <img
+                                                                src={
+                                                                    p.usuario?.perfil?.foto && p.usuario.perfil.foto.trim() !== ""
+                                                                        ? `${baseURL}/storage/fotos_perfil/${p.usuario.perfil.foto}`
+                                                                        : `${baseURL}/storage/fotos_perfil/avatar.jpg`
+                                                                }
+                                                                alt=""
+                                                                width="40"
+                                                                height="40"
+                                                                className="rounded-circle"
+                                                                style={{ objectFit: "cover" }}
+                                                            />
+                                                            {p.usuario?.nombre} {p.usuario?.apellido}
+                                                        </div>
+                                                    </td>
+                                                    <td>{p.usuario?.email}</td>
+                                                    <td>
+                                                        {p.estado === "apto"
+                                                            ? <span className="badge bg-success">Apto</span>
+                                                            : p.estado === "no_apto"
+                                                                ? <span className="badge bg-danger">No apto</span>
+                                                                : <span className="badge bg-warning text-dark">En revisión</span>}
+                                                    </td>
+                                                    <td className="actions">
+                                                        <button
+                                                            className="btn-icon edit"
+                                                            title="Marcar como apto"
+                                                            onClick={() => cambiarEstado(p.id, "apto")}
+                                                        >
+                                                            ✔
+                                                        </button>
+                                                        <button
+                                                            className="btn-icon delete"
+                                                            title="Marcar como no apto"
+                                                            onClick={() => cambiarEstado(p.id, "no_apto")}
+                                                        >
+                                                            ✖
+                                                        </button>
+                                                        <button
+                                                            className="btn-icon"
+                                                            title="Ver perfil"
+                                                            onClick={() => navigate(`/admin/postulantes/${p.usuario.id}`)}
+                                                        >
+                                                            👁
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            )) : (
                                                 <tr>
-                                                    <td colSpan="3" className="text-center text-muted py-3">
+                                                    <td colSpan="4" className="text-center text-muted py-3">
                                                         No hay postulantes aún
                                                     </td>
                                                 </tr>
-
                                             )}
-
                                         </tbody>
-
                                     </table>
-
                                 </div>
-
                             </div>
 
                         </div>
-
                     )}
-
                 </>
-
             )}
 
         </AdminLayout>

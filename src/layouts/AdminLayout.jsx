@@ -1,28 +1,36 @@
+import { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminSidebar from "../components/AdminSidebar";
 
 export default function AdminLayout({ children }) {
 
-  return (
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-    <div className="admin-layout">
+    return (
+        <div className="admin-layout">
 
-      <AdminNavbar />
+            <AdminNavbar onMenuClick={() => setSidebarOpen(!sidebarOpen)} />
 
-      <div className="admin-body">
+            <div className="admin-body">
 
-        <AdminSidebar />
+                {sidebarOpen && (
+                    <div
+                        className="sidebar-overlay"
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
 
-        <main className="admin-content">
+                <AdminSidebar
+                    open={sidebarOpen}
+                    onClose={() => setSidebarOpen(false)}
+                />
 
-          {children}
+                <main className="admin-content">
+                    {children}
+                </main>
 
-        </main>
+            </div>
 
-      </div>
-
-    </div>
-
-  );
-
+        </div>
+    );
 }

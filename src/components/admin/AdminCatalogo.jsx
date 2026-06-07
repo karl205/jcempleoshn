@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import AdminDataTable from "./AdminDataTable";
+import { FaEdit, FaPowerOff } from "react-icons/fa";
 
 export default function AdminCatalogo({
     title,
@@ -9,18 +10,16 @@ export default function AdminCatalogo({
     catalogos = {}
 }) {
 
-    const {
-        getAll,
-        create,
-        update,
-        remove,
-        toggle
-    } = service;
+    const { getAll, create, update, toggle } = service;
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [form, setForm] = useState({});
     const [editing, setEditing] = useState(null);
+
+    // ── Filtro estado ────────────────────────────────
+    const [filtroEstado, setFiltroEstado] = useState("activo");
+    // ────────────────────────────────────────────────
 
     const cargar = async () => {
         try {
@@ -38,21 +37,16 @@ export default function AdminCatalogo({
         cargar();
     }, []);
 
-    // CREAR / ACTUALIZAR
     const handleSave = async () => {
-
         try {
-
             if (editing) {
                 await update(editing.id, form);
             } else {
                 await create(form);
             }
-
             setForm({});
             setEditing(null);
             cargar();
-
         } catch (err) {
             console.error(err);
         }
@@ -63,19 +57,18 @@ export default function AdminCatalogo({
         setForm(item);
     };
 
-    const handleDelete = async (id) => {
-        if (!confirm("¿Eliminar registro?")) return;
-
-        await remove(id);
-        cargar();
-    };
-
     const handleToggle = async (id) => {
         await toggle(id);
         cargar();
     };
 
-
+    // ── Filtrado ─────────────────────────────────────
+    const dataFiltrada = data.filter(r => {
+        if (filtroEstado === "activo")   return r.estado === 1 || r.estado === true;
+        if (filtroEstado === "inactivo") return r.estado === 0 || r.estado === false;
+        return true;
+    });
+    // ────────────────────────────────────────────────
 
     return (
         <AdminLayout>
@@ -87,12 +80,10 @@ export default function AdminCatalogo({
 
             {/* FORM DINÁMICO */}
             <div className="admin-card mb-3">
-
                 <div className="d-flex gap-2 align-items-center flex-wrap">
 
                     {fields.map(field => {
 
-                        // TEXT
                         if (typeof field === "string") {
                             return (
                                 <input
@@ -108,7 +99,6 @@ export default function AdminCatalogo({
                             );
                         }
 
-                        // SELECT
                         if (field.type === "select") {
                             return (
                                 <select
@@ -116,20 +106,16 @@ export default function AdminCatalogo({
                                     className="form-select"
                                     style={{ maxWidth: "250px" }}
                                     value={form[field.name] || ""}
-                                    onChange={(e) => 
-                                        // console.log("SELECT VALUE:", e.target.value);
-
+                                    onChange={(e) =>
                                         setForm({ ...form, [field.name]: e.target.value })
                                     }
                                 >
                                     <option value="">Seleccione {field.label}</option>
-
                                     {Array.isArray(catalogos[field.source]) && catalogos[field.source].map(opt => (
                                         <option key={opt.id} value={opt.id}>
                                             {opt.nombre}
                                         </option>
                                     ))}
-
                                 </select>
                             );
                         }
@@ -140,44 +126,50 @@ export default function AdminCatalogo({
                         {editing ? "Actualizar" : "Agregar"}
                     </button>
 
-                </div>
+                    {editing && (
+                        <button
+                            className="btn btn-light"
+                            onClick={() => { setEditing(null); setForm({}); }}
+                        >
+                            Cancelar
+                        </button>
+                    )}
 
+                </div>
             </div>
 
-            {/* TABLA DINÁMICA */}
+            {/* TOOLBAR CON FILTRO */}
+            <div className="admin-toolbar mb-3">
+                <select
+                    className="form-select"
+                    value={filtroEstado}
+                    onChange={(e) => setFiltroEstado(e.target.value)}
+                >
+                    <option value="">Todos los estados</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+
+            {/* TABLA */}
             <AdminDataTable
-                data={data}
+                data={dataFiltrada}
                 loading={loading}
                 columns={[
                     { label: "ID", key: "id" },
 
                     ...fields.map(field => {
 
-                        // TEXT
                         if (typeof field === "string") {
-                            return {
-                                label: field,
-                                key: field
-                            };
+                            return { label: field, key: field };
                         }
 
-
-                        // SELECT (FK)
                         if (field.type === "select") {
                             return {
                                 label: field.label,
                                 render: (row) => {
-
-                                    // console.log("ROW:", row);
-                                    // console.log("FIELD:", field.name);
-                                    // console.log("CATALOGO:", catalogos[field.source]);
-
                                     const list = catalogos[field.source] || [];
-
                                     const item = list.find(x => Number(x.id) === Number(row[field.name]));
-
-                                    // console.log("MATCH:", item);
-
                                     return item?.nombre || "-";
                                 }
                             };
@@ -199,20 +191,16 @@ export default function AdminCatalogo({
                 ]}
                 actions={[
                     {
-                        icon: "✏",
-                        class: "btn-light",
+                        icon: <FaEdit />,
+                        class: "btn-icon edit",
                         onClick: handleEdit
                     },
                     {
-                        icon: "✔",
-                        class: "btn-light",
+                        icon: <FaPowerOff />,
+                        class: "btn-icon delete",
                         onClick: (row) => handleToggle(row.id)
-                    },
-                    {
-                        icon: "✖",
-                        class: "btn-light text-danger",
-                        onClick: (row) => handleDelete(row.id)
                     }
+                    // ── Botón eliminar removido ──
                 ]}
             />
 

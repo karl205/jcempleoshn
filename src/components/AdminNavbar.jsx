@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaBell, FaBars } from "react-icons/fa";
 
-export default function AdminNavbar() {
+export default function AdminNavbar({ onMenuClick }) {
 
     const { user, logout } = useAuth();
     const navigate = useNavigate();
@@ -12,32 +12,52 @@ export default function AdminNavbar() {
         navigate("/");
     };
 
-    return (
+    const iniciales = `${user?.nombre?.[0] || ""}${user?.apellido?.[0] || ""}`.toUpperCase();
 
-        <nav className="navbar navbar-modern admin-navbar">
-            <div className="container-fluid d-flex justify-content-between">
-                <div className="d-flex align-items-center gap-2">
-                    <span className="brand-text">
-                        JC Empleos Admin
-                    </span>
+    return (
+        <nav className="admin-navbar">
+            <div className="admin-navbar-inner">
+
+                <div className="admin-navbar-brand">
+                    {/* Hamburguesa solo en móvil */}
+                    <button
+                        className="hamburger-btn"
+                        onClick={onMenuClick}
+                    >
+                        <FaBars />
+                    </button>
+
+                    <span className="brand-dot"></span>
+                    JC Empleos
+                    <span className="brand-tag">Admin</span>
                 </div>
 
-                <div className="d-flex align-items-center gap-3">
-                    <div className="admin-user-info">
-                        <FaUserCircle className="admin-user-icon" />
-                        <span>
-                            {user?.nombre} {user?.apellido}
-                        </span>
+                <div className="admin-navbar-actions">
+
+                    <button className="navbar-icon-btn" title="Notificaciones">
+                        <FaBell />
+                    </button>
+
+                    <div className="admin-user-chip">
+                        <div className="user-avatar">{iniciales}</div>
+                        <div className="user-info">
+                            <span className="user-name">
+                                {user?.nombre} {user?.apellido}
+                            </span>
+                        </div>
                     </div>
 
                     <button
-                        className="btn btn-sm btn-outline-danger rounded-pill"
+                        className="btn-logout"
                         onClick={handleLogout}
+                        title="Cerrar sesión"
                     >
-                        <FaSignOutAlt className="me-2" />
-                        Cerrar sesión
+                        <FaSignOutAlt />
+                        <span>Salir</span>
                     </button>
+
                 </div>
+
             </div>
         </nav>
     );
