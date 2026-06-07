@@ -5,6 +5,14 @@ import "../../styles/login.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import api from "../../api/apiClient";
 
+// ── Reglas de contraseña ─────────────────────────
+const reglas = [
+    { id: "length",  label: "Mínimo 8 caracteres",        test: (p) => p.length >= 8 },
+    { id: "upper",   label: "Al menos una mayúscula",      test: (p) => /[A-Z]/.test(p) },
+    { id: "number",  label: "Al menos un número",          test: (p) => /[0-9]/.test(p) },
+    { id: "special", label: "Al menos un carácter especial (@#$%...)", test: (p) => /[^A-Za-z0-9]/.test(p) },
+];
+
 export default function ResetPassword() {
 
     const navigate = useNavigate();
@@ -18,11 +26,21 @@ export default function ResetPassword() {
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
+    // ── Validar reglas ───────────────────────────────
+    const reglasOk = reglas.map(r => ({ ...r, ok: r.test(password) }));
+    const todasOk  = reglasOk.every(r => r.ok);
+    // ────────────────────────────────────────────────
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!password || !confirmPassword) {
             setError("Todos los campos son obligatorios");
+            return;
+        }
+
+        if (!todasOk) {
+            setError("La contraseña no cumple con todos los requisitos");
             return;
         }
 
@@ -35,7 +53,6 @@ export default function ResetPassword() {
         setError("");
 
         try {
-
             await api.post("/reset-password", {
                 email,
                 password,
@@ -64,7 +81,7 @@ export default function ResetPassword() {
 
                     <h2>Nueva contraseña</h2>
 
-                    {error && <p className="error">{error}</p>}
+                    {error   && <p className="error">{error}</p>}
                     {success && <p className="success">{success}</p>}
 
                     <div className="input-group password-group">
@@ -82,6 +99,20 @@ export default function ResetPassword() {
                         </div>
                     </div>
 
+                    {/* ── Indicador de requisitos ── */}
+                    {password.length > 0 && (
+                        <ul className="password-rules">
+                            {reglasOk.map(r => (
+                                <li
+                                    key={r.id}
+                                    className={r.ok ? "rule-ok" : "rule-fail"}
+                                >
+                                    {r.ok ? "✔" : "✖"} {r.label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+
                     <div className="input-group">
                         <input
                             type="password"
@@ -91,7 +122,7 @@ export default function ResetPassword() {
                         />
                     </div>
 
-                    <button type="submit" disabled={loading}>
+                    <button type="submit" disabled={loading || !todasOk}>
                         {loading ? "Actualizando..." : "Actualizar contraseña"}
                     </button>
 

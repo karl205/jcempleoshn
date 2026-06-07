@@ -257,3 +257,25 @@
   font-size: 13px;
   text-align: center;
 }
+
+/* ── Reglas de contraseña ── */
+.password-rules {
+    list-style: none;
+    padding: 8px 0;
+    margin: 0 0 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.password-rules li {
+    font-size: 0.8rem;
+}
+
+.rule-ok {
+    color: #10b981;
+}
+
+.rule-fail {
+    color: #ef4444;
+}
