@@ -57,12 +57,11 @@ class PostulacionController extends Controller
     }
 
     public function adminListado()
-    {
-        return Plaza::select('id', 'titulo')
-            ->where('estado', 1)
-            ->withCount('postulaciones')
-            ->get();
-    }
+{
+    return Plaza::select('id', 'titulo', 'estado')
+        ->withCount('postulaciones')
+        ->get();
+}
 
     public function porPlaza($plaza_id)
     {
@@ -101,17 +100,24 @@ class PostulacionController extends Controller
     }
 
     public function verPerfil($id)
-    {
-        $usuario = \App\Models\Usuario::with([
-            'perfil',
-            'perfil.pais',
-            'perfil.sexo',
-            'perfil.nacionalidad',
-            'perfil.educaciones',
-            'perfil.idiomas',
-            'perfil.experiencias'
-        ])->findOrFail($id);
+{
+    $usuario = \App\Models\Usuario::with([
+        'perfil',
+        'perfil.pais',
+        'perfil.sexo',
+        'perfil.nacionalidad',
+        'perfil.ciudad',
+        'perfil.departamento',
+        'perfil.disponibilidadVehicular',
+        'perfil.educaciones.nivelEducativo',
+        'perfil.educaciones.areaEstudio',
+        'perfil.idiomas.idioma',
+        'perfil.idiomas.nivel',
+        'perfil.experiencias.categoria',
+        'perfil.experiencias.actividad',
+        'perfil.experiencias.pais',
+    ])->findOrFail($id);
 
-        return ApiResponse::success($usuario);
-    }
+    return ApiResponse::success($usuario);
+}
 }

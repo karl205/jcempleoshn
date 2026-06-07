@@ -49,10 +49,11 @@
     </div>
 
     <div class="col-md-6">
-        <label>Fecha de nacimiento</label>
-        <input type="date" name="fecha_nacimiento" class="form-control"
-            value="{{ old('fecha_nacimiento', $perfil->fecha_nacimiento ?? '') }}">
-    </div>
+    <label>Fecha de nacimiento</label>
+    <input type="date" name="fecha_nacimiento" class="form-control"
+        value="{{ old('fecha_nacimiento', $perfil->fecha_nacimiento ?? '') }}"
+        max="{{ date('Y-m-d') }}">
+</div>
 
     <div class="col-md-6">
         <label>Sexo</label>

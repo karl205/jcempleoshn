@@ -91,7 +91,7 @@ Route::middleware(['auth:sanctum'])
 
         Route::get('menu', [AdminMenuController::class, 'index'])
             ->middleware('permiso:ver_dashboard');
-
+Route::get('stats', [App\Http\Controllers\API\Admin\AdminStatsController::class, 'index']);
         /*
         |--------------------------------------------------------------------------
         | Usuarios
@@ -354,3 +354,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/testimonios', [TestimonioController::class, 'store']);
 
 });
+
+// Justo después de Route::get('menu', ...)
