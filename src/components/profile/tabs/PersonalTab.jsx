@@ -15,7 +15,6 @@ export default function PersonalTab({ form, setForm, catalogos }) {
             [name]: value,
         };
 
-        // si cambia departamento - reset ciudad
         if (name === "departamento_id") {
             updated.ciudad_id = "";
         }
@@ -52,13 +51,20 @@ export default function PersonalTab({ form, setForm, catalogos }) {
         if (!form.pais_id) newErrors.pais_id = "Seleccione el país";
         if (!form.departamento_id) newErrors.departamento_id = "Seleccione departamento";
         if (!form.ciudad_id) newErrors.ciudad_id = "Seleccione ciudad";
+        if (!form.fecha_nacimiento) newErrors.fecha_nacimiento = "La fecha de nacimiento es obligatoria";
+        if (!form.aspiracion_salarial) newErrors.aspiracion_salarial = "La aspiración salarial es obligatoria";
+        if (!form.disponibilidad_vehicular_id) newErrors.disponibilidad_vehicular_id = "Seleccione la disponibilidad vehicular";
+        if (!form.acerca_de_mi || !form.acerca_de_mi.trim()) newErrors.acerca_de_mi = "El campo 'Acerca de mí' es obligatorio";
 
         if (form.telefono && !/^[0-9]{8,15}$/.test(form.telefono)) {
             newErrors.telefono = "Teléfono inválido";
         }
 
-        if (form.aspiracion_salarial && form.aspiracion_salarial < 0) {
-            newErrors.aspiracion_salarial = "Valor inválido";
+        if (form.fecha_nacimiento) {
+            const hoy = new Date().toISOString().split("T")[0];
+            if (form.fecha_nacimiento >= hoy) {
+                newErrors.fecha_nacimiento = "La fecha de nacimiento no puede ser futura";
+            }
         }
 
         setErrors(newErrors);
@@ -123,18 +129,6 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                         <input name="apellido" value={form.apellido || ""} readOnly className="form-control" />
                     </div>
 
-                    {/* PAIS */}
-                    {/* <div className="col-md-6">
-                        <label>País</label>
-                        <select name="pais_id" value={form.pais_id || ""} onChange={handleChange} className="form-select">
-                            <option value="">Seleccione</option>
-                            {catalogos.paises?.map(p => (
-                                <option key={p.id} value={p.id}>{p.nombre}</option>
-                            ))}
-                        </select>
-                        {errors.pais_id && <small className="text-danger">{errors.pais_id}</small>}
-                    </div> */}
-
                     {/* DEPARTAMENTO */}
                     <div className="col-md-6">
                         <label>Departamento</label>
@@ -158,14 +152,12 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             disabled={!form.departamento_id}
                         >
                             <option value="">Seleccione</option>
-
                             {ciudadesFiltradas.map(c => (
                                 <option key={c.id} value={c.id}>
                                     {c.nombre}
                                 </option>
                             ))}
                         </select>
-
                         {errors.ciudad_id && (
                             <small className="text-danger">{errors.ciudad_id}</small>
                         )}
@@ -180,7 +172,11 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             value={form.fecha_nacimiento || ""}
                             onChange={handleChange}
                             className="form-control"
+                            max={new Date().toISOString().split("T")[0]}
                         />
+                        {errors.fecha_nacimiento && (
+                            <small className="text-danger">{errors.fecha_nacimiento}</small>
+                        )}
                     </div>
 
                     {/* TELEFONO */}
@@ -199,7 +195,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                                     }
                                 });
                             }}
-                            inputMode="numeric" // 📱 teclado numérico en móvil
+                            inputMode="numeric"
                             className="form-control"
                             placeholder="Ej: 98765432"
                         />
@@ -227,7 +223,6 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             value={form.aspiracion_salarial || ""}
                             onChange={(e) => {
                                 const value = e.target.value.replace(/\D/g, "");
-
                                 handleChange({
                                     target: {
                                         name: "aspiracion_salarial",
@@ -239,7 +234,6 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             className="form-control"
                             placeholder="Ej: 25000"
                         />
-
                         {errors.aspiracion_salarial && (
                             <small className="text-danger">
                                 {errors.aspiracion_salarial}
@@ -261,6 +255,9 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                                 <option key={v.id} value={v.id}>{v.nombre}</option>
                             ))}
                         </select>
+                        {errors.disponibilidad_vehicular_id && (
+                            <small className="text-danger">{errors.disponibilidad_vehicular_id}</small>
+                        )}
                     </div>
 
                     {/* ACERCA */}
@@ -273,6 +270,9 @@ export default function PersonalTab({ form, setForm, catalogos }) {
                             className="form-control"
                             rows="3"
                         />
+                        {errors.acerca_de_mi && (
+                            <small className="text-danger">{errors.acerca_de_mi}</small>
+                        )}
                     </div>
 
                 </div>

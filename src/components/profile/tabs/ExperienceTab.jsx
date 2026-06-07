@@ -17,17 +17,11 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
         onChange(updated);
     };
 
-    // ordenar (nuevos primero + últimos 3)
-    const latestItems = [...items]
-        .sort((a, b) => {
-            if (!a.id) return -1;
-            if (!b.id) return 1;
-            return b.id - a.id;
-        })
-        .slice(0, 3);
+    const latestItems = items.slice(-3);
 
     const addItem = () => {
         const updated = [
+            ...items,
             {
                 empresa: "",
                 cargo: "",
@@ -36,8 +30,7 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
                 categoria_id: "",
                 fecha_desde: "",
                 fecha_hasta: ""
-            },
-            ...items
+            }
         ];
 
         setItems(updated);
@@ -53,135 +46,158 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
     return (
         <div>
 
-            <div className="d-flex justify-content-between mb-3">
-                <h6 className="fw-bold">Experiencia laboral</h6>
+            {/* HEADER */}
+            <div className="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h5 className="fw-bold mb-0">Experiencia Laboral</h5>
+                    <small className="text-muted">Agrega hasta 3 experiencias recientes</small>
+                </div>
                 <button
-                    className="btn btn-sm btn-outline-primary"
+                    className="btn btn-primary btn-sm px-3"
                     onClick={addItem}
+                    disabled={items.length >= 3}
                 >
                     + Agregar
                 </button>
             </div>
 
+            {/* ESTADO VACÍO */}
+            {latestItems.length === 0 && (
+                <div className="text-center py-5 text-muted border rounded-3">
+                    <i className="bi bi-briefcase fs-2 d-block mb-2"></i>
+                    <p className="mb-0">No hay experiencia laboral registrada</p>
+                    <small>Haz clic en "+ Agregar" para comenzar</small>
+                </div>
+            )}
+
+            {/* ITEMS */}
             {latestItems.map((item, index) => (
-                <div key={item.id || index} className="border p-3 rounded mb-2">
+                <div key={item.id || index} className="card border-0 shadow-sm mb-3">
+                    <div className="card-body p-4">
 
-                    <div className="row g-2">
-
-                        {/* EMPRESA */}
-                        <div className="col-md-6">
-                            <input
-                                className="form-control"
-                                placeholder="Nombre patrono"
-                                value={item.empresa || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "empresa", e.target.value)
-                                }
-                            />
-                        </div>
-
-                        {/* CARGO */}
-                        <div className="col-md-6">
-                            <input
-                                className="form-control"
-                                placeholder="Cargo operaba"
-                                value={item.cargo || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "cargo", e.target.value)
-                                }
-                            />
-                        </div>
-
-                        {/* FECHA INICIO */}
-                        <div className="col-md-6">
-                            <input
-                                type="date"
-                                className="form-control"
-                                value={item.fecha_desde || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "fecha_desde", e.target.value)
-                                }
-                            />
-                        </div>
-
-                        {/* FECHA FIN */}
-                        <div className="col-md-6">
-                            <input
-                                type="date"
-                                className="form-control"
-                                value={item.fecha_hasta || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "fecha_hasta", e.target.value)
-                                }
-                            />
-                        </div>
-
-                        {/* PAIS */}
-                        <div className="col-md-4">
-                            <select
-                                className="form-select"
-                                value={item.pais_id || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "pais_id", e.target.value)
-                                }
-                            >
-                                <option value="">País</option>
-                                {catalogos?.paises?.map(p => (
-                                    <option key={p.id} value={p.id}>
-                                        {p.nombre}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* CATEGORIA */}
-                        <div className="col-md-4">
-                            <select
-                                className="form-select"
-                                value={item.categoria_id || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "categoria_id", e.target.value)
-                                }
-                            >
-                                <option value="">Categoría laboral</option>
-                                {catalogos?.categorias?.map(c => (
-                                    <option key={c.id} value={c.id}>
-                                        {c.nombre}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* ACTIVIDAD */}
-                        <div className="col-md-4">
-                            <select
-                                className="form-select"
-                                value={item.actividad_id || ""}
-                                onChange={(e) =>
-                                    handleChange(index, "actividad_id", e.target.value)
-                                }
-                            >
-                                <option value="">Actividad laboral</option>
-                                {catalogos?.actividades?.map(a => (
-                                    <option key={a.id} value={a.id}>
-                                        {a.nombre}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        {/* ELIMINAR */}
-                        <div className="col-md-12">
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <span className="badge bg-primary bg-opacity-10 text-primary fw-semibold px-3 py-2">
+                                Experiencia #{index + 1}
+                            </span>
                             <button
-                                className="btn btn-outline-danger w-100"
+                                className="btn btn-sm btn-outline-danger rounded-pill px-3"
                                 onClick={() => removeItem(index)}
                             >
-                                ✕ Eliminar
+                                Eliminar
                             </button>
                         </div>
 
-                    </div>
+                        <div className="row g-3">
 
+                            {/* EMPRESA */}
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Nombre del patrono
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Ej: Empresa S.A."
+                                    value={item.empresa || ""}
+                                    onChange={(e) => handleChange(index, "empresa", e.target.value)}
+                                />
+                            </div>
+
+                            {/* CARGO */}
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Cargo que operaba
+                                </label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Ej: Desarrollador Web"
+                                    value={item.cargo || ""}
+                                    onChange={(e) => handleChange(index, "cargo", e.target.value)}
+                                />
+                            </div>
+
+                            {/* PAÍS */}
+                            <div className="col-md-4">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    País
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={item.pais_id || ""}
+                                    onChange={(e) => handleChange(index, "pais_id", e.target.value)}
+                                >
+                                    <option value="">Seleccione</option>
+                                    {catalogos?.paises?.map(p => (
+                                        <option key={p.id} value={p.id}>{p.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* CATEGORÍA */}
+                            <div className="col-md-4">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Categoría laboral
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={item.categoria_id || ""}
+                                    onChange={(e) => handleChange(index, "categoria_id", e.target.value)}
+                                >
+                                    <option value="">Seleccione</option>
+                                    {catalogos?.categorias?.map(c => (
+                                        <option key={c.id} value={c.id}>{c.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* ACTIVIDAD */}
+                            <div className="col-md-4">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Actividad laboral
+                                </label>
+                                <select
+                                    className="form-select"
+                                    value={item.actividad_id || ""}
+                                    onChange={(e) => handleChange(index, "actividad_id", e.target.value)}
+                                >
+                                    <option value="">Seleccione</option>
+                                    {catalogos?.actividades?.map(a => (
+                                        <option key={a.id} value={a.id}>{a.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* FECHA INICIO */}
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Fecha de inicio
+                                </label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={item.fecha_desde || ""}
+                                    max={new Date().toISOString().split("T")[0]}
+                                    onChange={(e) => handleChange(index, "fecha_desde", e.target.value)}
+                                />
+                            </div>
+
+                            {/* FECHA FIN */}
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold text-secondary small">
+                                    Fecha de finalización
+                                </label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={item.fecha_hasta || ""}
+                                    min={item.fecha_desde || ""}
+                                    onChange={(e) => handleChange(index, "fecha_hasta", e.target.value)}
+                                />
+                            </div>
+
+                        </div>
+                    </div>
                 </div>
             ))}
 

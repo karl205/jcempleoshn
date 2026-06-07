@@ -26,18 +26,11 @@ export default function AcademicTab({ data, catalogos, onChange }) {
     onChange(updated);
   };
 
-  const latestItems = [...items]
-    .sort((a, b) => {
-      if (!a.id) return -1;
-      if (!b.id) return 1;
-
-      return b.id - a.id;
-    })
-    .slice(0, 3);
-
+  const latestItems = items.slice(-3);
 
   const addItem = () => {
     const updated = [
+      ...items,
       {
         institucion: "",
         nivel_educativo_id: "",
@@ -45,8 +38,7 @@ export default function AcademicTab({ data, catalogos, onChange }) {
         pais_id: "",
         fecha_desde: "",
         fecha_hasta: ""
-      },
-      ...items 
+      }
     ];
 
     setItems(updated);
@@ -62,114 +54,144 @@ export default function AcademicTab({ data, catalogos, onChange }) {
   return (
     <div>
 
-      <div className="d-flex justify-content-between mb-3">
-        <h6 className="fw-bold">Formación Académica</h6>
-        <button className="btn btn-sm btn-outline-primary" onClick={addItem}>
+      {/* HEADER */}
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h5 className="fw-bold mb-0">Formación Académica</h5>
+          <small className="text-muted">Agrega hasta 3 estudios recientes</small>
+        </div>
+        <button
+          className="btn btn-primary btn-sm px-3"
+          onClick={addItem}
+          disabled={items.length >= 3}
+        >
           + Agregar
         </button>
       </div>
 
+      {/* ESTADO VACÍO */}
+      {latestItems.length === 0 && (
+        <div className="text-center py-5 text-muted border rounded-3">
+          <i className="bi bi-mortarboard fs-2 d-block mb-2"></i>
+          <p className="mb-0">No hay formación académica registrada</p>
+          <small>Haz clic en "+ Agregar" para comenzar</small>
+        </div>
+      )}
+
+      {/* ITEMS */}
       {latestItems.map((item, index) => (
-        <div key={index} className="border rounded p-3 mb-3">
+        <div key={index} className="card border-0 shadow-sm mb-3">
+          <div className="card-body p-4">
 
-          <div className="row g-2">
-
-            {/* NOMBRE */}
-            <div className="col-md-6">
-              <input
-                className="form-control"
-                placeholder="Nombre institución"
-                value={item.institucion}
-                onChange={(e) =>
-                  handleChange(index, "institucion", e.target.value)
-                }
-              />
-            </div>
-
-            {/* FECHA INICIO */}
-            <div className="col-md-3">
-              <input
-                type="date"
-                className="form-control"
-                value={item.fecha_desde}
-                onChange={(e) =>
-                  handleChange(index, "fecha_desde", e.target.value)
-                }
-              />
-            </div>
-
-            {/* FECHA FIN */}
-            <div className="col-md-3">
-              <input
-                type="date"
-                className="form-control"
-                value={item.fecha_hasta}
-                onChange={(e) =>
-                  handleChange(index, "fecha_hasta", e.target.value)
-                }
-              />
-            </div>
-
-            {/* PAÍS */}
-            <div className="col-md-4">
-              <select
-                className="form-select"
-                value={item.pais_id}
-                onChange={(e) =>
-                  handleChange(index, "pais_id", e.target.value)
-                }
-              >
-                <option value="">País de estudio</option>
-                {catalogos.paises?.map(p => (
-                  <option key={p.id} value={p.id}>{p.nombre}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* NIVEL */}
-            <div className="col-md-4">
-              <select
-                className="form-select"
-                value={item.nivel_educativo_id}
-                onChange={(e) =>
-                  handleChange(index, "nivel_educativo_id", e.target.value)
-                }
-              >
-                <option value="">Nivel de estudio</option>
-                {catalogos.niveles?.map(n => (
-                  <option key={n.id} value={n.id}>{n.nombre}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* ÁREA */}
-            <div className="col-md-3">
-              <select
-                className="form-select"
-                value={item.area_estudio_id}
-                onChange={(e) =>
-                  handleChange(index, "area_estudio_id", e.target.value)
-                }
-              >
-                <option value="">Área de estudio</option>
-                {catalogos.areas_estudio?.map(a => (
-                  <option key={a.id} value={a.id}>{a.nombre}</option>
-                ))}
-              </select>
-            </div>
-
-            {/* ELIMINAR */}
-            <div className="col-md-1 d-flex align-items-center">
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <span className="badge bg-primary bg-opacity-10 text-primary fw-semibold px-3 py-2">
+                Estudio #{index + 1}
+              </span>
               <button
-                className="btn btn-sm btn-outline-danger w-100"
+                className="btn btn-sm btn-outline-danger rounded-pill px-3"
                 onClick={() => removeItem(index)}
               >
-                X
+                Eliminar
               </button>
             </div>
 
-          </div>
+            <div className="row g-3">
 
+              {/* INSTITUCIÓN */}
+              <div className="col-12">
+                <label className="form-label fw-semibold text-secondary small">
+                  Nombre de la institución
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Ej: Universidad Nacional Autónoma"
+                  value={item.institucion}
+                  onChange={(e) => handleChange(index, "institucion", e.target.value)}
+                />
+              </div>
+
+              {/* NIVEL */}
+              <div className="col-md-6">
+                <label className="form-label fw-semibold text-secondary small">
+                  Nivel de estudio
+                </label>
+                <select
+                  className="form-select"
+                  value={item.nivel_educativo_id}
+                  onChange={(e) => handleChange(index, "nivel_educativo_id", e.target.value)}
+                >
+                  <option value="">Seleccione</option>
+                  {catalogos.niveles?.map(n => (
+                    <option key={n.id} value={n.id}>{n.nombre}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* ÁREA */}
+              <div className="col-md-6">
+                <label className="form-label fw-semibold text-secondary small">
+                  Área de estudio
+                </label>
+                <select
+                  className="form-select"
+                  value={item.area_estudio_id}
+                  onChange={(e) => handleChange(index, "area_estudio_id", e.target.value)}
+                >
+                  <option value="">Seleccione</option>
+                  {catalogos.areas_estudio?.map(a => (
+                    <option key={a.id} value={a.id}>{a.nombre}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* PAÍS */}
+              <div className="col-md-4">
+                <label className="form-label fw-semibold text-secondary small">
+                  País de estudio
+                </label>
+                <select
+                  className="form-select"
+                  value={item.pais_id}
+                  onChange={(e) => handleChange(index, "pais_id", e.target.value)}
+                >
+                  <option value="">Seleccione</option>
+                  {catalogos.paises?.map(p => (
+                    <option key={p.id} value={p.id}>{p.nombre}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* FECHA INICIO */}
+              <div className="col-md-4">
+                <label className="form-label fw-semibold text-secondary small">
+                  Fecha de inicio
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={item.fecha_desde}
+                  max={new Date().toISOString().split("T")[0]}
+                  onChange={(e) => handleChange(index, "fecha_desde", e.target.value)}
+                />
+              </div>
+
+              {/* FECHA FIN */}
+              <div className="col-md-4">
+                <label className="form-label fw-semibold text-secondary small">
+                  Fecha de finalización
+                </label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={item.fecha_hasta}
+                  min={item.fecha_desde || ""}
+                  onChange={(e) => handleChange(index, "fecha_hasta", e.target.value)}
+                />
+              </div>
+
+            </div>
+          </div>
         </div>
       ))}
 
