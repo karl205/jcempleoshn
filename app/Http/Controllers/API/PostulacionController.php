@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Postulacion;
 use App\Models\Plaza;
 use App\Support\ApiResponse;
+use App\Support\Bitacora;
 use Illuminate\Http\Request;
 
 class PostulacionController extends Controller
@@ -46,8 +47,14 @@ class PostulacionController extends Controller
 
         Postulacion::create([
             'usuario_id' => $user->id,
-            'plaza_id' => $id
+            'plaza_id'   => $id
         ]);
+
+        Bitacora::registrar(
+            'postulaciones',
+            'postular',
+            'Se postuló a la plaza "' . $plaza->titulo . '" ID ' . $id
+        );
 
         return ApiResponse::success(
             null,
@@ -57,11 +64,11 @@ class PostulacionController extends Controller
     }
 
     public function adminListado()
-{
-    return Plaza::select('id', 'titulo', 'estado')
-        ->withCount('postulaciones')
-        ->get();
-}
+    {
+        return Plaza::select('id', 'titulo', 'estado')
+            ->withCount('postulaciones')
+            ->get();
+    }
 
     public function porPlaza($plaza_id)
     {
@@ -79,10 +86,21 @@ class PostulacionController extends Controller
             'estado' => 'required|in:apto,no_apto'
         ]);
 
-        $postulacion = Postulacion::findOrFail($id);
+        $postulacion = Postulacion::with([
+            'usuario:id,nombre,apellido',
+            'plaza:id,titulo'
+        ])->findOrFail($id);
 
         $postulacion->estado = $request->estado;
         $postulacion->save();
+
+        Bitacora::registrar(
+            'postulaciones',
+            'cambiar_estado',
+            'Marcó como "' . $request->estado . '" a ' .
+            $postulacion->usuario->nombre . ' ' . $postulacion->usuario->apellido .
+            ' en la plaza "' . $postulacion->plaza->titulo . '"'
+        );
 
         return ApiResponse::success(
             $postulacion,
@@ -100,24 +118,30 @@ class PostulacionController extends Controller
     }
 
     public function verPerfil($id)
-{
-    $usuario = \App\Models\Usuario::with([
-        'perfil',
-        'perfil.pais',
-        'perfil.sexo',
-        'perfil.nacionalidad',
-        'perfil.ciudad',
-        'perfil.departamento',
-        'perfil.disponibilidadVehicular',
-        'perfil.educaciones.nivelEducativo',
-        'perfil.educaciones.areaEstudio',
-        'perfil.idiomas.idioma',
-        'perfil.idiomas.nivel',
-        'perfil.experiencias.categoria',
-        'perfil.experiencias.actividad',
-        'perfil.experiencias.pais',
-    ])->findOrFail($id);
+    {
+        $usuario = \App\Models\Usuario::with([
+            'perfil',
+            'perfil.pais',
+            'perfil.sexo',
+            'perfil.nacionalidad',
+            'perfil.ciudad',
+            'perfil.departamento',
+            'perfil.disponibilidadVehicular',
+            'perfil.educaciones.nivelEducativo',
+            'perfil.educaciones.areaEstudio',
+            'perfil.idiomas.idioma',
+            'perfil.idiomas.nivel',
+            'perfil.experiencias.categoria',
+            'perfil.experiencias.actividad',
+            'perfil.experiencias.pais',
+        ])->findOrFail($id);
 
-    return ApiResponse::success($usuario);
-}
+        Bitacora::registrar(
+            'postulaciones',
+            'ver_perfil',
+            'Consultó el perfil de "' . $usuario->nombre . ' ' . $usuario->apellido . '" ID ' . $id
+        );
+
+        return ApiResponse::success($usuario);
+    }
 }

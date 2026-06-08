@@ -4,22 +4,13 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Support\ApiResponse;
+use App\Support\Bitacora;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use OpenApi\Annotations as OA;
 
 class AdminPermisoController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/admin/permisos",
-     *     summary="Listado de permisos",
-     *     tags={"Admin Permisos"},
-     *     security={{"bearerAuth":{}}},
-     *
-     *     @OA\Response(response=200, description="Listado de permisos")
-     * )
-     */
     public function index()
     {
         $permisos = DB::table('permisos')
@@ -33,9 +24,6 @@ class AdminPermisoController extends Controller
         );
     }
 
-    /**
-     * Obtener permisos de un rol
-     */
     public function permisosRol($id)
     {
         $permisos = DB::table('roles_permisos as rp')
@@ -50,14 +38,13 @@ class AdminPermisoController extends Controller
         );
     }
 
-    /**
-     * Asignar permisos a rol
-     */
     public function asignarPermisos(Request $request, $id)
     {
         $request->validate([
             'permisos' => 'required|array',
         ]);
+
+        $rol = DB::table('roles')->where('id', $id)->first();
 
         DB::table('roles_permisos')
             ->where('rol_id', $id)
@@ -71,11 +58,17 @@ class AdminPermisoController extends Controller
 
             if ($permisoId) {
                 DB::table('roles_permisos')->insert([
-                    'rol_id' => $id,
+                    'rol_id'     => $id,
                     'permiso_id' => $permisoId,
                 ]);
             }
         }
+
+        Bitacora::registrar(
+            'permisos',
+            'asignar',
+            'Asignó ' . count($request->permisos) . ' permisos al rol "' . ($rol->nombre ?? 'ID ' . $id) . '"'
+        );
 
         return ApiResponse::success(
             null,
@@ -87,16 +80,22 @@ class AdminPermisoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100|unique:permisos,nombre',
+            'nombre'      => 'required|string|max:100|unique:permisos,nombre',
             'descripcion' => 'nullable|string|max:255',
         ]);
 
         $id = DB::table('permisos')->insertGetId([
-            'nombre' => $request->nombre,
+            'nombre'      => $request->nombre,
             'descripcion' => $request->descripcion,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at'  => now(),
+            'updated_at'  => now(),
         ]);
+
+        Bitacora::registrar(
+            'permisos',
+            'crear',
+            'Creó el permiso "' . $request->nombre . '" ID ' . $id
+        );
 
         return ApiResponse::success(
             ['permiso_id' => $id],
@@ -108,17 +107,23 @@ class AdminPermisoController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nombre' => 'required|string|max:100',
+            'nombre'      => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
         ]);
 
         DB::table('permisos')
             ->where('id', $id)
             ->update([
-                'nombre' => $request->nombre,
+                'nombre'      => $request->nombre,
                 'descripcion' => $request->descripcion,
-                'updated_at' => now(),
+                'updated_at'  => now(),
             ]);
+
+        Bitacora::registrar(
+            'permisos',
+            'actualizar',
+            'Actualizó el permiso "' . $request->nombre . '" ID ' . $id
+        );
 
         return ApiResponse::success(
             null,
@@ -129,9 +134,17 @@ class AdminPermisoController extends Controller
 
     public function deactivate($id)
     {
+        $permiso = DB::table('permisos')->where('id', $id)->first();
+
         DB::table('permisos')
             ->where('id', $id)
             ->delete();
+
+        Bitacora::registrar(
+            'permisos',
+            'eliminar',
+            'Eliminó el permiso "' . ($permiso->nombre ?? 'ID ' . $id) . '"'
+        );
 
         return ApiResponse::success(
             null,
@@ -140,29 +153,17 @@ class AdminPermisoController extends Controller
         );
     }
 
-    /*
-|--------------------------------------------------------------------------
-| MATRIZ PERMISOS POR ROL
-|--------------------------------------------------------------------------
-*/
-
     public function permisosRoles()
     {
+        $roles = DB::table('roles')->select('id', 'nombre')->get();
 
-        $roles = DB::table('roles')
-            ->select('id', 'nombre')
-            ->get();
-
-        $permisos = DB::table('permisos')
-            ->select('id', 'nombre')
-            ->get();
+        $permisos = DB::table('permisos')->select('id', 'nombre')->get();
 
         $rolesPermisos = DB::table('roles_permisos')->get();
 
         $data = [];
 
         foreach ($roles as $rol) {
-
             foreach ($permisos as $permiso) {
 
                 $activo = $rolesPermisos
@@ -171,15 +172,14 @@ class AdminPermisoController extends Controller
                     ->count() > 0;
 
                 $data[] = [
-                    'rol_id' => $rol->id,
-                    'rol' => $rol->nombre,
+                    'rol_id'     => $rol->id,
+                    'rol'        => $rol->nombre,
                     'permiso_id' => $permiso->id,
-                    'permiso' => $permiso->nombre,
-                    'modulo' => explode('.', $permiso->nombre)[0] ?? '',
-                    'activo' => $activo ? 1 : 0,
+                    'permiso'    => $permiso->nombre,
+                    'modulo'     => explode('.', $permiso->nombre)[0] ?? '',
+                    'activo'     => $activo ? 1 : 0,
                 ];
             }
-
         }
 
         return ApiResponse::success(
@@ -187,24 +187,31 @@ class AdminPermisoController extends Controller
             'Matriz de permisos',
             'PERMISSIONS_MATRIX'
         );
-
     }
 
     public function guardarPermisoRol(Request $request)
     {
-
         $request->validate([
-            'rol_id' => 'required|integer',
+            'rol_id'     => 'required|integer',
             'permiso_id' => 'required|integer',
-            'activo' => 'required|boolean',
+            'activo'     => 'required|boolean',
         ]);
+
+        $rol     = DB::table('roles')->where('id', $request->rol_id)->first();
+        $permiso = DB::table('permisos')->where('id', $request->permiso_id)->first();
 
         if ($request->activo) {
 
             DB::table('roles_permisos')->insertOrIgnore([
-                'rol_id' => $request->rol_id,
+                'rol_id'     => $request->rol_id,
                 'permiso_id' => $request->permiso_id,
             ]);
+
+            Bitacora::registrar(
+                'permisos',
+                'asignar',
+                'Asignó el permiso "' . ($permiso->nombre ?? 'ID ' . $request->permiso_id) . '" al rol "' . ($rol->nombre ?? 'ID ' . $request->rol_id) . '"'
+            );
 
         } else {
 
@@ -213,6 +220,12 @@ class AdminPermisoController extends Controller
                 ->where('permiso_id', $request->permiso_id)
                 ->delete();
 
+            Bitacora::registrar(
+                'permisos',
+                'quitar',
+                'Quitó el permiso "' . ($permiso->nombre ?? 'ID ' . $request->permiso_id) . '" del rol "' . ($rol->nombre ?? 'ID ' . $request->rol_id) . '"'
+            );
+
         }
 
         return ApiResponse::success(
@@ -220,6 +233,5 @@ class AdminPermisoController extends Controller
             'Permiso actualizado',
             'PERMISSION_ROLE_UPDATED'
         );
-
     }
 }

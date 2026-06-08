@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonio;
+use App\Support\Bitacora;
 use Illuminate\Http\Request;
 
 class TestimonioController extends Controller
@@ -21,9 +22,9 @@ class TestimonioController extends Controller
                 ->get()
                 ->map(function ($t) {
                     return [
-                        'comentario' => $t->comentario,
+                        'comentario'  => $t->comentario,
                         'calificacion' => $t->calificacion,
-                        'nombre' => optional($t->usuario)->nombre . ' ' . optional($t->usuario)->apellido,
+                        'nombre'      => optional($t->usuario)->nombre . ' ' . optional($t->usuario)->apellido,
                     ];
                 });
 
@@ -33,7 +34,7 @@ class TestimonioController extends Controller
 
             return response()->json([
                 'error_real' => $e->getMessage(),
-                'line' => $e->getLine(),
+                'line'       => $e->getLine(),
             ], 500);
         }
     }
@@ -41,19 +42,25 @@ class TestimonioController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'comentario' => 'required|string|max:250',
+            'comentario'   => 'required|string|max:250',
             'calificacion' => 'required|integer|min:1|max:5',
         ]);
 
         $user = $request->user();
 
         Testimonio::create([
-            'usuario_id' => $user->id,
-            'comentario' => $request->comentario,
+            'usuario_id'   => $user->id,
+            'comentario'   => $request->comentario,
             'calificacion' => $request->calificacion,
-            'aprobado' => 0, 
-            'destacado' => 0,
+            'aprobado'     => 0,
+            'destacado'    => 0,
         ]);
+
+        Bitacora::registrar(
+            'testimonios',
+            'crear',
+            'Envió un testimonio con calificación ' . $request->calificacion . '/5'
+        );
 
         return response()->json([
             'message' => 'Comentario enviado correctamente'

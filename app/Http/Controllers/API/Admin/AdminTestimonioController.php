@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Testimonio;
+use App\Support\Bitacora;
 
 class AdminTestimonioController extends Controller
 {
@@ -14,12 +15,12 @@ class AdminTestimonioController extends Controller
             ->get()
             ->map(function ($t) {
                 return [
-                    'id' => $t->id,
-                    'comentario' => $t->comentario,
+                    'id'           => $t->id,
+                    'comentario'   => $t->comentario,
                     'calificacion' => $t->calificacion,
-                    'aprobado' => $t->aprobado,
-                    'destacado' => $t->destacado,
-                    'nombre' => $t->usuario->nombre . ' ' . $t->usuario->apellido,
+                    'aprobado'     => $t->aprobado,
+                    'destacado'    => $t->destacado,
+                    'nombre'       => $t->usuario->nombre . ' ' . $t->usuario->apellido,
                 ];
             });
 
@@ -31,20 +32,42 @@ class AdminTestimonioController extends Controller
 
     public function aprobar($id)
     {
-        $t = Testimonio::findOrFail($id);
+        $t = Testimonio::with('usuario')->findOrFail($id);
 
         $t->aprobado = !$t->aprobado;
         $t->save();
+
+        $nombre     = $t->usuario->nombre . ' ' . $t->usuario->apellido;
+        $comentario = $t->comentario;
+        $accion     = $t->aprobado ? 'aprobar' : 'rechazar';
+
+        Bitacora::registrar(
+            'testimonios',
+            $accion,
+            'Cambió estado a ' . ($t->aprobado ? 'aprobado' : 'rechazado') .
+            ' — "' . $nombre . '": "' . $comentario . '"'
+        );
 
         return response()->json(['message' => 'Estado actualizado']);
     }
 
     public function destacar($id)
     {
-        $t = Testimonio::findOrFail($id);
+        $t = Testimonio::with('usuario')->findOrFail($id);
 
         $t->destacado = !$t->destacado;
         $t->save();
+
+        $nombre     = $t->usuario->nombre . ' ' . $t->usuario->apellido;
+        $comentario = $t->comentario;
+        $accion     = $t->destacado ? 'destacar' : 'quitar_destacado';
+
+        Bitacora::registrar(
+            'testimonios',
+            $accion,
+            'Cambió estado a ' . ($t->destacado ? 'destacado' : 'no destacado') .
+            ' — "' . $nombre . '": "' . $comentario . '"'
+        );
 
         return response()->json(['message' => 'Destacado actualizado']);
     }
@@ -53,9 +76,18 @@ class AdminTestimonioController extends Controller
     {
         try {
 
-            $t = Testimonio::findOrFail($id);
+            $t = Testimonio::with('usuario')->findOrFail($id);
+
+            $nombre     = $t->usuario->nombre . ' ' . $t->usuario->apellido;
+            $comentario = $t->comentario;
 
             $t->delete();
+
+            Bitacora::registrar(
+                'testimonios',
+                'eliminar',
+                'Eliminó testimonio de "' . $nombre . '": "' . $comentario . '"'
+            );
 
             return response()->json([
                 'message' => 'Comentario eliminado correctamente'
@@ -65,7 +97,7 @@ class AdminTestimonioController extends Controller
 
             return response()->json([
                 'error_real' => $e->getMessage(),
-                'line' => $e->getLine(),
+                'line'       => $e->getLine(),
             ], 500);
 
         }
