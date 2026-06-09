@@ -92,35 +92,35 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
                             {/* EMPRESA */}
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Nombre del patrono
+                                 Nombre del patrono <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     placeholder="Ej: Empresa S.A."
                                     value={item.empresa || ""}
-                                    onChange={(e) => handleChange(index, "empresa", e.target.value)}
+                                    onChange={(e) => handleChange(index, "empresa", e.target.value.toUpperCase())}
                                 />
                             </div>
 
                             {/* CARGO */}
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Cargo que operaba
+                                Cargo que operaba <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     placeholder="Ej: Desarrollador Web"
                                     value={item.cargo || ""}
-                                    onChange={(e) => handleChange(index, "cargo", e.target.value)}
+                                    onChange={(e) => handleChange(index, "cargo", e.target.value.toUpperCase())}
                                 />
                             </div>
 
                             {/* PAÍS */}
                             <div className="col-md-4">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    País
+                                 País <span className="text-danger">*</span>
                                 </label>
                                 <select
                                     className="form-select"
@@ -137,8 +137,8 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
                             {/* CATEGORÍA */}
                             <div className="col-md-4">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Categoría laboral
-                                </label>
+                             Categoría laboral <span className="text-danger">*</span>
+                            </label>
                                 <select
                                     className="form-select"
                                     value={item.categoria_id || ""}
@@ -154,7 +154,7 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
                             {/* ACTIVIDAD */}
                             <div className="col-md-4">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Actividad laboral
+                                 Actividad laboral <span className="text-danger">*</span>
                                 </label>
                                 <select
                                     className="form-select"
@@ -171,7 +171,7 @@ export default function ExperienceTab({ data, catalogos, onChange }) {
                             {/* FECHA INICIO */}
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Fecha de inicio
+                              Fecha de inicio <span className="text-danger">*</span>
                                 </label>
                                 <input
                                     type="date"

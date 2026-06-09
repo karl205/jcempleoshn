@@ -1,12 +1,30 @@
 import { useEffect, useState } from "react";
 
-export default function UsuarioModal({
-    show,
-    onClose,
-    onSave,
-    roles = [],
-    usuario = null
-}) {
+const toastStyle = {
+    position: "fixed",
+    bottom: "2rem",
+    right: "2rem",
+    zIndex: 9999,
+    backgroundColor: "#198754",
+    color: "#fff",
+    padding: "0.85rem 1.5rem",
+    borderRadius: "8px",
+    fontWeight: "500",
+    fontSize: "0.9rem",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+    display: "flex",
+    alignItems: "center",
+    gap: "0.5rem",
+    animation: "fadeInUp 0.3s ease"
+};
+
+const toastKeyframes = `
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}`;
+
+export default function UsuarioModal({ show, onClose, onSave, roles = [], usuario = null }) {
 
     const [form, setForm] = useState({
         nombre: "",
@@ -16,6 +34,8 @@ export default function UsuarioModal({
         rol: "",
         estado: true
     });
+
+    const [toast, setToast] = useState(null);
 
     useEffect(() => {
         if (usuario) {
@@ -39,11 +59,15 @@ export default function UsuarioModal({
         }
     }, [usuario, show]);
 
-    if (!show) return null;
+    const mostrarToast = (mensaje) => {
+        setToast(mensaje);
+        setTimeout(() => setToast(null), 3000);
+    };
+
+    if (!show && !toast) return null;
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        
         setForm({
             ...form,
             [name]: type === "checkbox"
@@ -56,122 +80,129 @@ export default function UsuarioModal({
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        // console.log("FORM ENVIADO:", form);
-        
         onSave(form);
+        onClose();
+        mostrarToast(usuario ? "Usuario actualizado exitosamente" : "Usuario creado exitosamente");
     };
 
     return (
-        <div className="modal-overlay">
-            <div className="modal-card">
+        <>
+            <style>{toastKeyframes}</style>
 
-                <div className="modal-header">
-                    <h5>{usuario ? "Editar Usuario" : "Crear Usuario"}</h5>
-                    <button className="modal-close" onClick={onClose}>✕</button>
-                </div>
+            {/* MODAL */}
+            {show && (
+                <div className="modal-overlay">
+                    <div className="modal-card">
 
-                <form onSubmit={handleSubmit} className="modal-body">
-
-                    <div className="row g-3">
-
-                        <div className="col-md-6">
-                            <label>Nombre</label>
-                            <input
-                                className="form-control"
-                                name="nombre"
-                                value={form.nombre}
-                                onChange={handleChange}
-                                required
-                            />
+                        <div className="modal-header">
+                            <h5>{usuario ? "Editar Usuario" : "Crear Usuario"}</h5>
+                            <button className="modal-close" onClick={onClose}>✕</button>
                         </div>
 
-                        <div className="col-md-6">
-                            <label>Apellido</label>
-                            <input
-                                className="form-control"
-                                name="apellido"
-                                value={form.apellido}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+                        <form onSubmit={handleSubmit} className="modal-body">
 
-                        <div className="col-md-6">
-                            <label>Email</label>
-                            <input
-                                className="form-control"
-                                name="email"
-                                type="email"
-                                value={form.email}
-                                onChange={handleChange}
-                                required
-                            />
-                        </div>
+                            <div className="row g-3">
 
-                        <div className="col-md-6">
-                            <label>Rol</label>
-                            <select
-                                className="form-select"
-                                name="rol"
-                                value={form.rol}
-                                onChange={handleChange}
-                                required
-                            >
-                                <option value="">Seleccione...</option>
+                                <div className="col-md-6">
+                                    <label>Nombre</label>
+                                    <input
+                                        className="form-control"
+                                        name="nombre"
+                                        value={form.nombre}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
 
-                                {roles.map(r => (
+                                <div className="col-md-6">
+                                    <label>Apellido</label>
+                                    <input
+                                        className="form-control"
+                                        name="apellido"
+                                        value={form.apellido}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
 
-                                    <option key={r.id} value={r.id}>
-                                        {r.descripcion}
-                                    </option>
+                                <div className="col-md-6">
+                                    <label>Email</label>
+                                    <input
+                                        className="form-control"
+                                        name="email"
+                                        type="email"
+                                        value={form.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
 
-                                ))}
+                                <div className="col-md-6">
+                                    <label>Rol</label>
+                                    <select
+                                        className="form-select"
+                                        name="rol"
+                                        value={form.rol}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option value="">Seleccione...</option>
+                                        {roles.map(r => (
+                                            <option key={r.id} value={r.id}>
+                                                {r.descripcion}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            </select>
-                        </div>
+                                {!usuario && (
+                                    <div className="col-md-12">
+                                        <label>Contraseña</label>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            name="password"
+                                            value={form.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                )}
 
-                        {!usuario && (
-                            <div className="col-md-12">
-                                <label>Contraseña</label>
-                                <input
-                                    className="form-control"
-                                    type="password"
-                                    name="password"
-                                    value={form.password}
-                                    onChange={handleChange}
-                                    required
-                                />
+                                <div className="col-md-12">
+                                    <label className="form-check">
+                                        <input
+                                            type="checkbox"
+                                            name="estado"
+                                            checked={form.estado}
+                                            onChange={handleChange}
+                                        />
+                                        <span className="ms-2">Activo</span>
+                                    </label>
+                                </div>
+
                             </div>
-                        )}
 
-                        <div className="col-md-12">
-                            <label className="form-check">
-                                <input
-                                    type="checkbox"
-                                    name="estado"
-                                    checked={form.estado}
-                                    onChange={handleChange}
-                                />
-                                <span className="ms-2">Activo</span>
-                            </label>
-                        </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-light" onClick={onClose}>
+                                    Cancelar
+                                </button>
+                                <button type="submit" className="btn btn-primary">
+                                    Guardar
+                                </button>
+                            </div>
 
+                        </form>
                     </div>
+                </div>
+            )}
 
-                    <div className="modal-footer">
-                        <button type="button" className="btn btn-light" onClick={onClose}>
-                            Cancelar
-                        </button>
-
-                        <button type="submit" className="btn btn-primary">
-                            Guardar
-                        </button>
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
+            {/* TOAST */}
+            {toast && (
+                <div style={toastStyle}>
+                    ✅ {toast}
+                </div>
+            )}
+        </>
     );
 }

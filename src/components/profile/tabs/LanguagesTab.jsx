@@ -84,8 +84,8 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                             {/* IDIOMA */}
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Idioma
-                                </label>
+    Idioma <span className="text-danger">*</span>
+</label>
                                 <select
                                     className="form-select"
                                     value={item.idioma_id || ""}
@@ -101,8 +101,8 @@ export default function LanguagesTab({ data, catalogos, onChange }) {
                             {/* NIVEL */}
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold text-secondary small">
-                                    Nivel
-                                </label>
+    Nivel <span className="text-danger">*</span>
+</label>
                                 <select
                                     className="form-select"
                                     value={item.nivel_id || ""}

@@ -100,22 +100,22 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               {/* INSTITUCIÓN */}
               <div className="col-12">
                 <label className="form-label fw-semibold text-secondary small">
-                  Nombre de la institución
-                </label>
+    Nombre de la institución <span className="text-danger">*</span>
+</label>
                 <input
                   type="text"
                   className="form-control"
                   placeholder="Ej: Universidad Nacional Autónoma"
                   value={item.institucion}
-                  onChange={(e) => handleChange(index, "institucion", e.target.value)}
+                  onChange={(e) => handleChange(index, "institucion", e.target.value.toUpperCase())}
                 />
               </div>
 
               {/* NIVEL */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold text-secondary small">
-                  Nivel de estudio
-                </label>
+    Nivel de estudio <span className="text-danger">*</span>
+</label>
                 <select
                   className="form-select"
                   value={item.nivel_educativo_id}
@@ -131,8 +131,8 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               {/* ÁREA */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold text-secondary small">
-                  Área de estudio
-                </label>
+    Área de estudio <span className="text-danger">*</span>
+</label>
                 <select
                   className="form-select"
                   value={item.area_estudio_id}
@@ -148,8 +148,8 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               {/* PAÍS */}
               <div className="col-md-4">
                 <label className="form-label fw-semibold text-secondary small">
-                  País de estudio
-                </label>
+    País de estudio <span className="text-danger">*</span>
+</label>
                 <select
                   className="form-select"
                   value={item.pais_id}
@@ -165,8 +165,8 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               {/* FECHA INICIO */}
               <div className="col-md-4">
                 <label className="form-label fw-semibold text-secondary small">
-                  Fecha de inicio
-                </label>
+    Fecha de inicio <span className="text-danger">*</span>
+</label>
                 <input
                   type="date"
                   className="form-control"

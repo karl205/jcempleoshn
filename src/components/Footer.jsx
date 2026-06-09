@@ -18,11 +18,11 @@ export default function Footer() {
 
             {/* Correo */}
             <a
-              href="mailto:contacto@jcempleos.com"
+              href="mailto:bolsa@jcempleos.com"
               className="text-light text-decoration-none"
             >
               <FaEnvelope className="me-1" />
-              contacto@jcempleos.com
+              bolsa@jcempleos.com
             </a>
 
             {/* Teléfono */}
@@ -36,7 +36,7 @@ export default function Footer() {
 
             {/* Redes */}
             <a
-              href="https://facebook.com"
+              href="https://www.facebook.com/profile.php?id=100067500322028"
               target="_blank"
               rel="noopener noreferrer"
               className="text-light"

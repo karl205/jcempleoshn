@@ -131,7 +131,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* DEPARTAMENTO */}
                     <div className="col-md-6">
-                        <label>Departamento</label>
+                        <label>Departamento <span className="text-danger">*</span></label>
                         <select name="departamento_id" value={form.departamento_id || ""} onChange={handleChange} className="form-select">
                             <option value="">Seleccione</option>
                             {catalogos.departamentos?.map(d => (
@@ -143,7 +143,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* CIUDAD */}
                     <div className="col-md-6">
-                        <label>Ciudad</label>
+                        <label>Ciudad <span className="text-danger">*</span></label>
                         <select
                             name="ciudad_id"
                             value={form.ciudad_id || ""}
@@ -165,7 +165,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* FECHA NACIMIENTO */}
                     <div className="col-md-6">
-                        <label>Fecha de nacimiento</label>
+                        <label>Fecha de nacimiento <span className="text-danger">*</span></label>
                         <input
                             type="date"
                             name="fecha_nacimiento"
@@ -181,7 +181,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* TELEFONO */}
                     <div className="col-md-6">
-                        <label>Teléfono</label>
+                        <label>Teléfono <span className="text-danger">*</span></label>
                         <input
                             type="text"
                             name="telefono"
@@ -204,7 +204,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* SEXO */}
                     <div className="col-md-6">
-                        <label>Género</label>
+                        <label>Género <span className="text-danger">*</span></label>
                         <select name="sexo_id" value={form.sexo_id || ""} onChange={handleChange} className="form-select">
                             <option value="">Seleccione</option>
                             {catalogos.sexos?.map(s => (
@@ -216,7 +216,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* ASPIRACION */}
                     <div className="col-md-6">
-                        <label>Aspiración salarial</label>
+                        <label>Aspiración salarial <span className="text-danger">*</span></label>
                         <input
                             type="text"
                             name="aspiracion_salarial"
@@ -243,7 +243,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* DISPONIBILIDAD */}
                     <div className="col-md-6">
-                        <label>Disponibilidad vehicular</label>
+                        <label>Disponibilidad vehicular <span className="text-danger">*</span></label>
                         <select
                             name="disponibilidad_vehicular_id"
                             value={form.disponibilidad_vehicular_id || ""}
@@ -262,7 +262,7 @@ export default function PersonalTab({ form, setForm, catalogos }) {
 
                     {/* ACERCA */}
                     <div className="col-12">
-                        <label>Acerca de mí</label>
+                        <label>Acerca de mí <span className="text-danger">*</span></label>
                         <textarea
                             name="acerca_de_mi"
                             value={form.acerca_de_mi || ""}
