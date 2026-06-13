@@ -65,8 +65,12 @@ class CatalogosController extends Controller
         return response()->json(['message' => 'Actualizado']);
     }
 
-    public function toggle($catalogo, $id)
+    public function toggle(Request $request, $catalogo, $id)
     {
+        $request->validate([
+            'comentario' => 'required|string|max:255'
+        ]);
+
         $item = DB::table($this->tabla($catalogo))->where('id', $id)->first();
 
         $nuevoEstado = !$item->estado;
@@ -78,14 +82,18 @@ class CatalogosController extends Controller
         Bitacora::registrar(
             'catalogos',
             'cambiar_estado',
-            'Cambió estado a ' . ($nuevoEstado ? 'activo' : 'inactivo') . ' el registro "' . ($item->nombre ?? 'ID ' . $id) . '" en catálogo ' . $catalogo
+            'Cambió estado a ' . ($nuevoEstado ? 'activo' : 'inactivo') . ' el registro "' . ($item->nombre ?? 'ID ' . $id) . '" en catálogo ' . $catalogo . ' — Motivo: ' . $request->comentario
         );
 
         return response()->json(['message' => 'Estado actualizado']);
     }
 
-    public function destroy($catalogo, $id)
+    public function destroy(Request $request, $catalogo, $id)
     {
+        $request->validate([
+            'comentario' => 'required|string|max:255'
+        ]);
+
         $item = DB::table($this->tabla($catalogo))->where('id', $id)->first();
 
         DB::table($this->tabla($catalogo))
@@ -95,7 +103,7 @@ class CatalogosController extends Controller
         Bitacora::registrar(
             'catalogos',
             'eliminar',
-            'Eliminó "' . ($item->nombre ?? 'ID ' . $id) . '" del catálogo ' . $catalogo
+            'Eliminó "' . ($item->nombre ?? 'ID ' . $id) . '" del catálogo ' . $catalogo . ' — Motivo: ' . $request->comentario
         );
 
         return response()->json(['message' => 'Eliminado']);
