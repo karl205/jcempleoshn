@@ -51,8 +51,8 @@ export default function AdminCatalogoPage({ title, name, fields }) {
                 getAll: () => getCatalogo(name),
                 create: (data) => createCatalogo(name, data),
                 update: (id, data) => updateCatalogo(name, id, data),
-                remove: (id) => deleteCatalogo(name, id),
-                toggle: (id) => toggleCatalogo(name, id)
+                remove: (id, data) => deleteCatalogo(name, id, data),
+                toggle: (id, data) => toggleCatalogo(name, id, data)
             }}
         />
     );

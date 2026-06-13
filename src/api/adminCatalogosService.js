@@ -8,8 +8,10 @@ export const createCatalogo = (name, data) =>
 export const updateCatalogo = (name, id, data) =>
   apiClient.put(`/admin/catalogos/${name}/${id}`, data);
 
-export const toggleCatalogo = (name, id) =>
-  apiClient.put(`/admin/catalogos/${name}/${id}/toggle`);
+export const toggleCatalogo = (name, id, data) =>
+  apiClient.put(`/admin/catalogos/${name}/${id}/toggle`, data, {
+    headers: { 'Content-Type': 'application/json' }
+  });
 
-export const deleteCatalogo = (name, id) =>
-  apiClient.delete(`/admin/catalogos/${name}/${id}`);
+export const deleteCatalogo = (name, id, data) =>
+  apiClient.delete(`/admin/catalogos/${name}/${id}`, { data });

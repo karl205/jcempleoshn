@@ -17,8 +17,12 @@ export default function AdminCatalogo({
     const [form, setForm] = useState({});
     const [editing, setEditing] = useState(null);
 
-    // ── Filtro estado ────────────────────────────────
     const [filtroEstado, setFiltroEstado] = useState("activo");
+
+    // ── Modal toggle ─────────────────────────────────
+    const [showToggle, setShowToggle] = useState(false);
+    const [itemToggle, setItemToggle] = useState(null);
+    const [comentarioToggle, setComentarioToggle] = useState("");
     // ────────────────────────────────────────────────
 
     const cargar = async () => {
@@ -57,28 +61,43 @@ export default function AdminCatalogo({
         setForm(item);
     };
 
-    const handleToggle = async (id) => {
-        await toggle(id);
-        cargar();
+    // ── Abrir modal toggle ───────────────────────────
+    const handleToggle = (row) => {
+        setItemToggle(row);
+        setComentarioToggle("");
+        setShowToggle(true);
     };
 
-    // ── Filtrado ─────────────────────────────────────
+    // ── Confirmar toggle ─────────────────────────────
+    const confirmarToggle = async () => {
+        if (!comentarioToggle.trim()) return;
+        try {
+            await toggle(itemToggle.id, { comentario: comentarioToggle });
+            setShowToggle(false);
+            setItemToggle(null);
+            setComentarioToggle("");
+            cargar();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    // ────────────────────────────────────────────────
+
     const dataFiltrada = data.filter(r => {
         if (filtroEstado === "activo")   return r.estado === 1 || r.estado === true;
         if (filtroEstado === "inactivo") return r.estado === 0 || r.estado === false;
         return true;
     });
-    // ────────────────────────────────────────────────
+
+    const esActivo = itemToggle?.estado === 1 || itemToggle?.estado === true;
 
     return (
         <AdminLayout>
 
-            {/* HEADER */}
             <div className="admin-header d-flex justify-content-between mb-3">
                 <h2>{title}</h2>
             </div>
 
-            {/* FORM DINÁMICO */}
             <div className="admin-card mb-3">
                 <div className="d-flex gap-2 align-items-center flex-wrap">
 
@@ -138,7 +157,6 @@ export default function AdminCatalogo({
                 </div>
             </div>
 
-            {/* TOOLBAR CON FILTRO */}
             <div className="admin-toolbar mb-3">
                 <select
                     className="form-select"
@@ -151,19 +169,15 @@ export default function AdminCatalogo({
                 </select>
             </div>
 
-            {/* TABLA */}
             <AdminDataTable
                 data={dataFiltrada}
                 loading={loading}
                 columns={[
                     { label: "ID", key: "id" },
-
                     ...fields.map(field => {
-
                         if (typeof field === "string") {
                             return { label: field, key: field };
                         }
-
                         if (field.type === "select") {
                             return {
                                 label: field.label,
@@ -174,11 +188,8 @@ export default function AdminCatalogo({
                                 }
                             };
                         }
-
                         return null;
-
                     }),
-
                     {
                         label: "Estado",
                         render: (row) => (
@@ -187,7 +198,6 @@ export default function AdminCatalogo({
                             </span>
                         )
                     }
-
                 ]}
                 actions={[
                     {
@@ -198,11 +208,53 @@ export default function AdminCatalogo({
                     {
                         icon: <FaPowerOff />,
                         class: "btn-icon delete",
-                        onClick: (row) => handleToggle(row.id)
+                        onClick: (row) => handleToggle(row)
                     }
-                    // ── Botón eliminar removido ──
                 ]}
             />
+
+            {/* ── Modal toggle estado ── */}
+            {showToggle && (
+                <div className="modal-overlay">
+                    <div className="modal-card">
+                        <div className="modal-header">
+                            <h5>{esActivo ? "Desactivar" : "Activar"} registro</h5>
+                            <button className="modal-close" onClick={() => setShowToggle(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>
+                                ¿Estás seguro de {esActivo ? "desactivar" : "activar"} el registro{" "}
+                                <strong>"{itemToggle?.nombre}"</strong>?
+                            </p>
+                            <div className="mt-3">
+                                <label>Motivo <span className="text-danger">*</span></label>
+                                <textarea
+                                    className="form-control mt-1"
+                                    rows="3"
+                                    placeholder="Escribe el motivo..."
+                                    value={comentarioToggle}
+                                    onChange={(e) => setComentarioToggle(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="btn btn-light"
+                                onClick={() => setShowToggle(false)}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={confirmarToggle}
+                                disabled={!comentarioToggle.trim()}
+                            >
+                                {esActivo ? "Desactivar" : "Activar"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
 
         </AdminLayout>
     );
