@@ -19,3 +19,7 @@ export const actualizarPlaza = (id, data) => {
 export const cerrarPlaza = (id, data) => {
     return apiClient.patch(`/admin/plazas/${id}/cerrar`, data);
 };
+
+export const activarPlaza = (id) => {
+    return apiClient.patch(`/admin/plazas/${id}/activar`);
+};

@@ -8,7 +8,8 @@ import {
     getPlaza,
     crearPlaza,
     actualizarPlaza,
-    cerrarPlaza
+    cerrarPlaza,
+    activarPlaza
 } from "../../api/adminPlazasService";
 
 import {
@@ -16,7 +17,8 @@ import {
     FaEdit,
     FaTimes,
     FaSearch,
-    FaEye
+    FaEye,
+    FaCheck
 } from "react-icons/fa";
 
 export default function AdminPlazas() {
@@ -154,6 +156,18 @@ export default function AdminPlazas() {
     };
     // ────────────────────────────────────────────────
 
+    // ── NUEVO: Activar plaza ─────────────────────────
+    const handleActivar = async (p) => {
+        if (!window.confirm(`¿Deseas activar nuevamente la plaza "${p.titulo}"?`)) return;
+        try {
+            await activarPlaza(p.id);
+            cargarPlazas();
+        } catch (error) {
+            console.error("Error activando plaza", error);
+        }
+    };
+    // ────────────────────────────────────────────────
+
     return (
         <AdminLayout>
 
@@ -243,13 +257,25 @@ export default function AdminPlazas() {
                                             >
                                                 <FaEdit />
                                             </button>
-                                            <button
-                                                className="btn-icon delete"
-                                                title="Cerrar plaza"
-                                                onClick={() => handleCerrar(p)}
-                                            >
-                                                <FaTimes />
-                                            </button>
+
+                                            {/* NUEVO: botón condicional según estado */}
+                                            {p.estado === 1 ? (
+                                                <button
+                                                    className="btn-icon delete"
+                                                    title="Cerrar plaza"
+                                                    onClick={() => handleCerrar(p)}
+                                                >
+                                                    <FaTimes />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="btn-icon activate"
+                                                    title="Activar plaza"
+                                                    onClick={() => handleActivar(p)}
+                                                >
+                                                    <FaCheck />
+                                                </button>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
