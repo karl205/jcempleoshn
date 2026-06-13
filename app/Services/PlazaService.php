@@ -210,6 +210,7 @@ class PlazaService
     {
         return DB::table('plazas as p')
             ->leftJoin('cat_ciudades as c', 'c.id', '=', 'p.ciudad_id')
+            ->leftJoin('cat_departamentos as d', 'd.id', '=', 'c.departamento_id')
             ->leftJoin('cat_categorias_laborales as cat', 'cat.id', '=', 'p.categoria_laboral_id')
             ->leftJoin('cat_actividades_laborales as act', 'act.id', '=', 'p.actividad_laboral_id')
             ->select(
@@ -217,6 +218,7 @@ class PlazaService
                 'p.titulo',
                 'p.created_at',
                 'c.nombre as ciudad',
+                'd.nombre as departamento',
                 'cat.nombre as categoria',
                 'act.nombre as actividad'
             )
