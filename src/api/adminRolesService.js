@@ -6,8 +6,8 @@ export const getRoles = () =>
 export const crearRol = (data) =>
     apiClient.post("/admin/roles", data);
 
-export const actualizarRol = (id,data) =>
+export const actualizarRol = (id, data) =>
     apiClient.put(`/admin/roles/${id}`, data);
 
-export const desactivarRol = (id) =>
-    apiClient.patch(`/admin/roles/${id}/desactivar`);
+export const desactivarRol = (id, data) =>
+    apiClient.patch(`/admin/roles/${id}/desactivar`, data);

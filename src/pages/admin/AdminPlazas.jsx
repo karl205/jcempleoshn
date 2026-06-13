@@ -25,20 +25,23 @@ export default function AdminPlazas() {
     const [loading, setLoading] = useState(true);
     const [busqueda, setBusqueda] = useState("");
 
-    // ── Filtros ──────────────────────────────────────
     const [filtroEstado, setFiltroEstado] = useState("activa");
     const [filtroCiudad, setFiltroCiudad] = useState("");
     const [filtroCargo, setFiltroCargo] = useState("");
-    // ── Paginación ───────────────────────────────────
     const [porPagina, setPorPagina] = useState(10);
     const [paginaActual, setPaginaActual] = useState(1);
-    // ────────────────────────────────────────────────
 
     const [showModal, setShowModal] = useState(false);
     const [plazaEditar, setPlazaEditar] = useState(null);
 
     const [showModalVer, setShowModalVer] = useState(false);
     const [plazaVer, setPlazaVer] = useState(null);
+
+    // ── Modal cerrar plaza ───────────────────────────
+    const [showCerrar, setShowCerrar] = useState(false);
+    const [plazaCerrar, setPlazaCerrar] = useState(null);
+    const [comentarioCerrar, setComentarioCerrar] = useState("");
+    // ────────────────────────────────────────────────
 
     const cargarPlazas = async () => {
         try {
@@ -55,43 +58,31 @@ export default function AdminPlazas() {
         cargarPlazas();
     }, []);
 
-    // ── Resetear página al cambiar filtros ───────────
     useEffect(() => {
         setPaginaActual(1);
     }, [busqueda, filtroEstado, filtroCiudad, filtroCargo, porPagina]);
 
-    // ── Opciones dinámicas desde los datos ───────────
     const ciudades = [...new Set(plazas.map(p => p.ciudad).filter(Boolean))].sort();
     const cargos   = [...new Set(plazas.map(p => p.cargo).filter(Boolean))].sort();
 
-    // ── Filtrado combinado ───────────────────────────
     const plazasFiltradas = plazas.filter(p => {
-
         const coincideBusqueda = `${p.titulo} ${p.cargo} ${p.ciudad}`
             .toLowerCase()
             .includes(busqueda.toLowerCase());
-
         const coincideEstado =
             filtroEstado === "" ||
             (filtroEstado === "activa"  && p.estado === 1) ||
             (filtroEstado === "cerrada" && p.estado === 0);
-
-        const coincideCiudad =
-            filtroCiudad === "" || p.ciudad === filtroCiudad;
-
-        const coincideCargo =
-            filtroCargo === "" || p.cargo === filtroCargo;
-
+        const coincideCiudad = filtroCiudad === "" || p.ciudad === filtroCiudad;
+        const coincideCargo  = filtroCargo  === "" || p.cargo  === filtroCargo;
         return coincideBusqueda && coincideEstado && coincideCiudad && coincideCargo;
     });
 
-    // ── Paginación ───────────────────────────────────
     const totalPaginas = Math.ceil(plazasFiltradas.length / porPagina);
     const plazasPagina = plazasFiltradas.slice(
         (paginaActual - 1) * porPagina,
         paginaActual * porPagina
     );
-    // ────────────────────────────────────────────────
 
     const handleCrear = () => {
         setPlazaEditar(null);
@@ -141,18 +132,29 @@ export default function AdminPlazas() {
         }
     };
 
-    const handleCerrar = async (id) => {
-        if (!window.confirm("¿Desea cerrar esta plaza?")) return;
+    // ── Abrir modal cerrar ───────────────────────────
+    const handleCerrar = (p) => {
+        setPlazaCerrar(p);
+        setComentarioCerrar("");
+        setShowCerrar(true);
+    };
+
+    // ── Confirmar cerrar ─────────────────────────────
+    const confirmarCerrar = async () => {
+        if (!comentarioCerrar.trim()) return;
         try {
-            await cerrarPlaza(id);
+            await cerrarPlaza(plazaCerrar.id, { comentario: comentarioCerrar });
+            setShowCerrar(false);
+            setPlazaCerrar(null);
+            setComentarioCerrar("");
             cargarPlazas();
         } catch (error) {
             console.error("Error cerrando plaza", error);
         }
     };
+    // ────────────────────────────────────────────────
 
     return (
-
         <AdminLayout>
 
             <div className="admin-header">
@@ -167,8 +169,6 @@ export default function AdminPlazas() {
             </div>
 
             <div className="admin-toolbar">
-
-                {/* Buscador */}
                 <div className="search-box">
                     <FaSearch />
                     <input
@@ -177,62 +177,30 @@ export default function AdminPlazas() {
                         onChange={(e) => setBusqueda(e.target.value)}
                     />
                 </div>
-
-                {/* Filtro Estado */}
-                <select
-                    className="form-select"
-                    value={filtroEstado}
-                    onChange={(e) => setFiltroEstado(e.target.value)}
-                >
+                <select className="form-select" value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)}>
                     <option value="">Todos los estados</option>
                     <option value="activa">Activa</option>
                     <option value="cerrada">Cerrada</option>
                 </select>
-
-                {/* Filtro Ciudad */}
-                <select
-                    className="form-select"
-                    value={filtroCiudad}
-                    onChange={(e) => setFiltroCiudad(e.target.value)}
-                >
+                <select className="form-select" value={filtroCiudad} onChange={(e) => setFiltroCiudad(e.target.value)}>
                     <option value="">Todas las ciudades</option>
-                    {ciudades.map(c => (
-                        <option key={c} value={c}>{c}</option>
-                    ))}
+                    {ciudades.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-
-                {/* Filtro Cargo */}
-                <select
-                    className="form-select"
-                    value={filtroCargo}
-                    onChange={(e) => setFiltroCargo(e.target.value)}
-                >
+                <select className="form-select" value={filtroCargo} onChange={(e) => setFiltroCargo(e.target.value)}>
                     <option value="">Todos los cargos</option>
-                    {cargos.map(c => (
-                        <option key={c} value={c}>{c}</option>
-                    ))}
+                    {cargos.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
-
-                {/* Por página */}
-                <select
-                    className="form-select"
-                    value={porPagina}
-                    onChange={(e) => setPorPagina(parseInt(e.target.value))}
-                >
+                <select className="form-select" value={porPagina} onChange={(e) => setPorPagina(parseInt(e.target.value))}>
                     <option value={5}>5 por página</option>
                     <option value={10}>10 por página</option>
                     <option value={25}>25 por página</option>
                     <option value={50}>50 por página</option>
                 </select>
-
             </div>
 
             {loading ? (
-
                 <p>Cargando...</p>
-
             ) : (
-
                 <>
                     <div className="admin-table-wrapper">
                         <table className="admin-table">
@@ -278,7 +246,7 @@ export default function AdminPlazas() {
                                             <button
                                                 className="btn-icon delete"
                                                 title="Cerrar plaza"
-                                                onClick={() => handleCerrar(p.id)}
+                                                onClick={() => handleCerrar(p)}
                                             >
                                                 <FaTimes />
                                             </button>
@@ -289,15 +257,11 @@ export default function AdminPlazas() {
                         </table>
                     </div>
 
-                    {/* ── Paginación ── */}
                     <div className="admin-pagination">
-
                         <span className="pagination-info">
                             Mostrando {plazasPagina.length} de {plazasFiltradas.length} plazas
                         </span>
-
                         <div className="pagination-controls">
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.max(p - 1, 1))}
@@ -305,7 +269,6 @@ export default function AdminPlazas() {
                             >
                                 ‹ Anterior
                             </button>
-
                             {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(n => (
                                 <button
                                     key={n}
@@ -315,7 +278,6 @@ export default function AdminPlazas() {
                                     {n}
                                 </button>
                             ))}
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.min(p + 1, totalPaginas))}
@@ -323,12 +285,49 @@ export default function AdminPlazas() {
                             >
                                 Siguiente ›
                             </button>
-
                         </div>
-
                     </div>
                 </>
+            )}
 
+            {/* ── Modal cerrar plaza ── */}
+            {showCerrar && (
+                <div className="modal-overlay">
+                    <div className="modal-card">
+                        <div className="modal-header">
+                            <h5>Cerrar Plaza</h5>
+                            <button className="modal-close" onClick={() => setShowCerrar(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>¿Estás seguro de cerrar la plaza <strong>"{plazaCerrar?.titulo}"</strong>?</p>
+                            <div className="mt-3">
+                                <label>Motivo <span className="text-danger">*</span></label>
+                                <textarea
+                                    className="form-control mt-1"
+                                    rows="3"
+                                    placeholder="Escribe el motivo del cierre..."
+                                    value={comentarioCerrar}
+                                    onChange={(e) => setComentarioCerrar(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="btn btn-light"
+                                onClick={() => setShowCerrar(false)}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={confirmarCerrar}
+                                disabled={!comentarioCerrar.trim()}
+                            >
+                                Cerrar Plaza
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 
             <PlazaModal
@@ -345,6 +344,5 @@ export default function AdminPlazas() {
             />
 
         </AdminLayout>
-
     );
 }

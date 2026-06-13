@@ -25,30 +25,30 @@ export default function AdminUsuarios() {
     const [loading, setLoading] = useState(true);
     const [busqueda, setBusqueda] = useState("");
 
-    // ── Filtros (con defaults) ───────────────────────
-    const [filtroRol, setFiltroRol] = useState("");      // se asigna después de cargar roles
+    const [filtroRol, setFiltroRol] = useState("");
     const [filtroEstado, setFiltroEstado] = useState("activo");
-    // ── Paginación ───────────────────────────────────
     const [porPagina, setPorPagina] = useState(10);
     const [paginaActual, setPaginaActual] = useState(1);
-    // ────────────────────────────────────────────────
 
     const [showModal, setShowModal] = useState(false);
     const [usuarioEditar, setUsuarioEditar] = useState(null);
     const [roles, setRoles] = useState([]);
+
+    // ── Modal desactivar ─────────────────────────────
+    const [showDesactivar, setShowDesactivar] = useState(false);
+    const [usuarioDesactivar, setUsuarioDesactivar] = useState(null);
+    const [comentarioDesactivar, setComentarioDesactivar] = useState("");
+    // ────────────────────────────────────────────────
 
     const cargarRoles = async () => {
         try {
             const response = await getRoles();
             const data = response.data.data;
             setRoles(data);
-
-            // ── Default: primer rol cuyo nombre incluya "administrador" ──
             const rolAdmin = data.find(r =>
                 r.descripcion?.toLowerCase().includes("administrador")
             );
             if (rolAdmin) setFiltroRol(String(rolAdmin.id));
-
         } catch (error) {
             console.error("Error cargando roles", error);
         }
@@ -70,37 +70,28 @@ export default function AdminUsuarios() {
         cargarRoles();
     }, []);
 
-    // ── Resetear página al cambiar filtros ───────────
     useEffect(() => {
         setPaginaActual(1);
     }, [busqueda, filtroRol, filtroEstado, porPagina]);
 
-    // ── Filtrado combinado ───────────────────────────
     const usuariosFiltrados = usuarios.filter(u => {
-
         const coincideBusqueda = `${u.nombre} ${u.apellido} ${u.email}`
             .toLowerCase()
             .includes(busqueda.toLowerCase());
-
         const coincideRol =
             filtroRol === "" || u.rol_id === parseInt(filtroRol);
-
         const coincideEstado =
             filtroEstado === "" ||
-            (filtroEstado === "activo" && u.estado === 1) ||
+            (filtroEstado === "activo"   && u.estado === 1) ||
             (filtroEstado === "inactivo" && u.estado === 0);
-
         return coincideBusqueda && coincideRol && coincideEstado;
-
     });
 
-    // ── Paginación ───────────────────────────────────
-    const totalPaginas = Math.ceil(usuariosFiltrados.length / porPagina);
+    const totalPaginas  = Math.ceil(usuariosFiltrados.length / porPagina);
     const usuariosPagina = usuariosFiltrados.slice(
         (paginaActual - 1) * porPagina,
         paginaActual * porPagina
     );
-    // ────────────────────────────────────────────────
 
     const handleCrear = () => {
         setUsuarioEditar(null);
@@ -126,18 +117,29 @@ export default function AdminUsuarios() {
         }
     };
 
-    const handleDesactivar = async (id) => {
-        if (!window.confirm("¿Desea desactivar este usuario?")) return;
+    // ── Abrir modal desactivar ───────────────────────
+    const handleDesactivar = (u) => {
+        setUsuarioDesactivar(u);
+        setComentarioDesactivar("");
+        setShowDesactivar(true);
+    };
+
+    // ── Confirmar desactivar ─────────────────────────
+    const confirmarDesactivar = async () => {
+        if (!comentarioDesactivar.trim()) return;
         try {
-            await desactivarUsuario(id);
+            await desactivarUsuario(usuarioDesactivar.id, { comentario: comentarioDesactivar });
+            setShowDesactivar(false);
+            setUsuarioDesactivar(null);
+            setComentarioDesactivar("");
             cargarUsuarios();
         } catch (error) {
             console.error("Error desactivando usuario", error);
         }
     };
+    // ────────────────────────────────────────────────
 
     return (
-
         <AdminLayout>
 
             <div className="admin-header">
@@ -154,8 +156,6 @@ export default function AdminUsuarios() {
             </div>
 
             <div className="admin-toolbar">
-
-                {/* Buscador */}
                 <div className="search-box">
                     <FaSearch />
                     <input
@@ -164,8 +164,6 @@ export default function AdminUsuarios() {
                         onChange={(e) => setBusqueda(e.target.value)}
                     />
                 </div>
-
-                {/* Filtro por Rol */}
                 <select
                     className="form-select"
                     value={filtroRol}
@@ -173,13 +171,9 @@ export default function AdminUsuarios() {
                 >
                     <option value="">Todos los roles</option>
                     {roles.map(r => (
-                        <option key={r.id} value={r.id}>
-                            {r.descripcion}
-                        </option>
+                        <option key={r.id} value={r.id}>{r.descripcion}</option>
                     ))}
                 </select>
-
-                {/* Filtro por Estado */}
                 <select
                     className="form-select"
                     value={filtroEstado}
@@ -189,8 +183,6 @@ export default function AdminUsuarios() {
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                 </select>
-
-                {/* Registros por página */}
                 <select
                     className="form-select"
                     value={porPagina}
@@ -201,15 +193,11 @@ export default function AdminUsuarios() {
                     <option value={25}>25 por página</option>
                     <option value={50}>50 por página</option>
                 </select>
-
             </div>
 
             {loading ? (
-
                 <p>Cargando...</p>
-
             ) : (
-
                 <>
                     <div className="admin-table-wrapper">
                         <table className="admin-table">
@@ -251,7 +239,7 @@ export default function AdminUsuarios() {
                                             {can("usuarios.eliminar") && (
                                                 <button
                                                     className="btn-icon delete"
-                                                    onClick={() => handleDesactivar(u.id)}
+                                                    onClick={() => handleDesactivar(u)}
                                                 >
                                                     <FaUserSlash />
                                                 </button>
@@ -263,15 +251,11 @@ export default function AdminUsuarios() {
                         </table>
                     </div>
 
-                    {/* ── Paginación ── */}
                     <div className="admin-pagination">
-
                         <span className="pagination-info">
                             Mostrando {usuariosPagina.length} de {usuariosFiltrados.length} usuarios
                         </span>
-
                         <div className="pagination-controls">
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.max(p - 1, 1))}
@@ -279,7 +263,6 @@ export default function AdminUsuarios() {
                             >
                                 ‹ Anterior
                             </button>
-
                             {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(n => (
                                 <button
                                     key={n}
@@ -289,7 +272,6 @@ export default function AdminUsuarios() {
                                     {n}
                                 </button>
                             ))}
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.min(p + 1, totalPaginas))}
@@ -297,12 +279,49 @@ export default function AdminUsuarios() {
                             >
                                 Siguiente ›
                             </button>
-
                         </div>
-
                     </div>
                 </>
+            )}
 
+            {/* ── Modal desactivar usuario ── */}
+            {showDesactivar && (
+                <div className="modal-overlay">
+                    <div className="modal-card">
+                        <div className="modal-header">
+                            <h5>Desactivar Usuario</h5>
+                            <button className="modal-close" onClick={() => setShowDesactivar(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>¿Estás seguro de desactivar al usuario <strong>"{usuarioDesactivar?.nombre} {usuarioDesactivar?.apellido}"</strong>?</p>
+                            <div className="mt-3">
+                                <label>Motivo <span className="text-danger">*</span></label>
+                                <textarea
+                                    className="form-control mt-1"
+                                    rows="3"
+                                    placeholder="Escribe el motivo de la desactivación..."
+                                    value={comentarioDesactivar}
+                                    onChange={(e) => setComentarioDesactivar(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="btn btn-light"
+                                onClick={() => setShowDesactivar(false)}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={confirmarDesactivar}
+                                disabled={!comentarioDesactivar.trim()}
+                            >
+                                Desactivar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 
             <UsuarioModal
@@ -314,6 +333,5 @@ export default function AdminUsuarios() {
             />
 
         </AdminLayout>
-
     );
 }

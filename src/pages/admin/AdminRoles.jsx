@@ -23,14 +23,18 @@ export default function AdminRoles() {
     const [loading, setLoading] = useState(true);
     const [busqueda, setBusqueda] = useState("");
 
-    // ── Filtros y paginación ─────────────────────────
     const [filtroEstado, setFiltroEstado] = useState("activo");
     const [porPagina, setPorPagina] = useState(10);
     const [paginaActual, setPaginaActual] = useState(1);
-    // ────────────────────────────────────────────────
 
     const [showModal, setShowModal] = useState(false);
     const [rolEditar, setRolEditar] = useState(null);
+
+    // ── Modal de desactivar ──────────────────────────
+    const [showDesactivar, setShowDesactivar] = useState(false);
+    const [rolDesactivar, setRolDesactivar] = useState(null);
+    const [comentarioDesactivar, setComentarioDesactivar] = useState("");
+    // ────────────────────────────────────────────────
 
     const cargarRoles = async () => {
         try {
@@ -47,34 +51,26 @@ export default function AdminRoles() {
         cargarRoles();
     }, []);
 
-    // ── Resetear página al cambiar filtros ───────────
     useEffect(() => {
         setPaginaActual(1);
     }, [busqueda, filtroEstado, porPagina]);
 
-    // ── Filtrado combinado ───────────────────────────
     const rolesFiltrados = roles.filter(r => {
-
         const coincideBusqueda = `${r.nombre} ${r.descripcion}`
             .toLowerCase()
             .includes(busqueda.toLowerCase());
-
         const coincideEstado =
             filtroEstado === "" ||
             (filtroEstado === "activo" && r.estado === 1) ||
             (filtroEstado === "inactivo" && r.estado === 0);
-
         return coincideBusqueda && coincideEstado;
-
     });
 
-    // ── Paginación ───────────────────────────────────
     const totalPaginas = Math.ceil(rolesFiltrados.length / porPagina);
     const rolesPagina = rolesFiltrados.slice(
         (paginaActual - 1) * porPagina,
         paginaActual * porPagina
     );
-    // ────────────────────────────────────────────────
 
     const handleCrear = () => {
         setRolEditar(null);
@@ -100,18 +96,29 @@ export default function AdminRoles() {
         }
     };
 
-    const handleDesactivar = async (id) => {
-        if (!window.confirm("¿Desea desactivar este rol?")) return;
+    // ── Abrir modal de desactivar ────────────────────
+    const handleDesactivar = (r) => {
+        setRolDesactivar(r);
+        setComentarioDesactivar("");
+        setShowDesactivar(true);
+    };
+
+    // ── Confirmar desactivar ─────────────────────────
+    const confirmarDesactivar = async () => {
+        if (!comentarioDesactivar.trim()) return;
         try {
-            await desactivarRol(id);
+            await desactivarRol(rolDesactivar.id, { comentario: comentarioDesactivar });
+            setShowDesactivar(false);
+            setRolDesactivar(null);
+            setComentarioDesactivar("");
             cargarRoles();
         } catch (error) {
             console.error("Error desactivando rol", error);
         }
     };
+    // ────────────────────────────────────────────────
 
     return (
-
         <AdminLayout>
 
             <div className="admin-header">
@@ -126,8 +133,6 @@ export default function AdminRoles() {
             </div>
 
             <div className="admin-toolbar">
-
-                {/* Buscador */}
                 <div className="search-box">
                     <FaSearch />
                     <input
@@ -136,8 +141,6 @@ export default function AdminRoles() {
                         onChange={(e) => setBusqueda(e.target.value)}
                     />
                 </div>
-
-                {/* Filtro por Estado */}
                 <select
                     className="form-select"
                     value={filtroEstado}
@@ -147,8 +150,6 @@ export default function AdminRoles() {
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                 </select>
-
-                {/* Registros por página */}
                 <select
                     className="form-select"
                     value={porPagina}
@@ -159,15 +160,11 @@ export default function AdminRoles() {
                     <option value={25}>25 por página</option>
                     <option value={50}>50 por página</option>
                 </select>
-
             </div>
 
             {loading ? (
-
                 <p>Cargando...</p>
-
             ) : (
-
                 <>
                     <div className="admin-table-wrapper">
                         <table className="admin-table">
@@ -200,7 +197,7 @@ export default function AdminRoles() {
                                             </button>
                                             <button
                                                 className="btn-icon delete"
-                                                onClick={() => handleDesactivar(r.id)}
+                                                onClick={() => handleDesactivar(r)}
                                             >
                                                 <FaUserSlash />
                                             </button>
@@ -211,15 +208,11 @@ export default function AdminRoles() {
                         </table>
                     </div>
 
-                    {/* ── Paginación ── */}
                     <div className="admin-pagination">
-
                         <span className="pagination-info">
                             Mostrando {rolesPagina.length} de {rolesFiltrados.length} roles
                         </span>
-
                         <div className="pagination-controls">
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.max(p - 1, 1))}
@@ -227,7 +220,6 @@ export default function AdminRoles() {
                             >
                                 ‹ Anterior
                             </button>
-
                             {Array.from({ length: totalPaginas }, (_, i) => i + 1).map(n => (
                                 <button
                                     key={n}
@@ -237,7 +229,6 @@ export default function AdminRoles() {
                                     {n}
                                 </button>
                             ))}
-
                             <button
                                 className="btn btn-sm btn-light"
                                 onClick={() => setPaginaActual(p => Math.min(p + 1, totalPaginas))}
@@ -245,12 +236,49 @@ export default function AdminRoles() {
                             >
                                 Siguiente ›
                             </button>
-
                         </div>
-
                     </div>
                 </>
+            )}
 
+            {/* ── Modal desactivar rol ── */}
+            {showDesactivar && (
+                <div className="modal-overlay">
+                    <div className="modal-card">
+                        <div className="modal-header">
+                            <h5>Desactivar Rol</h5>
+                            <button className="modal-close" onClick={() => setShowDesactivar(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <p>¿Estás seguro de desactivar el rol <strong>"{rolDesactivar?.nombre}"</strong>?</p>
+                            <div className="mt-3">
+                                <label>Motivo <span className="text-danger">*</span></label>
+                                <textarea
+                                    className="form-control mt-1"
+                                    rows="3"
+                                    placeholder="Escribe el motivo de la desactivación..."
+                                    value={comentarioDesactivar}
+                                    onChange={(e) => setComentarioDesactivar(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button
+                                className="btn btn-light"
+                                onClick={() => setShowDesactivar(false)}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                className="btn btn-danger"
+                                onClick={confirmarDesactivar}
+                                disabled={!comentarioDesactivar.trim()}
+                            >
+                                Desactivar
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
 
             <RolModal
@@ -261,6 +289,5 @@ export default function AdminRoles() {
             />
 
         </AdminLayout>
-
     );
 }

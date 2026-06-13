@@ -16,6 +16,6 @@ export const actualizarPlaza = (id, data) => {
     return apiClient.put(`/admin/plazas/${id}`, data);
 };
 
-export const cerrarPlaza = (id) => {
-    return apiClient.patch(`/admin/plazas/${id}/cerrar`);
+export const cerrarPlaza = (id, data) => {
+    return apiClient.patch(`/admin/plazas/${id}/cerrar`, data);
 };

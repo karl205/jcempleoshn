@@ -9,5 +9,5 @@ export const crearUsuario = (data) =>
 export const actualizarUsuario = (id, data) =>
     apiClient.put(`/admin/usuarios/${id}`, data);
 
-export const desactivarUsuario = (id) =>
-    apiClient.patch(`/admin/usuarios/${id}/desactivar`);
+export const desactivarUsuario = (id, data) =>
+    apiClient.patch(`/admin/usuarios/${id}/desactivar`, data);
