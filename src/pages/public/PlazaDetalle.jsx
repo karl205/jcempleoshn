@@ -7,7 +7,8 @@ import {
     FaMapMarkerAlt,
     FaBriefcase,
     FaClock,
-    FaMoneyBillWave
+    FaMoneyBillWave,
+    FaCheckCircle
 } from "react-icons/fa";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
@@ -25,8 +26,15 @@ export default function PlazaDetalle() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
+    // ── NUEVO: estado de postulación ─────────────────
+    const [yaPostulado, setYaPostulado] = useState(false);
+    // ────────────────────────────────────────────────
+
     useEffect(() => {
         cargarPlaza();
+        if (isAuth) {
+            verificarPostulacion();
+        }
     }, [id]);
 
     const cargarPlaza = async () => {
@@ -45,6 +53,23 @@ export default function PlazaDetalle() {
             setLoading(false);
         }
     };
+
+    // ── NUEVO: revisa si el usuario ya está postulado a esta plaza ──
+    const verificarPostulacion = async () => {
+        try {
+            const res = await apiClient.get("/mis-postulaciones");
+            const postulaciones = res.data.data ?? res.data;
+
+            const yaExiste = postulaciones.some(
+                (p) => Number(p.plaza_id ?? p.plaza?.id) === Number(id)
+            );
+
+            setYaPostulado(yaExiste);
+        } catch (error) {
+            console.error("Error verificando postulación", error);
+        }
+    };
+    // ─────────────────────────────────────────────────────────────
 
     const formatearFecha = (fecha) => {
         if (!fecha) return "No definida";
@@ -77,11 +102,25 @@ export default function PlazaDetalle() {
                 text: "Te has postulado correctamente"
             });
 
+            // NUEVO: marcar como postulado
+            setYaPostulado(true);
+
         } catch (error) {
 
             if (error.response?.status === 401) {
                 Swal.fire("Sesión expirada", "Vuelve a iniciar sesión", "warning");
                 navigate("/login");
+                return;
+            }
+
+            // NUEVO: si el backend dice que ya estaba postulado, actualizamos el estado
+            if (error.response?.data?.code === "ALREADY_APPLIED") {
+                setYaPostulado(true);
+                Swal.fire({
+                    icon: "info",
+                    title: "Ya estás postulado",
+                    text: "Ya enviaste tu postulación para esta plaza anteriormente."
+                });
                 return;
             }
 
@@ -221,14 +260,26 @@ export default function PlazaDetalle() {
 
                             </div>
 
-                            <motion.button
-                                onClick={postular}
-                                whileHover={{ scale: 1.03 }}
-                                whileTap={{ scale: 0.97 }}
-                                className="btn btn-primary w-100 rounded-pill mt-2 fw-semibold"
-                            >
-                                🚀 Postularme ahora
-                            </motion.button>
+                            {/* NUEVO: botón condicional según yaPostulado */}
+                            {yaPostulado ? (
+                                <button
+                                    disabled
+                                    className="btn btn-success w-100 rounded-pill mt-2 fw-semibold"
+                                    style={{ opacity: 0.85, cursor: "default" }}
+                                >
+                                    <FaCheckCircle className="me-2" />
+                                    Ya estás postulado
+                                </button>
+                            ) : (
+                                <motion.button
+                                    onClick={postular}
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    className="btn btn-primary w-100 rounded-pill mt-2 fw-semibold"
+                                >
+                                    🚀 Postularme ahora
+                                </motion.button>
+                            )}
 
                             <p className="text-center small text-muted mt-2">
                                 Proceso rápido • Sin complicaciones
