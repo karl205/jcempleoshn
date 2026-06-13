@@ -86,7 +86,7 @@ export default function LatestJobs() {
 
                   <p className="job-location mb-2">
                     <FaMapMarkerAlt className="me-2 text-primary" />
-                    {p.ciudad}
+                   {p.departamento}, {p.ciudad}
                   </p>
 
                   <p className="mb-2">
