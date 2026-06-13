@@ -1156,3 +1156,10 @@ textarea {
     }
 
 }
+
+.btn-icon.view {
+    color: #0d6efd;
+}
+.btn-icon.view:hover {
+    background-color: #e7f1ff;
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import AdminLayout from "../../layouts/AdminLayout";
 import PlazaModal from "../../components/admin/PlazaModal";
+import PlazaVerModal from "../../components/admin/PlazaVerModal";
 
 import {
     getPlazas,
@@ -14,7 +15,8 @@ import {
     FaPlus,
     FaEdit,
     FaTimes,
-    FaSearch
+    FaSearch,
+    FaEye
 } from "react-icons/fa";
 
 export default function AdminPlazas() {
@@ -34,6 +36,9 @@ export default function AdminPlazas() {
 
     const [showModal, setShowModal] = useState(false);
     const [plazaEditar, setPlazaEditar] = useState(null);
+
+    const [showModalVer, setShowModalVer] = useState(false);
+    const [plazaVer, setPlazaVer] = useState(null);
 
     const cargarPlazas = async () => {
         try {
@@ -78,7 +83,6 @@ export default function AdminPlazas() {
             filtroCargo === "" || p.cargo === filtroCargo;
 
         return coincideBusqueda && coincideEstado && coincideCiudad && coincideCargo;
-
     });
 
     // ── Paginación ───────────────────────────────────
@@ -99,6 +103,16 @@ export default function AdminPlazas() {
             const response = await getPlaza(p.id);
             setPlazaEditar(response.data.data);
             setShowModal(true);
+        } catch (error) {
+            console.error("Error obteniendo plaza", error);
+        }
+    };
+
+    const handleVer = async (p) => {
+        try {
+            const response = await getPlaza(p.id);
+            setPlazaVer(response.data.data);
+            setShowModalVer(true);
         } catch (error) {
             console.error("Error obteniendo plaza", error);
         }
@@ -248,6 +262,13 @@ export default function AdminPlazas() {
                                         </td>
                                         <td className="actions">
                                             <button
+                                                className="btn-icon view"
+                                                title="Ver plaza"
+                                                onClick={() => handleVer(p)}
+                                            >
+                                                <FaEye />
+                                            </button>
+                                            <button
                                                 className="btn-icon edit"
                                                 title="Editar"
                                                 onClick={() => handleEditar(p)}
@@ -315,6 +336,12 @@ export default function AdminPlazas() {
                 onClose={() => setShowModal(false)}
                 onSave={handleGuardar}
                 plaza={plazaEditar}
+            />
+
+            <PlazaVerModal
+                show={showModalVer}
+                onClose={() => setShowModalVer(false)}
+                plaza={plazaVer}
             />
 
         </AdminLayout>
