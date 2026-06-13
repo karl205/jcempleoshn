@@ -179,6 +179,12 @@ Route::get('stats', [App\Http\Controllers\API\Admin\AdminStatsController::class,
         Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
             ->middleware('permiso:plazas.eliminar');
 
+            Route::patch('plazas/{id}/cerrar', [PlazaController::class, 'cerrar'])
+    ->middleware('permiso:plazas.eliminar');
+
+Route::patch('plazas/{id}/activar', [PlazaController::class, 'activar'])
+    ->middleware('permiso:plazas.eliminar');
+
         Route::get('postulaciones', [PostulacionController::class, 'adminListado'])
             ->middleware('permiso:postulaciones.ver');
 

@@ -145,4 +145,31 @@ class PlazaController extends Controller
             'PLAZA_CLOSED'
         );
     }
+
+    public function activar($id)
+{
+    $plaza = $this->service->obtener($id);
+
+    if (! $plaza) {
+        return ApiResponse::error(
+            'Plaza no encontrada',
+            'PLAZA_NOT_FOUND',
+            404
+        );
+    }
+
+    $this->service->activar($id);
+
+    Bitacora::registrar(
+        'plazas',
+        'activar',
+        'Reactivó la plaza "' . ($plaza->titulo ?? 'ID ' . $id) . '"'
+    );
+
+    return ApiResponse::success(
+        null,
+        'Plaza activada correctamente',
+        'PLAZA_ACTIVATED'
+    );
+}
 }

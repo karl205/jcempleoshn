@@ -42,6 +42,7 @@ class PlazaService
             ->get();
     }
 
+
     public function listarActivas()
     {
         return DB::table('plazas as p')
@@ -205,6 +206,15 @@ class PlazaService
                 'updated_at' => now()
             ]);
     }
+        public function activar($id)
+{
+    DB::table('plazas')
+        ->where('id', $id)
+        ->update([
+            'estado' => 1,
+            'updated_at' => now()
+        ]);
+}
 
     public function ultimasPublicadas($limite = 3)
     {
