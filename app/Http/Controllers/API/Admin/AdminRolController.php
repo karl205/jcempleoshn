@@ -82,8 +82,12 @@ class AdminRolController extends Controller
         );
     }
 
-    public function deactivate($id)
+    public function deactivate(Request $request, $id)
     {
+        $request->validate([
+            'comentario' => 'required|string|max:255'
+        ]);
+
         $rol = DB::table('roles')->where('id', $id)->first();
 
         if (!$rol) {
@@ -104,7 +108,7 @@ class AdminRolController extends Controller
         Bitacora::registrar(
             'roles',
             'desactivar',
-            'Desactivó el rol "' . $rol->nombre . '" ID ' . $id
+            'Desactivó el rol "' . $rol->nombre . '" — Motivo: ' . $request->comentario
         );
 
         return ApiResponse::success(

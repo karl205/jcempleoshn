@@ -123,14 +123,20 @@ class PlazaController extends Controller
         );
     }
 
-    public function cerrar($id)
+    public function cerrar(Request $request, $id)
     {
+        $request->validate([
+            'comentario' => 'required|string|max:255'
+        ]);
+
+        $plaza = $this->service->obtener($id);
+
         $this->service->cerrar($id);
 
         Bitacora::registrar(
             'plazas',
             'cerrar',
-            'Cerró la plaza ID ' . $id
+            'Cerró la plaza "' . ($plaza->titulo ?? 'ID ' . $id) . '" — Motivo: ' . $request->comentario
         );
 
         return ApiResponse::success(
