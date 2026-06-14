@@ -23,7 +23,8 @@ export default function Register() {
     const passwordRegex =
         /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&.#_-])[A-Za-z\d@$!%*?&.#_-]{8,}$/;
 
-    const validate = (name, value) => {
+    // 🔹 Validación de un solo campo (para onChange)
+    const validateField = (name, value, currentForm = form) => {
         let error = "";
 
         if (!value) error = "Este campo es obligatorio";
@@ -40,9 +41,15 @@ export default function Register() {
         }
 
         if (name === "confirmPassword" && value) {
-            if (value !== form.password)
+            if (value !== currentForm.password)
                 error = "Las contraseñas no coinciden";
         }
+
+        return error;
+    };
+
+    const validate = (name, value) => {
+        const error = validateField(name, value);
 
         setErrors(prev => ({
             ...prev,
@@ -50,22 +57,51 @@ export default function Register() {
         }));
     };
 
+    // 🔹 Validación completa del formulario (para el submit)
+    const validateForm = () => {
+        const newErrors = {};
+
+        Object.keys(form).forEach((name) => {
+            const error = validateField(name, form[name], form);
+            if (error) newErrors[name] = error;
+        });
+
+        return newErrors;
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
-        setForm({
+        const updatedForm = {
             ...form,
             [name]: value
-        });
+        };
 
-        validate(name, value);
+        setForm(updatedForm);
+
+        // si cambia la contraseña, re-validar también confirmPassword
+        if (name === "password" && form.confirmPassword) {
+            setErrors(prev => ({
+                ...prev,
+                password: validateField("password", value, updatedForm),
+                confirmPassword: validateField("confirmPassword", form.confirmPassword, updatedForm)
+            }));
+        } else {
+            validate(name, value);
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (Object.values(errors).some(err => err)) return;
+        const validationErrors = validateForm();
 
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
         setLoading(true);
 
         try {

@@ -29,7 +29,7 @@ export default function Login() {
         }
     }, []);
 
-    // 🔹 Validación en tiempo real
+    // 🔹 Validación en tiempo real (campo por campo, al escribir)
     const validate = (name, value) => {
         let error = "";
 
@@ -51,6 +51,25 @@ export default function Login() {
         }));
     };
 
+    // 🔹 Validación completa del formulario (al enviar)
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!form.email) {
+            newErrors.email = "El correo es obligatorio";
+        } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
+            newErrors.email = "Correo inválido";
+        }
+
+        if (!form.password) {
+            newErrors.password = "La contraseña es obligatoria";
+        } else if (form.password.length < 6) {
+            newErrors.password = "Mínimo 6 caracteres";
+        }
+
+        return newErrors;
+    };
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
 
@@ -67,8 +86,14 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (errors.email || errors.password) return;
+        const validationErrors = validateForm();
 
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        setErrors({});
         setLoading(true);
 
         try {
@@ -86,6 +111,13 @@ export default function Login() {
                 localStorage.setItem("user", JSON.stringify(userData));
                 localStorage.setItem("roles", JSON.stringify(roles));
                 localStorage.setItem("permisos", JSON.stringify(permisos));
+
+                // 🔹 Recordar correo
+                if (form.remember) {
+                    localStorage.setItem("rememberedEmail", form.email);
+                } else {
+                    localStorage.removeItem("rememberedEmail");
+                }
 
                 setUser(userData);
                 setRoles(roles);
