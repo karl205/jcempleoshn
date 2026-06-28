@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\API\Admin;
-
+use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use App\Support\ApiResponse;
 use App\Support\Bitacora;
@@ -35,50 +35,59 @@ class AdminUsuarioController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nombre'   => 'required|string|max:255',
-            'apellido' => 'required|string|max:255',
-            'email'    => 'required|email',
-            'rol'      => 'required|integer'
-        ]);
+{
+    $request->validate([
+        'nombre'   => 'required|string|max:255',
+        'apellido' => 'required|string|max:255',
+        'email'    => 'required|email',
+        'rol'      => 'required|integer',
+        'password' => 'required|string|min:6',
+    ]);
 
-        $password   = '12345678';
-        $rolId      = $request->rol;
-        $ejecutorId = auth()->user()->id;
+    $password   = Hash::make($request->password); // ← hashear lo que manda el admin
+    $rolId      = $request->rol;
+    $ejecutorId = auth()->user()->id;
 
-        $result = DB::select('CALL usp_usuario_crear(?, ?, ?, ?, ?, ?)', [
-            $request->nombre,
-            $request->apellido,
-            $request->email,
-            $password,
-            $rolId,
-            $ejecutorId,
-        ]);
+    $result = DB::select('CALL usp_usuario_crear(?, ?, ?, ?, ?, ?)', [
+        $request->nombre,
+        $request->apellido,
+        $request->email,
+        $password,
+        $rolId,
+        $ejecutorId,
+    ]);
 
-        if (empty($result) || !isset($result[0]) || $result[0]->success != 1) {
-            return ApiResponse::error(
-                $result[0]->message ?? 'Error al crear usuario',
-                'USER_CREATE_ERROR',
-                422
-            );
-        }
-
-        $rol = DB::table('roles')->where('id', $rolId)->first();
-
-        Bitacora::registrar(
-            'usuarios',
-            'crear',
-            'Creó el usuario "' . $request->nombre . ' ' . $request->apellido . '" (' . $request->email . ') con rol "' . ($rol->nombre ?? 'ID ' . $rolId) . '"'
-        );
-
-        return ApiResponse::success(
-            $result[0]->data,
-            'Usuario creado correctamente',
-            'USER_CREATED'
+    if (empty($result) || !isset($result[0]) || $result[0]->success != 1) {
+        return ApiResponse::error(
+            $result[0]->message ?? 'Error al crear usuario',
+            'USER_CREATE_ERROR',
+            422
         );
     }
 
+    // Marcar que debe cambiar contraseña al primer login
+    $usuarioId = json_decode($result[0]->data)->usuario_id;
+DB::table('usuarios')
+    ->where('id', $usuarioId)
+    ->update([
+        'must_change_password' => 1,
+        'email_verified_at'    => now(),
+    ]);
+
+    $rol = DB::table('roles')->where('id', $rolId)->first();
+
+    Bitacora::registrar(
+        'usuarios',
+        'crear',
+        'Creó el usuario "' . $request->nombre . ' ' . $request->apellido . '" (' . $request->email . ') con rol "' . ($rol->nombre ?? 'ID ' . $rolId) . '"'
+    );
+
+    return ApiResponse::success(
+        $result[0]->data,
+        'Usuario creado correctamente',
+        'USER_CREATED'
+    );
+}
     public function update(Request $request, $id)
     {
         $request->validate([

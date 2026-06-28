@@ -13,6 +13,7 @@ use OpenApi\Annotations as OA;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\VerifyEmailMail;
+use App\Mail\RecoveryCodeMail;
 
 class AuthController extends Controller
 {
@@ -96,15 +97,16 @@ class AuthController extends Controller
             ->toArray();
 
         return ApiResponse::success(
-            [
-                'user' => $user,
-                'roles' => $user->getRoles(),
-                'permisos' => $permisos,
-                'token' => $token,
-            ],
-            'Inicio de sesión exitoso',
-            'AUTH_LOGIN_SUCCESS'
-        );
+    [
+        'user'                 => $user,
+        'roles'                => $user->getRoles(),
+        'permisos'             => $permisos,
+        'token'                => $token,
+        'must_change_password' => (bool) ($userData->must_change_password ?? false),
+    ],
+    'Inicio de sesión exitoso',
+    'AUTH_LOGIN_SUCCESS'
+);
     }
 
     /**
@@ -217,17 +219,22 @@ class AuthController extends Controller
             $hashedPassword
         ]);
 
-        $user->tokens()->delete();
+        // Limpiar flag de contraseña temporal
+DB::table('usuarios')
+    ->where('id', $user->id)
+    ->update(['must_change_password' => 0]);
 
-        Log::info('Contraseña actualizada', [
-            'user_id' => $user->id,
-        ]);
+$user->tokens()->delete();
 
-        return ApiResponse::success(
-            null,
-            'Contraseña actualizada correctamente. Inicie sesión nuevamente.',
-            'AUTH_PASSWORD_CHANGED'
-        );
+Log::info('Contraseña actualizada', [
+    'user_id' => $user->id,
+]);
+
+return ApiResponse::success(
+    null,
+    'Contraseña actualizada correctamente. Inicie sesión nuevamente.',
+    'AUTH_PASSWORD_CHANGED'
+);
     }
 
     /**
@@ -487,10 +494,7 @@ class AuthController extends Controller
             );
         }
 
-        Mail::raw("Tu código de recuperación es: {$codigo}", function ($message) use ($request) {
-            $message->to($request->email)
-                ->subject('Código de recuperación - JC Empleos');
-        });
+        Mail::to($request->email)->send(new RecoveryCodeMail((string) $codigo));
 
         return ApiResponse::success(
             null,

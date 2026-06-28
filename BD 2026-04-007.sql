@@ -980,6 +980,7 @@ CREATE TABLE `usuarios` (
   `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
   `password` varchar(255) NOT NULL,
+  `must_change_password` tinyint(1) NOT NULL DEFAULT 0,
   `remember_token` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
@@ -997,7 +998,7 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Jose Fernando','Gomez Lagoss','jcempleosunah@gmail.com','2026-02-07 03:05:26','$2y$12$gj3IGTzxUbz980d5yLp1H.PsIDD5kGCRcO/0B/fZ8S3PHYOIlEhnq',NULL,'2026-02-07 03:03:46','2026-03-08 22:05:07',1,0,NULL),(2,'Juan','Pérez','juan@email.com',NULL,'$2y$12$1GLJ3uTS0TTT21ovn4/CNO/YXh1MfcD.GrYrAbBAgbv3UrAF94aKm',NULL,'2026-02-21 08:29:54','2026-03-09 01:22:00',0,0,NULL),(5,'Prueba','Test','correo@email.comm',NULL,'$2y$12$8.UKZipkJ6oRW4kYCB5eKek24SwoylqY.e9d7c7w.Wr0TOkWB.2wa',NULL,'2026-03-02 00:49:20','2026-03-09 01:23:30',0,0,NULL),(6,'Test','Prueba','correo1@correo.com','2026-03-02 03:24:17','$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',NULL,'2026-03-02 02:49:21','2026-03-08 22:49:42',1,0,NULL),(7,'Prueba','Prueba','correo2@correo.com','2026-03-02 03:24:17','$2y$12$4kgukItYRl3tT9HgKr8nCeJB2SfV6DBI65TSPXKEWHiXGp9Ga.En.$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',NULL,'2026-03-02 03:25:02','2026-03-02 03:25:02',1,0,NULL),(8,'Test','Testttttttt','correo3@correo.comm','2026-03-02 03:39:27','$2y$12$n/Imabe6I/yfMt3bxHu2kuB5A0ETE9hZQwVvIGuJT7aQ5afp1HIvu',NULL,'2026-03-02 03:39:02','2026-03-08 22:05:39',1,1,NULL),(11,'Juan Andrés','López Antunez','mizanvs014@gmail.com','2026-03-06 06:56:52','$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',NULL,'2026-03-06 06:54:47','2026-04-07 10:38:20',1,0,NULL),(12,'Juan','Perez','test@email.com',NULL,'12345678',NULL,'2026-03-07 03:29:08','2026-03-24 08:29:37',0,0,NULL),(13,'Juana Paola','Marquez Urbina','afgas111095@gmail.comm',NULL,'12345678',NULL,'2026-03-07 03:42:49','2026-03-07 04:13:35',1,0,NULL),(14,'Prueba','Prueba','aaaaa@aaa.com',NULL,'12345678',NULL,'2026-03-07 03:51:13','2026-03-07 03:51:13',1,0,NULL);
+INSERT INTO `usuarios` VALUES (1,'Jose Fernando','Gomez Lagoss','jcempleosunah@gmail.com','2026-02-07 03:05:26','$2y$12$gj3IGTzxUbz980d5yLp1H.PsIDD5kGCRcO/0B/fZ8S3PHYOIlEhnq',0,NULL,'2026-02-07 03:03:46','2026-03-08 22:05:07',1,0,NULL),(2,'Juan','Pérez','juan@email.com',NULL,'$2y$12$1GLJ3uTS0TTT21ovn4/CNO/YXh1MfcD.GrYrAbBAgbv3UrAF94aKm',0,NULL,'2026-02-21 08:29:54','2026-03-09 01:22:00',0,0,NULL),(5,'Prueba','Test','correo@email.comm',NULL,'$2y$12$8.UKZipkJ6oRW4kYCB5eKek24SwoylqY.e9d7c7w.Wr0TOkWB.2wa',0,NULL,'2026-03-02 00:49:20','2026-03-09 01:23:30',0,0,NULL),(6,'Test','Prueba','correo1@correo.com','2026-03-02 03:24:17','$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',0,NULL,'2026-03-02 02:49:21','2026-03-08 22:49:42',1,0,NULL),(7,'Prueba','Prueba','correo2@correo.com','2026-03-02 03:24:17','$2y$12$4kgukItYRl3tT9HgKr8nCeJB2SfV6DBI65TSPXKEWHiXGp9Ga.En.$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',0,NULL,'2026-03-02 03:25:02','2026-03-02 03:25:02',1,0,NULL),(8,'Test','Testttttttt','correo3@correo.comm','2026-03-02 03:39:27','$2y$12$n/Imabe6I/yfMt3bxHu2kuB5A0ETE9hZQwVvIGuJT7aQ5afp1HIvu',0,NULL,'2026-03-02 03:39:02','2026-03-08 22:05:39',1,1,NULL),(11,'Juan Andrés','López Antunez','mizanvs014@gmail.com','2026-03-06 06:56:52','$2y$12$px0AI2ZuNVCDZKpw5DV2W.PtT5xoFyK8TpUyIzGh7J2cf7dYxDe2C',0,NULL,'2026-03-06 06:54:47','2026-04-07 10:38:20',1,0,NULL),(12,'Juan','Perez','test@email.com',NULL,'12345678',0,NULL,'2026-03-07 03:29:08','2026-03-24 08:29:37',0,0,NULL),(13,'Juana Paola','Marquez Urbina','afgas111095@gmail.comm',NULL,'12345678',0,NULL,'2026-03-07 03:42:49','2026-03-07 04:13:35',1,0,NULL),(14,'Prueba','Prueba','aaaaa@aaa.com',NULL,'12345678',0,NULL,'2026-03-07 03:51:13','2026-03-07 03:51:13',1,0,NULL);
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1617,27 +1618,17 @@ BEGIN
 
 
             SELECT 1 AS success,
-
        'Usuario válido.' AS message,
-
        JSON_OBJECT(
-
            'id', id,
-
            'nombre', nombre,
-
            'apellido', apellido,
-
            'email', email,
-
            'password', password,
-
-           'email_verified_at', email_verified_at
-
+           'email_verified_at', email_verified_at,
+           'must_change_password', must_change_password
        ) AS data
-
 FROM usuarios
-
 WHERE id = v_usuario_id;
 
 

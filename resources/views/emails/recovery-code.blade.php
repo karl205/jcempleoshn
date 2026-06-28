@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Código de recuperación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body style="margin:0; padding:0; background:#f4f6f9; font-family:Arial, sans-serif;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 15px;">
+        <tr>
+            <td align="center">
+
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="background:#ffffff; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.08); overflow:hidden;">
+
+                    <!-- HEADER -->
+                    <tr>
+                        <td align="center" style="padding:35px 20px 20px 20px;">
+                            <span style="font-size:24px; font-weight:bold; color:#0a66c2; letter-spacing:0.5px; display:block;">
+                                JC Empleos
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- TITLE -->
+                    <tr>
+                        <td align="center" style="padding:0 30px;">
+                            <h2 style="margin:0; color:#1d1f23;">Recupera tu contraseña</h2>
+                        </td>
+                    </tr>
+
+                    <!-- MESSAGE -->
+                    <tr>
+                        <td align="center" style="padding:20px 40px;">
+                            <p style="color:#555; font-size:15px; line-height:1.6; margin:0;">
+                                Recibimos una solicitud para restablecer tu contraseña en <strong>JC Empleos</strong>.<br>
+                                Usa el siguiente código para continuar:
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- CÓDIGO -->
+                    <tr>
+                        <td align="center" style="padding:25px 30px;">
+                            <span style="background:#eaf2fc;
+          color:#0a66c2;
+          padding:16px 32px;
+          border-radius:8px;
+          font-weight:700;
+          font-size:30px;
+          letter-spacing:8px;
+          display:inline-block;">
+                                {{ $codigo }}
+                            </span>
+                        </td>
+                    </tr>
+
+                    <!-- INFO -->
+                    <tr>
+                        <td align="center" style="padding:0 40px 25px 40px;">
+                            <p style="font-size:13px; color:#888; margin:0;">
+                                Este código expirará en 10 minutos.<br>
+                                Si no solicitaste este cambio, puedes ignorar este mensaje.
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- FOOTER -->
+                    <tr>
+                        <td align="center" style="background:#f8f9fb; padding:20px; font-size:12px; color:#777;">
+
+                            © {{ date('Y') }} JC Empleos<br>
+                            Conectando talento hondureño con oportunidades reales.
+
+                        </td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
