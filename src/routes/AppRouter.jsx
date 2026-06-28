@@ -32,6 +32,7 @@ import MisPostulaciones from "../pages/profile/MisPostulaciones";
 import PerfilPostulante from "../pages/admin/PerfilPostulante";
 
 import AdminCatalogoPageWrapper from "../pages/admin/AdminCatalogoPageWrapper";
+import ChangePasswordRequired from "../pages/auth/ChangePasswordRequired";
 
 export default function AppRouter() {
   return (
@@ -44,6 +45,7 @@ export default function AppRouter() {
       <Route path="/verify-code" element={<VerifyCode />} />
       <Route path="/verify-email" element={<VerifyEmail />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/change-password-required" element={<ChangePasswordRequired />} />
 
       <Route path="/plazas" element={<Plazas />} />
       <Route path="/plazas/:id" element={<PlazaDetalle />} />

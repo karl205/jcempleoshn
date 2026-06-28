@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const toastStyle = {
     position: "fixed",
@@ -24,6 +25,13 @@ const toastKeyframes = `
     to   { opacity: 1; transform: translateY(0); }
 }`;
 
+const reglas = [
+    { id: "length",  label: "Mínimo 8 caracteres",                     test: (p) => p.length >= 8 },
+    { id: "upper",   label: "Al menos una mayúscula",                   test: (p) => /[A-Z]/.test(p) },
+    { id: "number",  label: "Al menos un número",                       test: (p) => /[0-9]/.test(p) },
+    { id: "special", label: "Al menos un carácter especial (@#$%...)",  test: (p) => /[^A-Za-z0-9]/.test(p) },
+];
+
 export default function UsuarioModal({ show, onClose, onSave, roles = [], usuario = null }) {
 
     const [form, setForm] = useState({
@@ -35,7 +43,11 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
         estado: true
     });
 
+    const [showPassword, setShowPassword] = useState(false);
     const [toast, setToast] = useState(null);
+
+    const reglasOk = reglas.map(r => ({ ...r, ok: r.test(form.password) }));
+    const todasOk  = reglasOk.every(r => r.ok);
 
     useEffect(() => {
         if (usuario) {
@@ -57,6 +69,7 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
                 estado: true
             });
         }
+        setShowPassword(false);
     }, [usuario, show]);
 
     const mostrarToast = (mensaje) => {
@@ -80,6 +93,7 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (!usuario && !todasOk) return;
         onSave(form);
         onClose();
         mostrarToast(usuario ? "Usuario actualizado exitosamente" : "Usuario creado exitosamente");
@@ -89,7 +103,6 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
         <>
             <style>{toastKeyframes}</style>
 
-            {/* MODAL */}
             {show && (
                 <div className="modal-overlay">
                     <div className="modal-card">
@@ -100,7 +113,6 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
                         </div>
 
                         <form onSubmit={handleSubmit} className="modal-body">
-
                             <div className="row g-3">
 
                                 <div className="col-md-6">
@@ -157,15 +169,46 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
 
                                 {!usuario && (
                                     <div className="col-md-12">
-                                        <label>Contraseña</label>
-                                        <input
-                                            className="form-control"
-                                            type="password"
-                                            name="password"
-                                            value={form.password}
-                                            onChange={handleChange}
-                                            required
-                                        />
+                                        <label>Contraseña temporal</label>
+                                        <div style={{ position: "relative" }}>
+                                            <input
+                                                className="form-control"
+                                                type={showPassword ? "text" : "password"}
+                                                name="password"
+                                                value={form.password}
+                                                onChange={handleChange}
+                                                required
+                                                placeholder="El empleado deberá cambiarla al ingresar"
+                                                style={{ paddingRight: "2.5rem" }}
+                                            />
+                                            <div
+                                                onClick={() => setShowPassword(!showPassword)}
+                                                style={{
+                                                    position: "absolute",
+                                                    right: "0.75rem",
+                                                    top: "50%",
+                                                    transform: "translateY(-50%)",
+                                                    cursor: "pointer",
+                                                    color: "#666"
+                                                }}
+                                            >
+                                                {showPassword ? <FiEyeOff /> : <FiEye />}
+                                            </div>
+                                        </div>
+
+                                        {form.password.length > 0 && (
+                                            <ul className="password-rules mt-2">
+                                                {reglasOk.map(r => (
+                                                    <li key={r.id} className={r.ok ? "rule-ok" : "rule-fail"}>
+                                                        {r.ok ? "✔" : "✖"} {r.label}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+
+                                        <small className="text-muted">
+                                            El empleado será obligado a cambiar esta contraseña en su primer inicio de sesión.
+                                        </small>
                                     </div>
                                 )}
 
@@ -187,7 +230,11 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
                                 <button type="button" className="btn btn-light" onClick={onClose}>
                                     Cancelar
                                 </button>
-                                <button type="submit" className="btn btn-primary">
+                                <button
+                                    type="submit"
+                                    className="btn btn-primary"
+                                    disabled={!usuario && !todasOk}
+                                >
                                     Guardar
                                 </button>
                             </div>
@@ -197,7 +244,6 @@ export default function UsuarioModal({ show, onClose, onSave, roles = [], usuari
                 </div>
             )}
 
-            {/* TOAST */}
             {toast && (
                 <div style={toastStyle}>
                     ✅ {toast}

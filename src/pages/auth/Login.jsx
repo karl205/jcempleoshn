@@ -102,33 +102,40 @@ export default function Login() {
             // console.log("RESPUESTA LOGIN:", response);
 
             if (response.success) {
-                const userData = response.data.user;
-                const roles = response.data.roles || [];
-                const permisos = response.data.permisos || [];
-                const token = response.data.token;
+    const userData = response.data.user;
+    const roles = response.data.roles || [];
+    const permisos = response.data.permisos || [];
+    const token = response.data.token;
+    const mustChangePassword = response.data.must_change_password;
 
-                localStorage.setItem("token", token);
-                localStorage.setItem("user", JSON.stringify(userData));
-                localStorage.setItem("roles", JSON.stringify(roles));
-                localStorage.setItem("permisos", JSON.stringify(permisos));
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("roles", JSON.stringify(roles));
+    localStorage.setItem("permisos", JSON.stringify(permisos));
 
-                // 🔹 Recordar correo
-                if (form.remember) {
-                    localStorage.setItem("rememberedEmail", form.email);
-                } else {
-                    localStorage.removeItem("rememberedEmail");
-                }
+    // 🔹 Recordar correo
+    if (form.remember) {
+        localStorage.setItem("rememberedEmail", form.email);
+    } else {
+        localStorage.removeItem("rememberedEmail");
+    }
 
-                setUser(userData);
-                setRoles(roles);
+    setUser(userData);
+    setRoles(roles);
 
-                // redirección según rol
-                if (permisos.includes("ver_dashboard")) {
-                    navigate("/admin");
-                } else {
-                    navigate("/");
-                }
-            }
+    // 🔹 Si es contraseña temporal, obligar cambio antes de continuar
+    if (mustChangePassword) {
+        navigate("/change-password-required");
+        return;
+    }
+
+    // redirección según rol
+    if (permisos.includes("ver_dashboard")) {
+        navigate("/admin");
+    } else {
+        navigate("/");
+    }
+}
 
         } catch (err) {
             if (err.response?.data?.code === "EMAIL_NOT_VERIFIED") {
