@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import PublicLayout from "../../layouts/PublicLayout";
@@ -17,7 +17,10 @@ export default function Plazas() {
   const [filtros, setFiltros] = useState({
     categoria: searchParams.get("categoria") || "",
     cargo: searchParams.get("cargo") || "",
-    departamento: searchParams.get("departamento") || ""
+    departamento: searchParams.get("departamento") || "",
+    tipoContratacion: "",
+    salarioMinimo: "",
+    orden: "recientes"
   });
 
   useEffect(() => {
@@ -28,6 +31,16 @@ export default function Plazas() {
     const res = await getPlazas();
     setPlazas(res.data.data);
   };
+
+  // Tipos de contratación que realmente existen en las plazas cargadas
+  const tiposContratacion = useMemo(() => {
+    const unicos = new Set(
+      plazas
+        .map(p => p.tipo_contratacion)
+        .filter(Boolean)
+    );
+    return Array.from(unicos);
+  }, [plazas]);
 
   // FILTRO PRINCIPAL
   const plazasFiltradas = plazas.filter(p => {
@@ -47,6 +60,18 @@ export default function Plazas() {
       if (String(p.departamento_id) !== String(filtros.departamento)) return false;
     }
 
+    // TIPO DE CONTRATACIÓN
+    if (filtros.tipoContratacion) {
+      if (p.tipo_contratacion !== filtros.tipoContratacion) return false;
+    }
+
+    // SALARIO MÍNIMO DESEADO
+    if (filtros.salarioMinimo) {
+      const minimo = Number(filtros.salarioMinimo);
+      const salarioPlaza = p.salario_max ?? p.salario_min ?? 0;
+      if (salarioPlaza < minimo) return false;
+    }
+
     // BUSCADOR INTELIGENTE
     if (busqueda.trim() !== "") {
 
@@ -62,6 +87,21 @@ export default function Plazas() {
     }
 
     return true;
+  });
+
+  // ORDENAMIENTO
+  const plazasOrdenadas = [...plazasFiltradas].sort((a, b) => {
+
+    if (filtros.orden === "salario_desc") {
+      return (b.salario_max ?? b.salario_min ?? 0) - (a.salario_max ?? a.salario_min ?? 0);
+    }
+
+    if (filtros.orden === "salario_asc") {
+      return (a.salario_min ?? a.salario_max ?? 0) - (b.salario_min ?? b.salario_max ?? 0);
+    }
+
+    // recientes (por defecto)
+    return new Date(b.created_at) - new Date(a.created_at);
   });
 
   return (
@@ -106,6 +146,7 @@ export default function Plazas() {
               <PlazaFilters
                 filtros={filtros}
                 setFiltros={setFiltros}
+                tiposContratacion={tiposContratacion}
               />
 
             </div>
@@ -118,7 +159,7 @@ export default function Plazas() {
             <div className="d-flex justify-content-between align-items-center mb-3">
 
               <h6 className="fw-semibold mb-0">
-                {plazasFiltradas.length} plazas disponibles
+                {plazasOrdenadas.length} plazas disponibles
               </h6>
 
               {/* LIMPIAR FILTROS */}
@@ -128,7 +169,10 @@ export default function Plazas() {
                   setFiltros({
                     categoria: "",
                     cargo: "",
-                    departamento: ""
+                    departamento: "",
+                    tipoContratacion: "",
+                    salarioMinimo: "",
+                    orden: "recientes"
                   });
                   setBusqueda("");
                 }}
@@ -141,9 +185,9 @@ export default function Plazas() {
             {/* RESULTADOS */}
             <div className="row g-4">
 
-              {plazasFiltradas.length > 0 ? (
+              {plazasOrdenadas.length > 0 ? (
 
-                plazasFiltradas.map(p => (
+                plazasOrdenadas.map(p => (
                   <div className="col-md-6 col-lg-4" key={p.id}>
                     <JobCard plaza={p} />
                   </div>

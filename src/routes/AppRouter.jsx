@@ -33,9 +33,12 @@ import PerfilPostulante from "../pages/admin/PerfilPostulante";
 
 import AdminCatalogoPageWrapper from "../pages/admin/AdminCatalogoPageWrapper";
 import ChangePasswordRequired from "../pages/auth/ChangePasswordRequired";
+import AdminAyuda from "../pages/admin/AdminAyuda";
+import RequirePasswordChangeGuard from "../components/RequirePasswordChangeGuard";
 
 export default function AppRouter() {
   return (
+    <RequirePasswordChangeGuard>
     <Routes>
       {/* Rutas pùblicas */}
       <Route path="/" element={<Home />} />
@@ -58,6 +61,7 @@ export default function AppRouter() {
       <Route path="/admin/testimonios" element={<AdminRoute><AdminTestimonios /></AdminRoute>} />
       <Route path="/admin/bitacora" element={<AdminRoute><AdminBitacora /></AdminRoute>} />
       <Route path="/admin/backups" element={<AdminRoute><AdminBackups /></AdminRoute>} />
+      <Route path="/admin/ayuda" element={<AdminRoute><AdminAyuda /></AdminRoute>} />
       <Route path="/admin/postulaciones" element={<AdminRoute><Postulaciones /></AdminRoute>} />
       <Route path="/mis-postulaciones" element={<PublicLayout><MisPostulaciones /></PublicLayout>} />
       <Route path="/admin/postulantes/:id" element={<PerfilPostulante />} />
@@ -85,5 +89,6 @@ export default function AppRouter() {
       <Route path="/admin/mantenimientos/sexos" element={<AdminRoute><AdminCatalogoPage title="Sexos" name="sexos" /></AdminRoute>} /> */}
 
       <Route path="/perfil" element={<PublicLayout><ProfilePage /></PublicLayout>} /></Routes>
+      </RequirePasswordChangeGuard>
   );
 }

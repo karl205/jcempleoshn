@@ -102,11 +102,12 @@ export default function Login() {
             // console.log("RESPUESTA LOGIN:", response);
 
             if (response.success) {
-    const userData = response.data.user;
+    
     const roles = response.data.roles || [];
     const permisos = response.data.permisos || [];
     const token = response.data.token;
     const mustChangePassword = response.data.must_change_password;
+    const userData = { ...response.data.user, must_change_password: mustChangePassword };
 
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(userData));

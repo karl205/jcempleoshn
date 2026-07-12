@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import HelpButton from "../components/HelpButton";
 
 export default function PublicLayout({ children }) {
   return (
@@ -12,7 +13,7 @@ export default function PublicLayout({ children }) {
       </main>
 
       <Footer />
-
+      <HelpButton seccion="publico" /> 
     </div>
   );
 }

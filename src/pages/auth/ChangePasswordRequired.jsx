@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PublicLayout from "../../layouts/PublicLayout";
+import MinimalLayout from "../../layouts/MinimalLayout";
 import "../../styles/login.css";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import api from "../../api/apiClient";
+import { useAuth } from "../../context/AuthContext";
 
 const reglas = [
     { id: "length",  label: "Mínimo 8 caracteres",                    test: (p) => p.length >= 8 },
@@ -24,6 +25,7 @@ export default function ChangePasswordRequired() {
     const [error, setError]                     = useState("");
     const [success, setSuccess]                 = useState("");
     const [loading, setLoading]                 = useState(false);
+    const { setUser, setRoles } = useAuth();
 
     const reglasOk = reglas.map(r => ({ ...r, ok: r.test(password) }));
     const todasOk  = reglasOk.every(r => r.ok);
@@ -63,6 +65,9 @@ export default function ChangePasswordRequired() {
             localStorage.removeItem("roles");
             localStorage.removeItem("permisos");
 
+            setUser(null);
+            setRoles([]);
+
             setTimeout(() => navigate("/login"), 2000);
 
         } catch (err) {
@@ -72,8 +77,20 @@ export default function ChangePasswordRequired() {
         }
     };
 
+    const handleCancelar = () => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        localStorage.removeItem("roles");
+        localStorage.removeItem("permisos");
+
+        setUser(null);
+        setRoles([]);
+
+        navigate("/login");
+    };
+
     return (
-        <PublicLayout>
+        <MinimalLayout onBrandClick={handleCancelar}>
             <div className="login-container">
                 <form className="login-card" onSubmit={handleSubmit}>
 
@@ -134,6 +151,6 @@ export default function ChangePasswordRequired() {
 
                 </form>
             </div>
-        </PublicLayout>
+        </MinimalLayout>
     );
 }

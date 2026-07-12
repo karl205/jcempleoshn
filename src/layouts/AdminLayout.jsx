@@ -1,6 +1,7 @@
 import { useState } from "react";
 import AdminNavbar from "../components/AdminNavbar";
 import AdminSidebar from "../components/AdminSidebar";
+import HelpButton from "../components/HelpButton";
 
 export default function AdminLayout({ children }) {
 
@@ -30,7 +31,7 @@ export default function AdminLayout({ children }) {
                 </main>
 
             </div>
-
+                <HelpButton seccion="admin" />
         </div>
     );
 }
