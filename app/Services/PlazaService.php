@@ -59,6 +59,7 @@ class PlazaService
                 'p.salario_max',
                 'p.estado',
                 'p.created_at',
+                'p.tipo_contratacion',
 
                 'p.cargo_id',
                 'p.ciudad_id',

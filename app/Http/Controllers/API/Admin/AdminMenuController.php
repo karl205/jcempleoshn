@@ -87,6 +87,13 @@ class AdminMenuController extends Controller
             ],
 
             [
+                'label' => 'Ayuda',
+                'path' => '/admin/ayuda',
+                'icon' => 'FaQuestionCircle',
+                'permiso' => 'ayuda.gestionar',
+            ],
+
+            [
                 'label' => 'Mantenimientos',
                 'icon' => 'FaTools',
                 'children' => [

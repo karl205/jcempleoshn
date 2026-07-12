@@ -24,6 +24,8 @@ use App\Http\Controllers\API\UsuarioController;
 use App\Http\Controllers\API\TestimonioController;
 use App\Http\Controllers\API\PostulacionController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AyudaController;
+use App\Http\Controllers\API\Admin\AdminAyudaController;
 
 
 /*
@@ -44,6 +46,10 @@ Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
 Route::get('plazas/ultimas', [PlazaController::class, 'ultimas']);
 Route::get('/testimonios', [TestimonioController::class, 'index']);
+
+Route::get('ayuda-items', [AyudaController::class, 'publico']);
+Route::get('ayuda-items/{id}/ver', [AyudaController::class, 'ver']);
+Route::get('ayuda-items/{id}/descargar', [AyudaController::class, 'descargar']);
 
 Route::get('/admin/backups/{file}', [BackupController::class, 'download']);
 
@@ -221,6 +227,36 @@ Route::patch('plazas/{id}/activar', [PlazaController::class, 'activar'])
         Route::get('bitacora', [BitacoraController::class, 'index'])
             ->middleware('permiso:bitacora.ver');
 
+
+            // Consumo del botón flotante dentro del admin (cualquier usuario logueado)
+Route::get('ayuda-items/consulta', [AdminAyudaController::class, 'consulta']);
+Route::get('ayuda-items/{id}/consulta/ver', [AdminAyudaController::class, 'verConsulta']);
+Route::get('ayuda-items/{id}/consulta/descargar', [AdminAyudaController::class, 'descargarConsulta']);
+
+// Gestión (CRUD) — requiere permiso ayuda.gestionar
+Route::get('ayuda-items', [AdminAyudaController::class, 'index'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::post('ayuda-items', [AdminAyudaController::class, 'store'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::put('ayuda-items/{id}', [AdminAyudaController::class, 'update'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::patch('ayuda-items/{id}/desactivar', [AdminAyudaController::class, 'desactivar'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::patch('ayuda-items/{id}/activar', [AdminAyudaController::class, 'activar'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::delete('ayuda-items/{id}', [AdminAyudaController::class, 'destroy'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::get('ayuda-items/{id}/ver', [AdminAyudaController::class, 'ver'])
+    ->middleware('permiso:ayuda.gestionar');
+
+Route::get('ayuda-items/{id}/descargar', [AdminAyudaController::class, 'descargar'])
+    ->middleware('permiso:ayuda.gestionar');
         /*
         |--------------------------------------------------------------------------
         | Backups (ADMIN)
