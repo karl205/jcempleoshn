@@ -4,7 +4,14 @@ import AcademicTab from "./tabs/AcademicTab";
 import LanguagesTab from "./tabs/LanguagesTab";
 import ExperienceTab from "./tabs/ExperienceTab";
 
-export default function ProfileTabs({ form, setForm, catalogos }) {
+export default function ProfileTabs({
+    form,
+    setForm,
+    catalogos,
+    onDeleteEducacion,
+    onDeleteIdioma,
+    onDeleteExperiencia
+}) {
     const [active, setActive] = useState("personal");
 
     return (
@@ -71,6 +78,7 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                         onChange={(val) =>
                             setForm({ ...form, educations: val })
                         }
+                        onDeleteExisting={onDeleteEducacion}
                     />
                 )}
 
@@ -81,16 +89,18 @@ export default function ProfileTabs({ form, setForm, catalogos }) {
                         onChange={(val) =>
                             setForm({ ...form, languages: val })
                         }
+                        onDeleteExisting={onDeleteIdioma}
                     />
                 )}
 
                 {active === "experience" && (
                     <ExperienceTab
                         data={form.experiences || []}
-                        catalogos={catalogos} 
+                        catalogos={catalogos}
                         onChange={(val) =>
                             setForm({ ...form, experiences: val })
                         }
+                        onDeleteExisting={onDeleteExperiencia}
                     />
                 )}
 

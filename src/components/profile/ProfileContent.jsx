@@ -24,18 +24,12 @@ export default function ProfileContent() {
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
 
-    const [originalEducations, setOriginalEducations] = useState([]);
-    const [originalLanguages, setOriginalLanguages] = useState([]);
-    const [originalExperiences, setOriginalExperiences] = useState([]);
-
     useEffect(() => {
         const loadData = async () => {
             try {
                 const res = await getProfile();
 
                 const perfil = res.data.perfil || {};
-
-                console.log("PERFIL BACKEND:", perfil);
 
                 setForm({
                     nombre: perfil.nombre || "",
@@ -60,9 +54,6 @@ export default function ProfileContent() {
                     experiences: perfil.experiencias || [],
                 });
 
-                setOriginalEducations(perfil.educaciones || []);
-                setOriginalLanguages(perfil.idiomas || []);
-                setOriginalExperiences(perfil.experiencias || []);
                 setCatalogos(res.data.catalogos || {});
             } catch (error) {
                 console.error(error);
@@ -161,18 +152,8 @@ export default function ProfileContent() {
 
             await updateProfile(formData);
 
-            // 2. EDUCACIONES
-            const currentIds = (form.educations || [])
-                .filter(e => e.id)
-                .map(e => e.id);
-
-            const deleted = originalEducations.filter(
-                e => !currentIds.includes(e.id)
-            );
-
-            for (const edu of deleted) {
-                await deleteEducacion(edu.id);
-            }
+            // 2. EDUCACIONES — solo crear o actualizar (eliminar ya se hace al instante en la pestaña)
+            const nuevasEducaciones = [];
 
             for (const edu of form.educations || []) {
                 const cleanEdu = {
@@ -186,25 +167,15 @@ export default function ProfileContent() {
 
                 if (edu.id) {
                     await updateEducacion(edu.id, cleanEdu);
+                    nuevasEducaciones.push(edu);
                 } else {
-                    await createEducacion(cleanEdu);
+                    const res = await createEducacion(cleanEdu);
+nuevasEducaciones.push({ ...edu, id: res.data?.data?.registro_id });
                 }
             }
 
-            setOriginalEducations(form.educations);
-
             // 3. IDIOMAS
-            const currentLangIds = (form.languages || [])
-                .filter(l => l.id)
-                .map(l => l.id);
-
-            const deletedLangs = originalLanguages.filter(
-                l => !currentLangIds.includes(l.id)
-            );
-
-            for (const lang of deletedLangs) {
-                await deleteIdioma(lang.id);
-            }
+            const nuevosIdiomas = [];
 
             for (const lang of form.languages || []) {
                 const cleanLang = {
@@ -214,25 +185,15 @@ export default function ProfileContent() {
 
                 if (lang.id) {
                     await updateIdioma(lang.id, cleanLang);
+                    nuevosIdiomas.push(lang);
                 } else {
-                    await createIdioma(cleanLang);
+                    const res = await createIdioma(cleanLang);
+nuevosIdiomas.push({ ...lang, id: res.data?.data?.registro_id });
                 }
             }
 
-            setOriginalLanguages(form.languages);
-
             // 4. EXPERIENCIAS
-            const currentExpIds = (form.experiences || [])
-                .filter(e => e.id)
-                .map(e => e.id);
-
-            const deletedExp = originalExperiences.filter(
-                e => !currentExpIds.includes(e.id)
-            );
-
-            for (const exp of deletedExp) {
-                await deleteExperiencia(exp.id);
-            }
+            const nuevasExperiencias = [];
 
             for (const exp of form.experiences || []) {
                 const cleanExp = {
@@ -247,12 +208,22 @@ export default function ProfileContent() {
 
                 if (exp.id) {
                     await updateExperiencia(exp.id, cleanExp);
+                    nuevasExperiencias.push(exp);
                 } else {
-                    await createExperiencia(cleanExp);
+                    const res = await createExperiencia(cleanExp);
+nuevasExperiencias.push({ ...exp, id: res.data?.data?.registro_id });
                 }
             }
 
-            setOriginalExperiences(form.experiences);
+            // Actualiza el form con los IDs reales que asignó el backend,
+            // así si vuelves a guardar sin refrescar la página, ya no se
+            // intenta crear de nuevo lo que ya se creó.
+            setForm(prev => ({
+                ...prev,
+                educations: nuevasEducaciones,
+                languages: nuevosIdiomas,
+                experiences: nuevasExperiencias,
+            }));
 
             setSaved(true);
             setTimeout(() => setSaved(false), 2500);
@@ -270,6 +241,11 @@ export default function ProfileContent() {
         }
     };
 
+    // ── Eliminación inmediata (no espera al botón Guardar) ──
+    const handleDeleteEducacion = (id) => deleteEducacion(id);
+    const handleDeleteIdioma = (id) => deleteIdioma(id);
+    const handleDeleteExperiencia = (id) => deleteExperiencia(id);
+
     if (loading) {
         return <div className="p-5 text-center">Cargando...</div>;
     }
@@ -282,6 +258,9 @@ export default function ProfileContent() {
                     form={form}
                     setForm={setForm}
                     catalogos={catalogos}
+                    onDeleteEducacion={handleDeleteEducacion}
+                    onDeleteIdioma={handleDeleteIdioma}
+                    onDeleteExperiencia={handleDeleteExperiencia}
                 />
             </div>
 

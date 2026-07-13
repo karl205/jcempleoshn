@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 
-export default function AcademicTab({ data, catalogos, onChange }) {
+export default function AcademicTab({ data, catalogos, onChange, onDeleteExisting }) {
   const [items, setItems] = useState([]);
+  const [removingIndex, setRemovingIndex] = useState(null);
 
   useEffect(() => {
     const cleanData = (data || []).map(item => ({
@@ -45,7 +47,37 @@ export default function AcademicTab({ data, catalogos, onChange }) {
     onChange(updated);
   };
 
-  const removeItem = (index) => {
+  const removeItem = async (index) => {
+    const item = items[index];
+
+    if (item.id) {
+      const confirm = await Swal.fire({
+        icon: "warning",
+        title: "¿Eliminar este estudio?",
+        text: "Esta acción no se puede deshacer.",
+        showCancelButton: true,
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        confirmButtonColor: "#dc3545",
+      });
+
+      if (!confirm.isConfirmed) return;
+
+      try {
+        setRemovingIndex(index);
+        await onDeleteExisting(item.id);
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "No se pudo eliminar el estudio. Intenta de nuevo.",
+        });
+        setRemovingIndex(null);
+        return;
+      }
+      setRemovingIndex(null);
+    }
+
     const updated = items.filter((_, i) => i !== index);
     setItems(updated);
     onChange(updated);
@@ -90,8 +122,9 @@ export default function AcademicTab({ data, catalogos, onChange }) {
               <button
                 className="btn btn-sm btn-outline-danger rounded-pill px-3"
                 onClick={() => removeItem(index)}
+                disabled={removingIndex === index}
               >
-                Eliminar
+                {removingIndex === index ? "Eliminando..." : "Eliminar"}
               </button>
             </div>
 
